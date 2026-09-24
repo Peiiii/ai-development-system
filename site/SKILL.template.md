@@ -1,15 +1,15 @@
 ---
 name: integrate-ai-development-system
-description: Install or upgrade the AI Development System in the user's code repository when they ask to integrate this development workflow.
+description: Install or upgrade DevWeave, a reusable AI Development System, in the user's code repository.
 ---
 
-# Integrate AI Development System
+# Integrate DevWeave
 
 Canonical source: <https://ai-dev.nextclaw.io/SKILL.md>
 
-This skill is a handoff for an AI coding agent with network access, a shell, Node.js 20+, and permission to edit the target repository. It installs a shared development lifecycle, stage skills, and supporting methods into a project. The current native layout targets Codex and other agents that honor `AGENTS.md` plus `.agents/skills`. Reading this URL alone does not install files or make an unrelated agent tool discover those skills.
+DevWeave is a reusable AI Development System. This skill is a handoff for an AI coding agent with network access, a shell, Node.js 20+, and permission to edit the target repository. It installs a shared development lifecycle, stage skills, and supporting methods into a project. The current native layout targets Codex and other agents that honor `AGENTS.md` plus `.agents/skills`. Reading this URL alone does not install files or make an unrelated agent tool discover those skills.
 
-The system has three responsibilities: flow constraints choose the path and completion gates; stage and scenario Skills guide execution; Wiki holds project facts and information shared by Skills. Read the [architecture Wiki](https://ai-dev.nextclaw.io/wiki/system-architecture.md) when adapting the system or explaining its ownership. Project facts must come from the target repository, not from this generic bundle. Its early evolution loop is documented in the [evolution Wiki](https://ai-dev.nextclaw.io/wiki/evolution.md).
+The system has three responsibilities: flow constraints choose the path and completion gates; stage and scenario Skills guide execution; Wiki holds project facts and information shared by Skills. Read the [architecture Wiki](https://ai-dev.nextclaw.io/wiki/system-architecture.md) when adapting the system or explaining its ownership. Project facts must come from the target repository, not from this generic bundle. Its [artifact Wiki](https://ai-dev.nextclaw.io/wiki/artifact-traceability.md) explains traceable designs, plans, review evidence, and logs; do not create empty documents solely to satisfy a pattern. Its early evolution loop is documented in the [evolution Wiki](https://ai-dev.nextclaw.io/wiki/evolution.md).
 
 ## Identify the target
 

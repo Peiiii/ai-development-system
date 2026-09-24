@@ -21,6 +21,8 @@
 
 三条流程的准确顺序、阶段门与例外条件只在 `payload/.agents/skills/development-lifecycle/SKILL.md` 维护。官网的可视化是阅读概要，不是第二套流程合同。
 
+流程中的设计、计划、验证、Review 与交付日志如何留痕和关联，见[产物留痕与命名](artifact-traceability.md)。产物是流程的可检查证据，不是三部分之外的第四个规则 owner。
+
 ## 当前 Skill 组合
 
 - **阶段 Skill**：`development-task-understanding`、`development-design`、`development-implementation`、`development-validation`、`development-review`、`development-delivery`、`development-retrospective`。它们由 lifecycle 在相应环节路由。

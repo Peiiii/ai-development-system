@@ -4,28 +4,29 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#0b0f14" />
-    <meta name="description" content="把可复用的 AI 开发体系接入你的代码仓库。给 AI 一个 SKILL.md 地址，由它审查、安装并验证。" />
+    <meta name="description" content="DevWeave 是一套可复用的 AI Development System：流程约束、Skills、Wiki 与可追踪的开发产物。给 AI 一个 SKILL.md 地址即可开始接入。" />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="AI Development System — 让 AI 开发有章可循" />
+    <meta property="og:title" content="DevWeave — 让 AI 开发有章可循" />
     <meta property="og:description" content="一套可以安装、检查和升级的 AI 驱动开发方法。" />
     <meta property="og:url" content="https://ai-dev.nextclaw.io/" />
     <link rel="canonical" href="https://ai-dev.nextclaw.io/" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="/styles.css" />
     <script src="/main.js" defer></script>
-    <title>AI Development System · NextClaw</title>
+    <title>DevWeave · AI Development System</title>
   </head>
   <body>
     <div class="page-shell">
       <header class="site-header wrap">
-        <a class="brand" href="/" aria-label="AI Development System 首页">
+        <a class="brand" href="/" aria-label="DevWeave 首页">
           <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
-          <span class="brand-type"><strong>AI Development System</strong><small>by NextClaw</small></span>
+          <span class="brand-type"><strong>DevWeave</strong><small>AI Development System · NextClaw</small></span>
         </a>
         <nav class="site-nav" aria-label="主导航">
           <a href="#how-it-works">如何接入</a>
           <a href="#inside">三大部分</a>
           <a href="#flow">开发流程</a>
+          <a href="#artifacts">产物追踪</a>
           <a href="#evolution">自动进化</a>
         </nav>
         <a class="nav-link" href="/SKILL.md">查看 SKILL.md <span aria-hidden="true">↗</span></a>
@@ -34,9 +35,9 @@
       <main>
         <section class="hero wrap" aria-labelledby="hero-title">
           <div class="hero-copy">
-            <div class="eyebrow"><span class="live-dot"></span> AN OPEN ENTRY POINT FOR AI CODING</div>
+            <div class="eyebrow"><span class="live-dot"></span> DEVWEAVE / AI DEVELOPMENT SYSTEM</div>
             <h1 id="hero-title">让 AI 开发<br /><em>有章可循。</em></h1>
-            <p class="hero-lead">把一套在真实项目中使用的开发方法，接入你自己的代码仓库。从理解问题到交付结果，每一步都有清晰的责任和可检查的证据。</p>
+            <p class="hero-lead">DevWeave 把一套在真实项目中使用的开发方法，接入你自己的代码仓库。从理解问题到交付结果，每一步都有清晰的责任和可检查的证据。</p>
             <div class="hero-actions">
               <button class="button button-primary" type="button" data-copy-prompt>复制接入指令 <span aria-hidden="true">↗</span></button>
               <a class="button button-quiet" href="/SKILL.md">阅读 SKILL.md <span aria-hidden="true">→</span></a>
@@ -71,7 +72,7 @@
           <div class="section-heading"><div><p class="section-kicker">01 / THE HANDOFF</p><h2 id="how-title">把这个地址，发给你的 AI。</h2></div><p>入口文件会告诉 AI 如何获取安装包、检查目标项目、执行安装，并核对最终结果。</p></div>
           <div class="handoff-card">
             <div class="handoff-header"><span><span class="spark">✳</span> 可复制给 AI 的指令</span><span class="handoff-tag">ONE LINK TO START</span></div>
-            <p id="prompt-text">请读取 <strong>https://ai-dev.nextclaw.io/SKILL.md</strong>，按照其中的步骤，把 AI Development System 接入当前项目。先检查现有规则和工作区改动，预览安装差异，完成后运行检查并告诉我改了什么。</p>
+            <p id="prompt-text">请读取 <strong>https://ai-dev.nextclaw.io/SKILL.md</strong>，按照其中的步骤，把 DevWeave 接入当前项目。先检查现有规则和工作区改动，预览安装差异，完成后运行检查并告诉我改了什么。</p>
             <div class="handoff-bottom"><span>适用于具备联网、终端和项目文件权限的 AI 编码助手</span><button class="copy-link" type="button" data-copy-prompt>复制指令 <span aria-hidden="true">↗</span></button></div>
           </div>
           <div class="steps">
@@ -115,9 +116,23 @@
           <p class="flow-source">这里展示的是路径概要；阶段门和例外条件以 <a href="/wiki/system-architecture.md">架构 Wiki</a> 指向的 lifecycle Skill 为准。</p>
         </section>
 
+        <section class="section section-artifacts" id="artifacts" aria-labelledby="artifacts-title">
+          <div class="wrap">
+            <div class="section-heading"><div><p class="section-kicker">04 / REVIEWABLE ARTIFACTS</p><h2 id="artifacts-title">过程留下产物，判断有迹可循。</h2></div><p>设计、计划、验证与交付记录放在明确的位置；Review 能找到依据，复盘能重新看到当时的判断。</p></div>
+            <div class="artifact-grid">
+              <article class="artifact-card"><span>01 / THINK & DESIGN</span><h3>想法与设计</h3><p>记录问题、取舍和方案，让实现前的 Review 有明确对象。</p><code>docs/designs/YYYY-MM-DD-&lt;topic&gt;.design.md</code></article>
+              <article class="artifact-card"><span>02 / PLAN & WORK</span><h3>计划与过程</h3><p>复杂任务保留计划和跨会话工作笔记，便于继续推进和核对范围。</p><code>docs/plans/YYYY-MM-DD-&lt;topic&gt;.plan.md</code></article>
+              <article class="artifact-card"><span>03 / VERIFY & REVIEW</span><h3>验证与审查</h3><p>把测试证据、Review 结论和返工结果关联到本次任务。</p><code>验证证据 → Review findings → 修正</code></article>
+              <article class="artifact-card"><span>04 / DELIVER & LEARN</span><h3>交付与复盘</h3><p>重要交付进入日志；复盘再判断哪些经验该更新到原 owner。</p><code>docs/logs/ · 按项目约定命名</code></article>
+            </div>
+            <div class="artifact-trace"><strong>从任务到复盘</strong><span>需求与设计 <b>→</b> 实现与验证 <b>→</b> Review <b>→</b> 交付日志 <b>→</b> 复盘沉淀</span></div>
+            <p class="artifact-note">共享命名规则还包括 <code>thoughts/</code> 与 <code>loops/</code> 的日期前缀、角色后缀。日志目录由项目制定；NextClaw 的 <code>v&lt;semver&gt;-&lt;slug&gt;</code> 只是一个项目示例。简单任务不强制创建空文档。<a href="/wiki/artifact-traceability.md">阅读产物与命名 Wiki ↗</a></p>
+          </div>
+        </section>
+
         <section class="section section-evolution" id="evolution" aria-labelledby="evolution-title">
           <div class="wrap">
-            <div class="section-heading"><div><p class="section-kicker">04 / THE EVOLUTION LOOP</p><h2 id="evolution-title">自动进化，从复盘沉淀开始。</h2></div><p>体系要随真实开发持续改进。当前机制仍处于早期，主要依靠任务收尾时的复盘，识别值得保留的经验。</p></div>
+            <div class="section-heading"><div><p class="section-kicker">05 / THE EVOLUTION LOOP</p><h2 id="evolution-title">自动进化，从复盘沉淀开始。</h2></div><p>体系要随真实开发持续改进。当前机制仍处于早期，主要依靠任务收尾时的复盘，识别值得保留的经验。</p></div>
             <div class="evolution-track" aria-label="当前的经验沉淀回路">
               <article><span class="evolution-index">01 / WORK</span><h3>真实任务</h3><p>观察结果、返工与重复沟通。</p></article>
               <article><span class="evolution-index">02 / REVIEW</span><h3>复盘筛选</h3><p>判断是否有可复用的增量。</p></article>
@@ -129,7 +144,7 @@
         </section>
 
         <section class="section wrap" id="principles" aria-labelledby="principles-title">
-          <div class="section-heading"><div><p class="section-kicker">05 / BUILT TO EVOLVE</p><h2 id="principles-title">接入之后，还能放心迭代。</h2></div><p>目标不是复制一次规则，而是让共享方法拥有持续更新、可审查、可回退的来源。</p></div>
+          <div class="section-heading"><div><p class="section-kicker">06 / BUILT TO EVOLVE</p><h2 id="principles-title">接入之后，还能放心迭代。</h2></div><p>目标不是复制一次规则，而是让共享方法拥有持续更新、可审查、可回退的来源。</p></div>
           <div class="principle-list">
             <article><span class="principle-index">A</span><div><h3>先预览，再写入</h3><p>安装和升级都支持 dry-run。已有同名文件发生冲突时会停止，不会悄悄覆盖项目内容。</p></div><span class="principle-symbol">↗</span></article>
             <article><span class="principle-index">B</span><div><h3>每个文件都有版本指纹</h3><p>锁文件记录安装内容的摘要。check 能发现本地改动，也能识别上游是否有新版本。</p></div><span class="principle-symbol">◇</span></article>
@@ -144,7 +159,7 @@
         <section class="final-cta wrap" aria-labelledby="cta-title"><div class="cta-star" aria-hidden="true">✳</div><p class="section-kicker">READY WHEN YOUR REPO IS</p><h2 id="cta-title">从一个地址开始。</h2><p>把成熟的流程带入项目，把判断权留给你和你的 AI。</p><div class="cta-actions"><button class="button button-primary" type="button" data-copy-prompt>复制接入指令 <span aria-hidden="true">↗</span></button><a class="button button-outline" href="/SKILL.md">打开 SKILL.md</a></div></section>
       </main>
 
-      <footer class="site-footer wrap"><div class="footer-brand"><span class="footer-mark">✳</span><span>AI Development System<br /><small>Built by <a href="https://nextclaw.io/">NextClaw</a></small></span></div><div class="footer-links"><a href="/SKILL.md">SKILL.md</a><a href="/wiki/system-architecture.md">体系 Wiki</a><a href="/download/ai-development-system.tar.gz">下载安装包</a><a href="https://nextclaw.io/">NextClaw ↗</a></div><span class="footer-note">A system for thoughtful AI development.</span></footer>
+      <footer class="site-footer wrap"><div class="footer-brand"><span class="footer-mark">✳</span><span>DevWeave<br /><small>AI Development System by <a href="https://nextclaw.io/">NextClaw</a></small></span></div><div class="footer-links"><a href="/SKILL.md">SKILL.md</a><a href="/wiki/system-architecture.md">体系 Wiki</a><a href="/download/ai-development-system.tar.gz">下载安装包</a><a href="https://nextclaw.io/">NextClaw ↗</a></div><span class="footer-note">A system for thoughtful AI development.</span></footer>
     </div>
     <div class="toast" role="status" aria-live="polite" id="copy-toast"></div>
   </body>

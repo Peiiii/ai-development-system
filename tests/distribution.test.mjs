@@ -32,6 +32,8 @@ test("published skill checksum identifies a bundle that installs into a fresh pr
   assert.ok(skill.includes(sha256));
   const architectureWiki = await readFile(path.join(root, "dist", "wiki", "system-architecture.md"), "utf8");
   assert.match(architectureWiki, /流程约束/);
+  const artifactWiki = await readFile(path.join(root, "dist", "wiki", "artifact-traceability.md"), "utf8");
+  assert.match(artifactWiki, /docs\/designs\/YYYY-MM-DD/);
 
   run("tar", ["-xzf", archive, "-C", source]);
   const installer = path.join(source, "bin", "ai-development-system.mjs");
