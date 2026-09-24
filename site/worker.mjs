@@ -5,7 +5,7 @@ export default {
     if (response.status !== 200) return response;
 
     const headers = new Headers(response.headers);
-    if (pathname === "/SKILL.md") {
+    if (pathname === "/SKILL.md" || (pathname.startsWith("/wiki/") && pathname.endsWith(".md"))) {
       headers.set("content-type", "text/markdown; charset=utf-8");
       headers.set("content-disposition", "inline");
       headers.set("cache-control", "no-store");

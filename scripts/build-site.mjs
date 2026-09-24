@@ -15,6 +15,7 @@ await fs.mkdir(download, { recursive: true });
 for (const filename of ["index.html", "styles.css", "main.js", "favicon.svg", "robots.txt"]) {
   await fs.copyFile(path.join(site, filename), path.join(output, filename));
 }
+await fs.cp(path.join(root, "wiki"), path.join(output, "wiki"), { recursive: true });
 
 execFileSync("tar", [
   "-czf", archive,

@@ -24,8 +24,9 @@
         </a>
         <nav class="site-nav" aria-label="主导航">
           <a href="#how-it-works">如何接入</a>
-          <a href="#inside">体系结构</a>
-          <a href="#principles">设计原则</a>
+          <a href="#inside">三大部分</a>
+          <a href="#flow">开发流程</a>
+          <a href="#evolution">自动进化</a>
         </nav>
         <a class="nav-link" href="/SKILL.md">查看 SKILL.md <span aria-hidden="true">↗</span></a>
       </header>
@@ -54,9 +55,9 @@
               <div class="visual-connector visual-connector-short" aria-hidden="true"><span></span></div>
               <div class="visual-output">
                 <div class="output-heading"><span>YOUR REPOSITORY</span><span class="output-check">✓ VERIFIED</span></div>
-                <div class="file-row"><span class="file-icon">◫</span><span>AGENTS.md</span><small>共享入口</small></div>
-                <div class="file-row"><span class="file-icon">⌘</span><span>.agents/skills/</span><small>8 个阶段 Skill</small></div>
-                <div class="file-row"><span class="file-icon">▣</span><span>.agents/wiki/</span><small>按需加载的方法</small></div>
+                <div class="file-row"><span class="file-icon">◫</span><span>AGENTS.md</span><small>流程约束入口</small></div>
+                <div class="file-row"><span class="file-icon">⌘</span><span>.agents/skills/</span><small>阶段 Skill</small></div>
+                <div class="file-row"><span class="file-icon">▣</span><span>.agents/wiki/</span><small>专项方法与知识</small></div>
                 <div class="file-row"><span class="file-icon">◇</span><span>ai-development-system.lock.json</span><small>可校验版本</small></div>
               </div>
               <div class="visual-footer"><span>DRY RUN</span><span>INSTALL</span><span>CHECK</span><span>UPGRADE</span></div>
@@ -82,18 +83,53 @@
 
         <section class="section section-inside" id="inside" aria-labelledby="inside-title">
           <div class="wrap">
-            <div class="section-heading"><div><p class="section-kicker">02 / THE SYSTEM</p><h2 id="inside-title">方法有结构，项目有自由。</h2></div><p>共享开发流程由一个上游持续维护，项目目标、约束和具体交付路径留在自己的仓库。</p></div>
+            <div class="section-heading"><div><p class="section-kicker">02 / THREE PARTS, ONE SYSTEM</p><h2 id="inside-title">三大部分，彼此分工。</h2></div><p>流程决定何时做，Skill 负责如何做，Wiki 提供做判断所需的事实与共享信息。</p></div>
             <div class="system-grid">
-              <article class="system-card system-card-featured"><div class="card-top"><span>01 / ENTRY</span><span class="card-glyph">↘</span></div><h3>AGENTS.md</h3><p>根规则只加入一段边界清晰的共享入口。你原有的项目规则继续由项目自己维护。</p><div class="card-code">&lt;!-- ai-development-system:start --&gt;</div></article>
-              <article class="system-card"><div class="card-top"><span>02 / ROUTING</span><span class="card-glyph">⌘</span></div><h3>Development lifecycle</h3><p>统一判断任务需要哪些阶段，让简单修改保持简单，让复杂改动有完整的证据链。</p><div class="card-foot">standard / trivial / bugfix</div></article>
-              <article class="system-card"><div class="card-top"><span>03 / METHODS</span><span class="card-glyph">✳</span></div><h3>Stage skills</h3><p>任务理解、设计、实现、验证、Review、交付与复盘，各自有明确的职责边界。</p><div class="card-foot">8 个顶层 Skill · 按需加载</div></article>
-              <article class="system-card"><div class="card-top"><span>04 / MEMORY</span><span class="card-glyph">▣</span></div><h3>Wiki methods</h3><p>治理、验收、知识与迭代方法放在下级 Wiki，只有需要时才进入上下文。</p><div class="card-foot">共享方法 ≠ 项目事实</div></article>
+              <article class="system-card system-card-featured"><div class="card-top"><span>01 / FLOW</span><span class="card-glyph">↘</span></div><h3>流程约束</h3><p>共享根规则与 lifecycle 定义任务分类、阶段门、授权边界和完成条件。它决定该走哪条路径、何时进入下一环节。</p><div class="card-code">AGENTS.md → development-lifecycle</div></article>
+              <article class="system-card"><div class="card-top"><span>02 / EXECUTION</span><span class="card-glyph">⌘</span></div><h3>Skills</h3><p>每个开发环节有对应的阶段 Skill；治理、验收、知识与迭代等专项场景由独立 Skill 按需处理。</p><div class="card-foot">阶段 Skill + 专项场景 Skill</div></article>
+              <article class="system-card"><div class="card-top"><span>03 / KNOWLEDGE</span><span class="card-glyph">▣</span></div><h3>Wiki</h3><p>沉淀项目事实、稳定术语和多个 Skill 共享的信息块。上游维护通用知识，目标项目维护自己的事实。</p><div class="card-foot">项目事实 + 共享信息块</div></article>
             </div>
+            <div class="system-note"><span>目录提示</span><p>有些专项 Skill 为了渐进加载放在 <code>.agents/wiki/skills/</code>；它们在职责上仍属于 Skills。Wiki 中的事实与信息块不承担执行流程。</p><a href="/wiki/system-architecture.md">阅读架构 Wiki ↗</a></div>
+          </div>
+        </section>
+
+        <section class="section wrap" id="flow" aria-labelledby="flow-title">
+          <div class="section-heading"><div><p class="section-kicker">03 / THE DEVELOPMENT FLOW</p><h2 id="flow-title">流程需要展示，但不能只有一条。</h2></div><p>lifecycle 根据任务性质选择路径，再把当前环节交给对应 Skill；Wiki 在需要事实和共享知识时进入。</p></div>
+          <div class="flow-tabs" aria-label="选择开发流程">
+            <button type="button" class="flow-tab is-active" data-flow-button="standard" aria-pressed="true"><span>01</span> 标准任务 <small>STANDARD</small></button>
+            <button type="button" class="flow-tab" data-flow-button="trivial" aria-pressed="false"><span>02</span> 简单改动 <small>TRIVIAL</small></button>
+            <button type="button" class="flow-tab" data-flow-button="bugfix" aria-pressed="false"><span>03</span> 问题修复 <small>BUGFIX</small></button>
+          </div>
+          <div class="flow-panel" data-flow-panel="standard">
+            <div class="flow-panel-heading"><h3>标准任务</h3><p>有方案空间或较高风险时，先设计与审查，再实现、验证和交付。</p></div>
+            <ol class="flow-stages"><li><span>01</span><strong>理解任务</strong></li><li><span>02</span><strong>方案设计</strong></li><li><span>03</span><strong>方案 Review</strong></li><li><span>04</span><strong>开发实现</strong></li><li><span>05</span><strong>验证测试</strong></li><li><span>06</span><strong>实现 Review</strong></li><li><span>07</span><strong>交付</strong></li><li><span>08</span><strong>复盘</strong></li></ol>
+          </div>
+          <div class="flow-panel" data-flow-panel="trivial" hidden>
+            <div class="flow-panel-heading"><h3>简单改动</h3><p>局部、可逆、风险低的改动走短路径，仍保留必要的验证和 Review。</p></div>
+            <ol class="flow-stages"><li><span>01</span><strong>快速理解</strong></li><li><span>02</span><strong>修改</strong></li><li><span>03</span><strong>定向验证</strong></li><li><span>04</span><strong>轻量 Review</strong></li><li><span>05</span><strong>交付</strong></li><li><span>06</span><strong>轻量复盘</strong></li></ol>
+          </div>
+          <div class="flow-panel" data-flow-panel="bugfix" hidden>
+            <div class="flow-panel-heading"><h3>问题修复</h3><p>先确定预期、异常与根因，再按风险决定是否需要独立方案 Review。</p></div>
+            <ol class="flow-stages"><li><span>01</span><strong>预期与异常</strong></li><li><span>02</span><strong>复现与根因</strong></li><li><span>03</span><strong>修复方案</strong></li><li><span>04</span><strong>修复实现</strong></li><li><span>05</span><strong>回归验证</strong></li><li><span>06</span><strong>Review</strong></li><li><span>07</span><strong>交付与复盘</strong></li></ol>
+          </div>
+          <p class="flow-source">这里展示的是路径概要；阶段门和例外条件以 <a href="/wiki/system-architecture.md">架构 Wiki</a> 指向的 lifecycle Skill 为准。</p>
+        </section>
+
+        <section class="section section-evolution" id="evolution" aria-labelledby="evolution-title">
+          <div class="wrap">
+            <div class="section-heading"><div><p class="section-kicker">04 / THE EVOLUTION LOOP</p><h2 id="evolution-title">自动进化，从复盘沉淀开始。</h2></div><p>体系要随真实开发持续改进。当前机制仍处于早期，主要依靠任务收尾时的复盘，识别值得保留的经验。</p></div>
+            <div class="evolution-track" aria-label="当前的经验沉淀回路">
+              <article><span class="evolution-index">01 / WORK</span><h3>真实任务</h3><p>观察结果、返工与重复沟通。</p></article>
+              <article><span class="evolution-index">02 / REVIEW</span><h3>复盘筛选</h3><p>判断是否有可复用的增量。</p></article>
+              <article><span class="evolution-index">03 / OWNER</span><h3>找到归属</h3><p>分流到流程约束、Skill 或 Wiki。</p></article>
+              <article><span class="evolution-index">04 / CHANGE</span><h3>更新并验证</h3><p>在正确的上游修改，再检查效果。</p></article>
+            </div>
+            <div class="evolution-status"><span class="status-label"><i></i> CURRENT STATE · EARLY</span><div><h3>现在是“复盘驱动”，还不是全自动闭环。</h3><p>没有可复用增量时不新增规则；发现方法缺口时优先修正原 owner。后续会继续增强问题发现、跨项目验证和更新后的效果反馈。</p></div><a href="/wiki/evolution.md">阅读进化机制 Wiki ↗</a></div>
           </div>
         </section>
 
         <section class="section wrap" id="principles" aria-labelledby="principles-title">
-          <div class="section-heading"><div><p class="section-kicker">03 / BUILT TO EVOLVE</p><h2 id="principles-title">接入之后，还能放心迭代。</h2></div><p>目标不是复制一次规则，而是让共享方法拥有持续更新、可审查、可回退的来源。</p></div>
+          <div class="section-heading"><div><p class="section-kicker">05 / BUILT TO EVOLVE</p><h2 id="principles-title">接入之后，还能放心迭代。</h2></div><p>目标不是复制一次规则，而是让共享方法拥有持续更新、可审查、可回退的来源。</p></div>
           <div class="principle-list">
             <article><span class="principle-index">A</span><div><h3>先预览，再写入</h3><p>安装和升级都支持 dry-run。已有同名文件发生冲突时会停止，不会悄悄覆盖项目内容。</p></div><span class="principle-symbol">↗</span></article>
             <article><span class="principle-index">B</span><div><h3>每个文件都有版本指纹</h3><p>锁文件记录安装内容的摘要。check 能发现本地改动，也能识别上游是否有新版本。</p></div><span class="principle-symbol">◇</span></article>
@@ -108,7 +144,7 @@
         <section class="final-cta wrap" aria-labelledby="cta-title"><div class="cta-star" aria-hidden="true">✳</div><p class="section-kicker">READY WHEN YOUR REPO IS</p><h2 id="cta-title">从一个地址开始。</h2><p>把成熟的流程带入项目，把判断权留给你和你的 AI。</p><div class="cta-actions"><button class="button button-primary" type="button" data-copy-prompt>复制接入指令 <span aria-hidden="true">↗</span></button><a class="button button-outline" href="/SKILL.md">打开 SKILL.md</a></div></section>
       </main>
 
-      <footer class="site-footer wrap"><div class="footer-brand"><span class="footer-mark">✳</span><span>AI Development System<br /><small>Built by <a href="https://nextclaw.io/">NextClaw</a></small></span></div><div class="footer-links"><a href="/SKILL.md">SKILL.md</a><a href="/download/ai-development-system.tar.gz">下载安装包</a><a href="https://nextclaw.io/">NextClaw ↗</a></div><span class="footer-note">A system for thoughtful AI development.</span></footer>
+      <footer class="site-footer wrap"><div class="footer-brand"><span class="footer-mark">✳</span><span>AI Development System<br /><small>Built by <a href="https://nextclaw.io/">NextClaw</a></small></span></div><div class="footer-links"><a href="/SKILL.md">SKILL.md</a><a href="/wiki/system-architecture.md">体系 Wiki</a><a href="/download/ai-development-system.tar.gz">下载安装包</a><a href="https://nextclaw.io/">NextClaw ↗</a></div><span class="footer-note">A system for thoughtful AI development.</span></footer>
     </div>
     <div class="toast" role="status" aria-live="polite" id="copy-toast"></div>
   </body>

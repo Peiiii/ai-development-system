@@ -9,6 +9,8 @@ Canonical source: <https://ai-dev.nextclaw.io/SKILL.md>
 
 This skill is a handoff for an AI coding agent with network access, a shell, Node.js 20+, and permission to edit the target repository. It installs a shared development lifecycle, stage skills, and supporting methods into a project. The current native layout targets Codex and other agents that honor `AGENTS.md` plus `.agents/skills`. Reading this URL alone does not install files or make an unrelated agent tool discover those skills.
 
+The system has three responsibilities: flow constraints choose the path and completion gates; stage and scenario Skills guide execution; Wiki holds project facts and information shared by Skills. Read the [architecture Wiki](https://ai-dev.nextclaw.io/wiki/system-architecture.md) when adapting the system or explaining its ownership. Project facts must come from the target repository, not from this generic bundle. Its early evolution loop is documented in the [evolution Wiki](https://ai-dev.nextclaw.io/wiki/evolution.md).
+
 ## Identify the target
 
 Use the repository the user asked you to integrate. Read its existing agent instructions and inspect `git status` first. If several repositories are plausible, ask which one is the target. Preserve its existing project-specific rules and unrelated working changes.

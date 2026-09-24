@@ -2,6 +2,14 @@
 
 这是从 NextClaw 的 AI 驱动开发体系抽离出的可复用版本。首版面向 Codex，保留 `AGENTS.md`、顶层 `development-*` Skill、按需加载的 Wiki 方法和项目自己的专项规则。
 
+## 体系的三部分
+
+1. **流程约束**：共享根规则与 `development-lifecycle` 定义任务分类、阶段门和完成条件。
+2. **Skills**：七个阶段 Skill 负责开发环节；专项 Skill 处理治理、验收、知识和迭代等场景。
+3. **Wiki**：保存项目事实和多个 Skill 共享的信息块。通用信息由本仓库维护，目标项目维护自己的事实。
+
+部分专项 Skill 因渐进加载位于 `.agents/wiki/skills`，在职责上仍归 Skills。当前的自动进化主要通过交付前复盘，把有证据的改进候选分流到流程、Skill 或 Wiki；持续发现与效果反馈仍待演进。详见[体系 Wiki](wiki/README.md)。
+
 ## 给 AI 一个接入地址
 
 官网：[ai-dev.nextclaw.io](https://ai-dev.nextclaw.io/)。把下面这句话发给具备联网、终端和项目文件权限的 AI 编码助手：
@@ -36,6 +44,7 @@ node /path/to/ai-development-system/bin/ai-development-system.mjs upgrade --targ
 - `npm run check`：核对 manifest、Skill frontmatter、相对链接和项目身份泄漏。
 - `npm test`：验证安装、升级、冲突保护和项目规则保留。
 - `npm run build:site`：生成官网、原始 `SKILL.md` 与经过 SHA-256 标识的安装包到 `dist/`。
+- 构建同时把本仓库 `wiki/` 发布为官网上的原始 Markdown，供人和 AI 阅读。
 - `wrangler deploy --dry-run`：验证 Cloudflare Worker 与静态资源配置。
 - `npm run deploy:site`：构建并部署官网到 `ai-dev.nextclaw.io`。需要已登录的 Wrangler 4 和对应 Cloudflare zone 权限。
 - [独立仓库与项目接入设计](docs/designs/2026-09-24-reusable-ai-development-system.design.md)
