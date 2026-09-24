@@ -33,9 +33,12 @@ test("published skill checksum identifies a bundle that installs into a fresh pr
 
   run("tar", ["-xzf", archive, "-C", source]);
   const installer = path.join(source, "bin", "ai-development-system.mjs");
-  run(process.execPath, [installer, "install", "--target", target, "--dry-run"]);
-  run(process.execPath, [installer, "install", "--target", target]);
-  run(process.execPath, [installer, "check", "--target", target]);
+  const preview = run(process.execPath, [installer, "install", "--target", target, "--dry-run"]);
+  assert.equal(preview.stderr, "");
+  const installed = run(process.execPath, [installer, "install", "--target", target]);
+  assert.equal(installed.stderr, "");
+  const checked = run(process.execPath, [installer, "check", "--target", target]);
+  assert.equal(checked.stderr, "");
   const agents = await readFile(path.join(target, "AGENTS.md"), "utf8");
   assert.match(agents, /^Project-specific rules\n\n<!-- ai-development-system:start -->/);
   const lock = JSON.parse(await readFile(path.join(target, ".agents", "ai-development-system.lock.json"), "utf8"));

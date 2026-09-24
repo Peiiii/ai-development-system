@@ -68,8 +68,9 @@ async function loadSource() {
   const sourceDigest = hash(JSON.stringify({ schemaVersion: 1, fileHashes, agentsBlock }));
   let sourceCommit = null;
   try {
-    const dirty = execFileSync("git", ["status", "--porcelain", "--", "manifest.json", "payload"], { cwd: sourceRoot, encoding: "utf8" });
-    if (!dirty.trim()) sourceCommit = execFileSync("git", ["rev-parse", "HEAD"], { cwd: sourceRoot, encoding: "utf8" }).trim();
+    const gitOptions = { cwd: sourceRoot, encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] };
+    const dirty = execFileSync("git", ["status", "--porcelain", "--", "manifest.json", "payload"], gitOptions);
+    if (!dirty.trim()) sourceCommit = execFileSync("git", ["rev-parse", "HEAD"], gitOptions).trim();
   } catch { /* Content digest remains authoritative outside a Git checkout. */ }
   return { files, fileHashes, agentsBlock, sourceDigest, sourceCommit };
 }
