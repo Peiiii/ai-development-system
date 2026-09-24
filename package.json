@@ -4,6 +4,8 @@
   "type": "module",
   "scripts": {
     "check": "node checks/validate-payload.mjs",
-    "test": "node --test tests/*.test.mjs"
+    "test": "node --test tests/*.test.mjs",
+    "build:site": "node scripts/build-site.mjs",
+    "deploy:site": "npm run build:site && wrangler deploy"
   }
 }

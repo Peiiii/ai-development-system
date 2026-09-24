@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0b0f14" />
+    <meta name="description" content="把可复用的 AI 开发体系接入你的代码仓库。给 AI 一个 SKILL.md 地址，由它审查、安装并验证。" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="AI Development System — 让 AI 开发有章可循" />
+    <meta property="og:description" content="一套可以安装、检查和升级的 AI 驱动开发方法。" />
+    <meta property="og:url" content="https://ai-dev.nextclaw.io/" />
+    <link rel="canonical" href="https://ai-dev.nextclaw.io/" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/styles.css" />
+    <script src="/main.js" defer></script>
+    <title>AI Development System · NextClaw</title>
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="site-header wrap">
+        <a class="brand" href="/" aria-label="AI Development System 首页">
+          <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+          <span class="brand-type"><strong>AI Development System</strong><small>by NextClaw</small></span>
+        </a>
+        <nav class="site-nav" aria-label="主导航">
+          <a href="#how-it-works">如何接入</a>
+          <a href="#inside">体系结构</a>
+          <a href="#principles">设计原则</a>
+        </nav>
+        <a class="nav-link" href="/SKILL.md">查看 SKILL.md <span aria-hidden="true">↗</span></a>
+      </header>
+
+      <main>
+        <section class="hero wrap" aria-labelledby="hero-title">
+          <div class="hero-copy">
+            <div class="eyebrow"><span class="live-dot"></span> AN OPEN ENTRY POINT FOR AI CODING</div>
+            <h1 id="hero-title">让 AI 开发<br /><em>有章可循。</em></h1>
+            <p class="hero-lead">把一套在真实项目中使用的开发方法，接入你自己的代码仓库。从理解问题到交付结果，每一步都有清晰的责任和可检查的证据。</p>
+            <div class="hero-actions">
+              <button class="button button-primary" type="button" data-copy-prompt>复制接入指令 <span aria-hidden="true">↗</span></button>
+              <a class="button button-quiet" href="/SKILL.md">阅读 SKILL.md <span aria-hidden="true">→</span></a>
+            </div>
+            <p class="hero-note"><span class="note-line"></span> 一个地址开始 · 保留项目规则 · 安全升级</p>
+          </div>
+
+          <div class="hero-visual" aria-label="AI 开发体系接入流程示意">
+            <div class="visual-glow" aria-hidden="true"></div>
+            <div class="visual-grid" aria-hidden="true"></div>
+            <div class="visual-content">
+              <div class="visual-topline"><span>INTEGRATION FLOW</span><span class="visual-online"><span></span> READY</span></div>
+              <div class="visual-input"><span class="visual-avatar">YOU</span><span>把这套开发体系接入我的项目</span></div>
+              <div class="visual-connector" aria-hidden="true"><span></span></div>
+              <div class="visual-source"><span class="source-icon">◇</span><div><small>REMOTE ENTRY</small><strong>ai-dev.nextclaw.io/SKILL.md</strong></div><span class="source-arrow">↗</span></div>
+              <div class="visual-connector visual-connector-short" aria-hidden="true"><span></span></div>
+              <div class="visual-output">
+                <div class="output-heading"><span>YOUR REPOSITORY</span><span class="output-check">✓ VERIFIED</span></div>
+                <div class="file-row"><span class="file-icon">◫</span><span>AGENTS.md</span><small>共享入口</small></div>
+                <div class="file-row"><span class="file-icon">⌘</span><span>.agents/skills/</span><small>8 个阶段 Skill</small></div>
+                <div class="file-row"><span class="file-icon">▣</span><span>.agents/wiki/</span><small>按需加载的方法</small></div>
+                <div class="file-row"><span class="file-icon">◇</span><span>ai-development-system.lock.json</span><small>可校验版本</small></div>
+              </div>
+              <div class="visual-footer"><span>DRY RUN</span><span>INSTALL</span><span>CHECK</span><span>UPGRADE</span></div>
+            </div>
+          </div>
+        </section>
+
+        <div class="marquee" aria-label="开发流程阶段"><div class="marquee-inner"><span>理解任务</span><b>✳</b><span>设计方案</span><b>✳</b><span>开发实现</span><b>✳</b><span>验证测试</span><b>✳</b><span>审查复核</span><b>✳</b><span>交付沉淀</span><b>✳</b></div></div>
+
+        <section class="section wrap" id="how-it-works" aria-labelledby="how-title">
+          <div class="section-heading"><div><p class="section-kicker">01 / THE HANDOFF</p><h2 id="how-title">把这个地址，发给你的 AI。</h2></div><p>入口文件会告诉 AI 如何获取安装包、检查目标项目、执行安装，并核对最终结果。</p></div>
+          <div class="handoff-card">
+            <div class="handoff-header"><span><span class="spark">✳</span> 可复制给 AI 的指令</span><span class="handoff-tag">ONE LINK TO START</span></div>
+            <p id="prompt-text">请读取 <strong>https://ai-dev.nextclaw.io/SKILL.md</strong>，按照其中的步骤，把 AI Development System 接入当前项目。先检查现有规则和工作区改动，预览安装差异，完成后运行检查并告诉我改了什么。</p>
+            <div class="handoff-bottom"><span>适用于具备联网、终端和项目文件权限的 AI 编码助手</span><button class="copy-link" type="button" data-copy-prompt>复制指令 <span aria-hidden="true">↗</span></button></div>
+          </div>
+          <div class="steps">
+            <article class="step"><span class="step-number">01 <i></i></span><h3>读取入口</h3><p>AI 打开公开的 SKILL.md，了解支持范围与接入流程。</p></article>
+            <article class="step"><span class="step-number">02 <i></i></span><h3>审查项目</h3><p>先读取已有规则与工作区状态，再预览将写入的文件。</p></article>
+            <article class="step"><span class="step-number">03 <i></i></span><h3>安装并核对</h3><p>写入共享方法、生成版本锁，运行 check 并向你报告差异。</p></article>
+          </div>
+        </section>
+
+        <section class="section section-inside" id="inside" aria-labelledby="inside-title">
+          <div class="wrap">
+            <div class="section-heading"><div><p class="section-kicker">02 / THE SYSTEM</p><h2 id="inside-title">方法有结构，项目有自由。</h2></div><p>共享开发流程由一个上游持续维护，项目目标、约束和具体交付路径留在自己的仓库。</p></div>
+            <div class="system-grid">
+              <article class="system-card system-card-featured"><div class="card-top"><span>01 / ENTRY</span><span class="card-glyph">↘</span></div><h3>AGENTS.md</h3><p>根规则只加入一段边界清晰的共享入口。你原有的项目规则继续由项目自己维护。</p><div class="card-code">&lt;!-- ai-development-system:start --&gt;</div></article>
+              <article class="system-card"><div class="card-top"><span>02 / ROUTING</span><span class="card-glyph">⌘</span></div><h3>Development lifecycle</h3><p>统一判断任务需要哪些阶段，让简单修改保持简单，让复杂改动有完整的证据链。</p><div class="card-foot">standard / trivial / bugfix</div></article>
+              <article class="system-card"><div class="card-top"><span>03 / METHODS</span><span class="card-glyph">✳</span></div><h3>Stage skills</h3><p>任务理解、设计、实现、验证、Review、交付与复盘，各自有明确的职责边界。</p><div class="card-foot">8 个顶层 Skill · 按需加载</div></article>
+              <article class="system-card"><div class="card-top"><span>04 / MEMORY</span><span class="card-glyph">▣</span></div><h3>Wiki methods</h3><p>治理、验收、知识与迭代方法放在下级 Wiki，只有需要时才进入上下文。</p><div class="card-foot">共享方法 ≠ 项目事实</div></article>
+            </div>
+          </div>
+        </section>
+
+        <section class="section wrap" id="principles" aria-labelledby="principles-title">
+          <div class="section-heading"><div><p class="section-kicker">03 / BUILT TO EVOLVE</p><h2 id="principles-title">接入之后，还能放心迭代。</h2></div><p>目标不是复制一次规则，而是让共享方法拥有持续更新、可审查、可回退的来源。</p></div>
+          <div class="principle-list">
+            <article><span class="principle-index">A</span><div><h3>先预览，再写入</h3><p>安装和升级都支持 dry-run。已有同名文件发生冲突时会停止，不会悄悄覆盖项目内容。</p></div><span class="principle-symbol">↗</span></article>
+            <article><span class="principle-index">B</span><div><h3>每个文件都有版本指纹</h3><p>锁文件记录安装内容的摘要。check 能发现本地改动，也能识别上游是否有新版本。</p></div><span class="principle-symbol">◇</span></article>
+            <article><span class="principle-index">C</span><div><h3>项目语义仍由项目决定</h3><p>产品愿景、授权、环境和发布规则留在项目中；共享体系只提供可复用的方法。</p></div><span class="principle-symbol">⌘</span></article>
+          </div>
+        </section>
+
+        <section class="section wrap" aria-labelledby="scope-title">
+          <div class="scope-panel"><div><p class="section-kicker">CURRENT SUPPORT</p><h2 id="scope-title">清楚的适用范围，<br />才有可靠的接入。</h2></div><div class="scope-copy"><p>当前安装布局面向 Codex，以及实际支持 <code>AGENTS.md</code> 与 <code>.agents/skills</code> 的工具。任何能读取网页并操作仓库的 AI 都可以按 SKILL.md 执行接入；其它工具能否自动发现这些规则，需要针对其加载方式验证。</p><a href="/SKILL.md">查看完整接入说明 <span aria-hidden="true">↗</span></a></div></div>
+        </section>
+
+        <section class="final-cta wrap" aria-labelledby="cta-title"><div class="cta-star" aria-hidden="true">✳</div><p class="section-kicker">READY WHEN YOUR REPO IS</p><h2 id="cta-title">从一个地址开始。</h2><p>把成熟的流程带入项目，把判断权留给你和你的 AI。</p><div class="cta-actions"><button class="button button-primary" type="button" data-copy-prompt>复制接入指令 <span aria-hidden="true">↗</span></button><a class="button button-outline" href="/SKILL.md">打开 SKILL.md</a></div></section>
+      </main>
+
+      <footer class="site-footer wrap"><div class="footer-brand"><span class="footer-mark">✳</span><span>AI Development System<br /><small>Built by <a href="https://nextclaw.io/">NextClaw</a></small></span></div><div class="footer-links"><a href="/SKILL.md">SKILL.md</a><a href="/download/ai-development-system.tar.gz">下载安装包</a><a href="https://nextclaw.io/">NextClaw ↗</a></div><span class="footer-note">A system for thoughtful AI development.</span></footer>
+    </div>
+    <div class="toast" role="status" aria-live="polite" id="copy-toast"></div>
+  </body>
+</html>
