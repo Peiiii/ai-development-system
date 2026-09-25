@@ -3,7 +3,7 @@
 ## 关联入口
 
 - contract-id：major-delivery-integration；[合同](../../work/2026-09-25-major-delivery-integration/acceptance-contract.md)；[当前工作](../../work/2026-09-25-major-delivery-integration/working-notes.md)；[设计](../../designs/2026-09-25-low-supervision-major-delivery.design.md)。
-- 状态：规则接入完成；用户已追加授权主干提交与远程同步，Git 交付结果见后续过程记录；官网未部署。
+- 状态：规则接入与授权的主干同步完成；官网未部署。
 
 ## 过程记录
 
@@ -18,6 +18,14 @@
 - A6 方案审查覆盖已有设计复用、原先留白、缺乏证据、方案改变及普通细节，关闭触发不足 finding。随后修改原模式参考与 Design/Implementation/Review 三个 owner，经升级器追加 5 项写入（含锁文件）；上游 43 文件检查、升级摘要、目标渐进加载与定向治理通过。此次仅改规则文本，安装器和归档测试实现未变，复用前批 6 项测试证据，不声称它们证明新规则遵循效果。
 
 ## 规则场景审查
+
+### Git 交付结果
+
+- 用户追加授权后，上游检查与实际归档安装测试重跑，43 个受管文件与 6 项测试全部通过；规则以 `5b94d68` 提交并推送到 `origin/main`。
+- NextClaw 的滚动设计增量与绑定上游提交的锁文件，以 `e6a09708d` 精确提交；主工作区在无路径重叠的情况下快进，随后 `pnpm release:reconcile:mainline` 完成远程推送并返回 `LOCAL_MAINLINE_SYNCED`，本地/远程 `master` 均为该提交。
+- 隔离工作区治理检查首次缺少 parser 依赖；依照项目 wrapper 离线安装后通过，渐进加载与 ratchet 通过。五份原 WIP 和 AGENTS 的起始 SHA-256 复核不变，源区无本批遗漏；未发布官网或 NPM。
+
+### 语义审查范围
 
 审查对象为本次未提交的 payload、manifest、分发测试及目标项目专项规则差异；共享内容由升级后的受管摘要绑定，项目规则见目标仓库本批日志。这是文本和协议审查，不是实际自主执行效果实验。
 
