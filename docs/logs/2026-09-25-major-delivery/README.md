@@ -3,7 +3,7 @@
 ## 关联入口
 
 - contract-id：major-delivery-integration；[合同](../../work/2026-09-25-major-delivery-integration/acceptance-contract.md)；[当前状态](../../work/2026-09-25-major-delivery-integration/current-state.md)；[设计](../../designs/2026-09-25-low-supervision-major-delivery.design.md)。
-- 前批规则接入与主干同步完成；追加恢复协议完善正在执行，当前状态见唯一入口；官网未部署。
+- 规则接入、追加恢复协议完善与主干同步均已完成，当前状态见唯一入口；官网未部署。
 
 ## 过程记录
 
@@ -24,6 +24,8 @@
 追加实现审查：已知入口、无路径、多候选、旧入口缺状态、重复文件、暂停/停止任务、已实现未验证与外部操作结果不明八类文本场景均有明确处理；原设计仍可内联补充，独立专题有上下位链接与适用范围，无新增强制文档。未发现阻止试用的剩余问题。这是协议走查，不是独立新会话恢复实验。
 
 追加验证：43 个受管文件结构/链接检查、6 项实际归档安装/升级测试、任务文档本地链接及改名唯一性、NextClaw 渐进加载、定向治理和 ratchet 均通过。当前新增状态文件只替换本任务旧文件，其它任务保持原位。顶层 Skill 16、下级 27、发现描述 2895 chars、description 1489 chars、AGENTS 11989 bytes 不变；顶层入口合计 80048→80337 bytes（+289），增量主要位于按需 reference，无 command/script/baseline 修改。
+
+追加交付：上游规则 `a185a06` 已推送 origin/main；NextClaw 锁文件绑定该提交，规则以 `bd3d59888` 合入并推送 master。远程 metrics 更新 `a95835055` 无冲突保留；主线协调返回 LOCAL_MAINLINE_SYNCED，源区本批无遗漏、五份原 WIP 和 AGENTS 摘要不变。临时 worktree 在确认干净后清理；官网与实际产品运行链路未部署或改动。
 
 ### Git 交付结果
 
