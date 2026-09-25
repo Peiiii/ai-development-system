@@ -2,8 +2,8 @@
 
 ## 关联入口
 
-- contract-id：major-delivery-integration；[合同](../../work/2026-09-25-major-delivery-integration/acceptance-contract.md)；[当前工作](../../work/2026-09-25-major-delivery-integration/working-notes.md)；[设计](../../designs/2026-09-25-low-supervision-major-delivery.design.md)。
-- 状态：规则接入与授权的主干同步完成；官网未部署。
+- contract-id：major-delivery-integration；[合同](../../work/2026-09-25-major-delivery-integration/acceptance-contract.md)；[当前状态](../../work/2026-09-25-major-delivery-integration/current-state.md)；[设计](../../designs/2026-09-25-low-supervision-major-delivery.design.md)。
+- 前批规则接入与主干同步完成；追加恢复协议完善正在执行，当前状态见唯一入口；官网未部署。
 
 ## 过程记录
 
@@ -18,6 +18,12 @@
 - A6 方案审查覆盖已有设计复用、原先留白、缺乏证据、方案改变及普通细节，关闭触发不足 finding。随后修改原模式参考与 Design/Implementation/Review 三个 owner，经升级器追加 5 项写入（含锁文件）；上游 43 文件检查、升级摘要、目标渐进加载与定向治理通过。此次仅改规则文本，安装器和归档测试实现未变，复用前批 6 项测试证据，不声称它们证明新规则遵循效果。
 
 ## 规则场景审查
+
+2026-09-25 追加审查发现：原状态模板未明确整体状态、新会话无已知路径时缺少查找规则，working-notes 名称过宽。采用原恢复 reference 内补充及大型交付默认改名；普通任务/旧任务不强迁移，遇到重复入口不凭文件名或日期猜权威。专题设计只补互链，不新增层级。已审查设计：缺口集中在信息载体与读取触发，原 owner 合适，普通任务无新增全量读取；若实际维护成本无净收益，缩减模板而非增设索引平台。
+
+追加实现审查：已知入口、无路径、多候选、旧入口缺状态、重复文件、暂停/停止任务、已实现未验证与外部操作结果不明八类文本场景均有明确处理；原设计仍可内联补充，独立专题有上下位链接与适用范围，无新增强制文档。未发现阻止试用的剩余问题。这是协议走查，不是独立新会话恢复实验。
+
+追加验证：43 个受管文件结构/链接检查、6 项实际归档安装/升级测试、任务文档本地链接及改名唯一性、NextClaw 渐进加载、定向治理和 ratchet 均通过。当前新增状态文件只替换本任务旧文件，其它任务保持原位。顶层 Skill 16、下级 27、发现描述 2895 chars、description 1489 chars、AGENTS 11989 bytes 不变；顶层入口合计 80048→80337 bytes（+289），增量主要位于按需 reference，无 command/script/baseline 修改。
 
 ### Git 交付结果
 

@@ -24,7 +24,7 @@ DevWeave 的流程不仅规定任务如何推进，也要求在有价值的环�
 | 可执行的分步计划 | `docs/plans/YYYY-MM-DD-<topic>.plan.md` |
 | 持续循环任务的稳定合同 | `docs/loops/YYYY-MM-DD-<topic>.loop.md` |
 
-跨会话工作笔记优先沿用项目已有目录；新建默认落点是 `docs/work/YYYY-MM-DD-<task-slug>/working-notes.md`，从设计或任务入口链接。日期取创建日，同任务跨天沿用。已有路径不因命名统一机械迁移。
+跨会话记录优先沿用项目已有目录；大型交付新建默认 `docs/work/YYYY-MM-DD-<delivery-slug>/current-state.md`，普通跨轮任务仍可用轻量 `working-notes.md`。从设计或任务入口链接，日期取创建日，同任务跨天沿用。已有路径不因命名统一机械迁移，不并建第二份当前状态。
 
 普通任务在实际重要交付时按需记录 `docs/logs/`；大型交付在执行启动即建立并持续更新，收尾汇总已有记录。新建默认 `docs/logs/YYYY-MM-DD-<topic>/README.md`，同时支持 `v<semver>-<slug>/README.md`；同批不造两份、不每日改名，项目专属章节按既有约定保留。
 
@@ -33,11 +33,15 @@ DevWeave 的流程不仅规定任务如何推进，也要求在有价值的环�
 | 文件 | 职责 |
 | --- | --- |
 | `work/YYYY-MM-DD-<topic>/acceptance-contract.md` | 原始预期与来源、有效约定、验收账本、待决与生效变更 |
-| `designs/YYYY-MM-DD-<topic>.design.md` | 整体方案与关键取舍；复用原设计规范 |
-| `work/YYYY-MM-DD-<topic>/working-notes.md` | 唯一恢复入口、当前工作、阻塞与下一步 |
+| `designs/YYYY-MM-DD-<topic>.design.md` | 整体/专题方案与关键取舍；按需要拆分并互链 |
+| `work/YYYY-MM-DD-<topic>/current-state.md` | 身份与入口、执行现场、当前进度、未闭合事项与下一步 |
 | `logs/YYYY-MM-DD-<topic>/README.md` | 关联入口、及时过程记录、交付汇总与复盘 |
 
 上述路径位于 `docs/`。plan、长详情和 `artifacts/` 附件按需，不逐工作项建文件或表格。有效约定与待决提案分开，当前状态与历史分开；普通进展只更新实际变化的内容。具体模板和触发条件以安装后的验收合同方法、`iteration-work-notes/references/major-delivery-records.md` 为准。
+
+开始时建立合同、整体设计和状态入口并启动日志；执行中按变化更新有效约定、滚动设计、进度与证据；结束时账本对齐实际结果，状态回链交付日志，可复用事实与方法分别回 Wiki 和原 Skill。实现进度与验收状态分别表达，“已写代码”不代表已通过。
+
+恢复已有大型交付时，先用已知入口；没有入口则按记录协议查找本项目候选状态文件及旧入口，依据任务身份和用户意图匹配，再核验实际工作区和未确认操作。多个未完成任务不会自动全部接续。当前已完成文本与分发检查，尚未用独立新会话证明实际恢复成功率。
 
 ## Review 与复盘如何使用这些产物
 
