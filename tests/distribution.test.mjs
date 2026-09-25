@@ -46,5 +46,10 @@ test("published skill checksum identifies a bundle that installs into a fresh pr
   const agents = await readFile(path.join(target, "AGENTS.md"), "utf8");
   assert.match(agents, /^Project-specific rules\n\n<!-- ai-development-system:start -->/);
   const lock = JSON.parse(await readFile(path.join(target, ".agents", "ai-development-system.lock.json"), "utf8"));
-  assert.equal(Object.keys(lock.files).length, 41);
+  const manifest = JSON.parse(await readFile(path.join(root, "manifest.json"), "utf8"));
+  assert.deepEqual(Object.keys(lock.files).sort(), [...manifest.files].sort());
+  for (const relative of manifest.files) {
+    assert.deepEqual(await readFile(path.join(target, relative)),
+      await readFile(path.join(root, "payload", relative)), `distributed content: ${relative}`);
+  }
 });

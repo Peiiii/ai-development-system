@@ -41,6 +41,14 @@ node /path/to/ai-development-system/bin/ai-development-system.mjs upgrade --targ
 
 ## 开发与设计
 
+### 大型交付（试用）
+
+接入或升级后，可以直接对 AI 说：“按大型交付模式完成这项需求，保持我们已约定的目标，尽量自主推进。”lifecycle 在需要跨工作项/上下文维护整体结果时按需进入；内部继续使用 standard、trivial 或 bugfix，默认不拆多个交付阶段。
+
+执行启动时建立有效合同、当前恢复入口和持续日志；关键结果及时保存，工作项完成后继续检查整体缺口。日志新建优先日期前缀，兼容已有版本号形式。模板和资料布局见[产物留痕 Wiki](wiki/artifact-traceability.md)。这是一套流程方法，不能代替宿主的后台执行能力；效果需真实任务试用，不承诺返工降低比例。
+
+### 仓库维护
+
 - `npm run check`：核对 manifest、Skill frontmatter、相对链接和项目身份泄漏。
 - `npm test`：验证安装、升级、冲突保护和项目规则保留。
 - `npm run build:site`：生成官网、原始 `SKILL.md` 与经过 SHA-256 标识的安装包到 `dist/`。
@@ -49,6 +57,8 @@ node /path/to/ai-development-system/bin/ai-development-system.mjs upgrade --targ
 - `npm run deploy:site`：构建并部署官网到 `ai-dev.nextclaw.io`。需要已登录的 Wrangler 4 和对应 Cloudflare zone 权限。
 - [独立仓库与项目接入设计](docs/designs/2026-09-24-reusable-ai-development-system.design.md)
 - [远程接入与官网设计](docs/designs/2026-09-25-remote-handoff-site.design.md)
+- [低监督大型交付讨论稿](docs/thoughts/2026-09-25-low-supervision-major-delivery.thought.md)
+- [低监督大型交付设计](docs/designs/2026-09-25-low-supervision-major-delivery.design.md)
 - [NextClaw 迁移账本](docs/migration/nextclaw.md)
 
 项目愿景、授权、产品发布、运行实例和事实知识仍由各项目维护。其他 Agent 工具的目录适配需要按其真实加载机制另行验证。

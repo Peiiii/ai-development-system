@@ -24,9 +24,20 @@ DevWeave 的流程不仅规定任务如何推进，也要求在有价值的环�
 | 可执行的分步计划 | `docs/plans/YYYY-MM-DD-<topic>.plan.md` |
 | 持续循环任务的稳定合同 | `docs/loops/YYYY-MM-DD-<topic>.loop.md` |
 
-跨会话工作笔记优先沿用项目已有目录；没有约定时，`iteration-work-notes` 的默认落点是 `docs/work/<task-slug>/working-notes.md`，并从设计或计划链接。只有真实需要时才创建，不为记笔记提前新建迭代目录。
+跨会话工作笔记优先沿用项目已有目录；新建默认落点是 `docs/work/YYYY-MM-DD-<task-slug>/working-notes.md`，从设计或任务入口链接。日期取创建日，同任务跨天沿用。已有路径不因命名统一机械迁移。
 
-`docs/logs/` 用于实际完成后有独立交付意义的批次，例如跨模块链路、重要修复或发布。共享体系只约定其用途，**不规定通用日志文件名**。NextClaw 项目采用 `docs/logs/v<semver>-<slug>/README.md`，这是项目专属示例，不应在其它项目中机械复制。
+普通任务在实际重要交付时按需记录 `docs/logs/`；大型交付在执行启动即建立并持续更新，收尾汇总已有记录。新建默认 `docs/logs/YYYY-MM-DD-<topic>/README.md`，同时支持 `v<semver>-<slug>/README.md`；同批不造两份、不每日改名，项目专属章节按既有约定保留。
+
+## 大型交付的四种职责
+
+| 文件 | 职责 |
+| --- | --- |
+| `work/YYYY-MM-DD-<topic>/acceptance-contract.md` | 原始预期与来源、有效约定、验收账本、待决与生效变更 |
+| `designs/YYYY-MM-DD-<topic>.design.md` | 整体方案与关键取舍；复用原设计规范 |
+| `work/YYYY-MM-DD-<topic>/working-notes.md` | 唯一恢复入口、当前工作、阻塞与下一步 |
+| `logs/YYYY-MM-DD-<topic>/README.md` | 关联入口、及时过程记录、交付汇总与复盘 |
+
+上述路径位于 `docs/`。plan、长详情和 `artifacts/` 附件按需，不逐工作项建文件或表格。有效约定与待决提案分开，当前状态与历史分开；普通进展只更新实际变化的内容。具体模板和触发条件以安装后的验收合同方法、`iteration-work-notes/references/major-delivery-records.md` 为准。
 
 ## Review 与复盘如何使用这些产物
 
