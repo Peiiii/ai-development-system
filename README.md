@@ -45,6 +45,42 @@ node /path/to/ai-development-system/bin/ai-development-system.mjs upgrade --targ
 
 ## 开发与设计
 
+### 固定任务测评 MVP
+
+`benchmarks/` 内含一个小型 Task Inbox 开发任务、固定的模糊委托提示、位于代理工作目录之外的独立验收，以及 Codex CLI 对照运行器。测评属于本仓库，接入项目无需增加 CI 或其它配置。
+
+在可信 Linux/macOS 机器上安装 Node.js 20+、Git、Codex CLI，并以本人 ChatGPT 订阅完成 `codex login`。先检查 fixture 与安装器：
+
+```sh
+node benchmarks/run.mjs --check
+```
+
+该检查应显示起始项目无法通过全部 6 项验收。随后运行一对样本：
+
+```sh
+node benchmarks/run.mjs --arm both --repeat 1 --model gpt-6-luna --max-seconds 600
+```
+
+默认顺序运行，每轮最多十分钟；最多支持 `--repeat 3`，偶数对反转顺序。结果保存在忽略 Git 的 `benchmarks/results/<时间>/`：`summary.json`、每轮 Codex JSONL、grader 输出与补丁。完整交付要求 Codex 正常结束且 6 项验收全过；超时但代码通过测试仍单独标记。基准默认只比较同一任务上的结果，不会自动提交、推送或发布。订阅用量受账号额度约束，报告记录实际可得的 Token；超时缺少结算事件时标记为未知，不臆造 API 账单。远程运行时应使用专用普通用户、私有持久化 Codex 登录状态和全新工作目录，禁止把认证文件放入工作目录或结果包。设计与证据边界见[测评 MVP 设计](docs/designs/2026-09-28-development-benchmark-mvp.design.md)。
+
+### 网页交付测评与在线验收
+
+`web-board` 是另一项固定开发任务：AI 从未完成的单文件网页出发，自行实现日常任务板。六项真实浏览器检查覆盖创建、优先级/日期、刷新持久化、完成、删除与手机布局。先安装依赖与 Chromium，再检查起始版应失败：
+
+```sh
+npm ci
+npx playwright install chromium
+node benchmarks/run.mjs --case web-board --check
+```
+
+本机配置 `.local/benchmark-remote.json`（被 Git 忽略），填写 `sshHost`、远程普通用户名 `runAs` 和该用户可写的绝对目录 `remoteRoot`；Codex CLI 不在远程 PATH 时，再填可选的 `codexBin` 绝对路径。远程普通用户需预先安装 Node.js 20+、Git、Codex CLI、Playwright Chromium，并由本人完成一次 `codex login`；本机需要登录 Wrangler 4.135+，具有本测评 R2 bucket 的写入权限。Wrangler 只在发布机安装，不加入远程测评依赖。然后一条命令完成远程生成、浏览器验收、Git 提交、取回证据和 Cloudflare 部署：
+
+```sh
+npm run bench:remote
+```
+
+默认只运行 DevWeave 组以节约订阅额度；需要对照时运行 `npm run bench:remote -- --arm both`。未通过验收的运行保留证据，但不会发布为已交付结果。每个通过结果都在 [DevWeave Lab 管理面板](https://devweave-lab.nextclaw.io/)列出，并获得 `<运行编号>.devweave-preview.nextclaw.io` 专属四级域名，直接打开根路径即可验收。发布器会等 HTTPS 可用后才将结果列入面板。管理密钥由本机私有文件保存，可用 `npm run lab:open` 在当前浏览器打开已登录面板；不要把密钥提交到仓库。面板支持预览、下载源码与报告、删除在线历史。Cloudflare Worker 与 R2 绑定位于 `showcase/`；它是测评服务，不进入接入项目。设计与验收边界见[在线交付设计](docs/designs/2026-09-28-benchmark-showcase.design.md)。
+
 ### 大型交付（试用）
 
 接入或升级后，可以直接对 AI 说：“按大型交付模式完成这项需求，保持我们已约定的目标，尽量自主推进。”lifecycle 在需要跨工作项/上下文维护整体结果时按需进入；内部继续使用 standard、trivial 或 bugfix，默认不拆多个交付阶段。
@@ -67,6 +103,7 @@ node /path/to/ai-development-system/bin/ai-development-system.mjs upgrade --targ
 - [远程接入与官网设计](docs/designs/2026-09-25-remote-handoff-site.design.md)
 - [低监督大型交付讨论稿](docs/thoughts/2026-09-25-low-supervision-major-delivery.thought.md)
 - [低监督大型交付设计](docs/designs/2026-09-25-low-supervision-major-delivery.design.md)
+- [测评 MVP 首次远程实跑](docs/logs/2026-09-28-benchmark-mvp/README.md)
 - [NextClaw 迁移账本](docs/migration/nextclaw.md)
 
 项目愿景、授权、产品发布、运行实例和事实知识仍由各项目维护。其他 Agent 工具的目录适配需要按其真实加载机制另行验证。

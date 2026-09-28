@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>日常任务板</title>
+</head>
+<body>
+  <main>
+    <h1>日常任务板</h1>
+    <p>这个页面尚待完成。</p>
+    <form data-testid="task-form">
+      <label>任务标题 <input data-testid="task-title" name="title" type="text"></label>
+      <label>优先级 <select data-testid="task-priority" name="priority"><option value="normal">普通</option><option value="high">优先</option></select></label>
+      <label>截止日期 <input data-testid="task-due" name="due" type="date"></label>
+      <button data-testid="task-add" type="submit">添加任务</button>
+    </form>
+    <div data-testid="task-list"></div>
+  </main>
+</body>
+</html>

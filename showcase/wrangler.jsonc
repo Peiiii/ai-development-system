@@ -1,0 +1,19 @@
+{
+  "name": "devweave-showcase",
+  "account_id": "adb27b39051202962038992eeaf8f6bb",
+  "compatibility_date": "2026-09-28",
+  "main": "./worker.mjs",
+  "r2_buckets": [
+    { "binding": "RUNS", "bucket_name": "devweave-showcase" }
+  ],
+  "previews": {
+    "r2_buckets": [
+      { "binding": "RUNS", "bucket_name": "devweave-showcase" }
+    ]
+  },
+  "routes": [
+    { "pattern": "devweave-lab.nextclaw.io", "custom_domain": true },
+    { "pattern": "devweave-preview.nextclaw.io", "custom_domain": true, "previews_enabled": true },
+    { "pattern": "*.devweave-preview.nextclaw.io/*", "zone_name": "nextclaw.io" }
+  ]
+}
