@@ -21,7 +21,7 @@ execFileSync("tar", [
   "-czf", archive,
   "-C", root,
   "manifest.json", "package.json", "README.md", "payload", "bin", "checks",
-]);
+], { env: { ...process.env, COPYFILE_DISABLE: "1" } });
 const sha256 = createHash("sha256").update(await fs.readFile(archive)).digest("hex");
 const skill = (await fs.readFile(path.join(site, "SKILL.template.md"), "utf8"))
   .replaceAll("{{BUNDLE_SHA256}}", sha256);

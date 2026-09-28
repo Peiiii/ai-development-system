@@ -39,6 +39,10 @@ node /path/to/ai-development-system/bin/ai-development-system.mjs upgrade --targ
 
 升级会拒绝覆盖受管文件的本地编辑或新路径冲突；项目 `AGENTS.md` 受管段落之外的文字会保留。遇到冲突，把可复用改进回写本仓库，项目专项方法留在项目内，然后重新检查差异。Git 历史可恢复目标项目先前的受管文件与 lock。
 
+## 接入后使用
+
+直接向 AI 提出开发任务，不必每次提及 DevWeave。需要更新时，让 AI 读取同一个公开入口，预览并执行升级，再运行 `check`。目标项目无需为 DevWeave 增加 CI、构建脚本或运行时依赖。
+
 ## 开发与设计
 
 ### 大型交付（试用）

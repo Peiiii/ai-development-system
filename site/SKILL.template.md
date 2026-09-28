@@ -44,4 +44,6 @@ node "$ads_tmp_dir/bin/ai-development-system.mjs" install --target /absolute/pat
 
 After installation, run `check --target <absolute-repo-path>` and inspect the target's Git diff. Report which files were added, the lock's `sourceDigest`, and any remaining tool-specific adaptation. The installer never commits or pushes the target repository.
 
+Tell the user they can now request development work normally, without naming DevWeave in each prompt. For a later update, they can ask the AI to update DevWeave in this project; repeat the preview, upgrade, and check steps. Do not add CI jobs, build scripts, or runtime dependencies to the target project solely for DevWeave.
+
 For an agent tool that does not load `AGENTS.md` and `.agents/skills` natively, treat the installed files as source material and establish that tool's actual discovery path before claiming integration works. Do not silently edit a different AI tool's global settings.
