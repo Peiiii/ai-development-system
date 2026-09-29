@@ -21,6 +21,8 @@
 
 自动进化是贯穿流程约束、Skills 和 Wiki 的改进机制，目前仍较薄弱。现阶段的真实入口是 `payload/.agents/skills/development-retrospective/SKILL.md`：任务结束前检查交付差距、返工与重复沟通，判断是否有可复用增量；没有增量就不落盘。
 
+2026-09-30 起试用显式收尾状态：完整开发或授权发布从确定流程起保持 `retrospective_state=pending`，Delivery 成功只交回 `ready-for-retrospective`；复盘返回已更新 owner 或 `no-increment` 的明确决定后，Lifecycle 才能完成检查。动因是 NextClaw beta 长发布在外部部署成功后直接结束，原本只有流程末尾文字门槛，未形成可靠的跨阶段交接。它不要求每项任务写日志，也不适用于用户只委托调查、设计或 Review 的单阶段产物。后续用长发布和普通小任务观察漏复盘、空日志、额外输出与上下文成本；若没有减少遗漏或显著增加负担，收窄或撤回。
+
 有证据支持的候选再按唯一 owner 分流：
 
 | 发现 | 落点 |

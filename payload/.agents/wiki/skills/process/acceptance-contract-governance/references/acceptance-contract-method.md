@@ -81,7 +81,7 @@
 - 本阶段暂不处理但仍属于整体目标的内容；
 - 进入下一阶段前必须关闭的缺口。
 
-阶段结束时只更新受新事实影响的 ID 和后续阶段，不重写稳定契约。每个阶段返回 `acceptance_updates` 与 `parent_status: in-progress | blocked | ready-for-completion-check`；阶段、Delivery 和专项 release 只能关闭子目标，随后返回 lifecycle parent，不能自行把发布、版本或阶段成功升级成整体完成。
+阶段结束时只更新受新事实影响的 ID 和后续阶段，不重写稳定契约。每个阶段返回 `acceptance_updates` 与 `parent_status: in-progress | blocked | ready-for-retrospective | ready-for-completion-check`；Delivery 和专项 release 只能关闭子目标，随后返回 lifecycle parent。Delivery 成功后先进入复盘，复盘给出明确决定后才允许完成检查；不能自行把发布、版本或阶段成功升级成整体完成。
 
 ## 学习与漂移控制
 

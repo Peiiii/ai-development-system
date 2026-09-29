@@ -59,7 +59,9 @@ AI 验收结合 Validation 合同证据与 Review 结论，不新增平行 Skill
 
 ## 状态与返工
 
-阶段返回 status(completed/skipped/rework/blocked)、结论、产物、证据、open_risks、rework_target、acceptance_updates 与 `parent_status`(in-progress/blocked/ready-for-completion-check)。无 active contract 时 acceptance_updates 为空。阶段、Delivery 和 release 仅关闭子目标，不返回整体 completed。
+完整开发或授权发布任务确定 flow 时，由 Lifecycle 将 `retrospective_state` 设为 `pending`；纯调查、设计、Review 等限定单阶段产物不自动扩成完整交付。阶段返回 status(completed/skipped/rework/blocked)、结论、产物、证据、open_risks、rework_target、acceptance_updates 与 `parent_status`(in-progress/blocked/ready-for-retrospective/ready-for-completion-check)。无 active contract 时 acceptance_updates 为空。阶段、Delivery 和 release 仅关闭子目标，不返回整体 completed。
+
+Delivery 达到其完成点后只返回 `parent_status=ready-for-retrospective`，不把外部发布成功或最终验证成功转换为整体完成。Lifecycle 随即路由 Retrospective；它返回明确的 `retrospective_decision`（更新的原 owner 与证据，或 `no-increment` 及理由）。只有此时才将 `retrospective_state` 置为 `completed` 并进入完成检查；发现未完结果则保持 `pending` 并按返工目标回退。跨轮长发布的进度汇报不改变该状态。
 
 - 理解或根因不明回 Task Understanding；模型缺口回 Design；编码偏差回 Implementation。
 - 方案 Review 失败回 Design；实现 Review 有 finding 不得交付，修正后重验变化并复审。
@@ -69,11 +71,11 @@ AI 验收结合 Validation 合同证据与 Review 结论，不新增平行 Skill
 
 有效合同形成或变化后，受影响设计与旧方案 Review 不再自动有效；若目标、Required 条件、能力边界或关键假设未被现行方案覆盖，先返回 Design 更新并复审，不能凭旧结论继续实现或发布。未变化部分不重跑。
 
-跨会话、交接或上下文压缩前保存 flow、阶段/mode、目标、授权、验收项、证据指针、open Required IDs 与 scope decisions；恢复先对账，不从版本或最新总结猜完成。
+跨会话、交接或上下文压缩前保存 flow、阶段/mode、`retrospective_state`、目标、授权、验收项、证据指针、open Required IDs 与 scope decisions；恢复先对账，不从版本或最新总结猜完成。
 
 ## 完成门
 
-整体仅由本 Meta Skill 判定：最小完整结果成立；授权内无可关闭的必要缺口；适用验证有效、Review findings 清零；Delivery 已完成适用交接与用户验收合同；Retrospective 已判断是否沉淀；未验证和主观项已披露。包含复盘新增文件在内，本任务改动须全部归入交付范围；已切 worktree 时源区不得遗留本任务改动，未获提交授权时明确草稿位置与未提交状态。
+整体仅由本 Meta Skill 判定：最小完整结果成立；授权内无可关闭的必要缺口；适用验证有效、Review findings 清零；Delivery 已完成适用交接与用户验收合同；`retrospective_state=completed` 且有明确 `retrospective_decision`；未验证和主观项已披露。没有新增沉淀也要完成判断，但不为此创建空日志。包含复盘新增文件在内，本任务改动须全部归入交付范围；已切 worktree 时源区不得遗留本任务改动，未获提交授权时明确草稿位置与未提交状态。
 
 完成判断分别核对实现、AI 验证和用户交付，不以测试通过或工作区路径代替 Delivery 的证据。适用用户验收时，须有包含本次改动的可用入口、完整使用链路、AI 按该链路先行验证及交接结果；缺项返回 Delivery，设计自行缩减原结果则返回 Design，不能据此宣布完成。纯内部或用户明确限定的产物交付按其范围核对。
 
