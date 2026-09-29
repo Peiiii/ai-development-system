@@ -59,7 +59,7 @@ AI 验收结合 Validation 合同证据与 Review 结论，不新增平行 Skill
 
 ## 状态与返工
 
-完整开发或授权发布确定 flow 时将 `retrospective_state=pending`；限定单阶段任务不扩成完整交付。阶段返回 status(completed/skipped/rework/blocked)、结论、产物、证据、open_risks、rework_target、acceptance_updates 与 parent_status；无 active contract 时 updates 为空。阶段、Delivery、release 不返回整体 completed。
+完整开发或授权发布确定 flow 时将 `retrospective_state=pending`；限定单阶段任务不扩成完整交付。阶段返回 status(completed/skipped/rework/blocked)、结论、产物、证据、open_risks、rework_target、acceptance_updates 与 `parent_status`；无 active contract 时 updates 为空。阶段、Delivery、release 不返回整体 completed。
 
 Delivery 完成后仅返回 `parent_status=ready-for-retrospective`。Lifecycle 随即路由 Retrospective，取得 `retrospective_decision`（原 owner 更新与证据，或 `no-increment` 及理由）才置 `retrospective_state=completed` 并检查完成；未完结果返工，进度汇报不改变状态。
 
