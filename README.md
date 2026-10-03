@@ -91,6 +91,10 @@ npm run bench:remote
 
 新建大型交付以 `docs/work/YYYY-MM-DD-<delivery-slug>/current-state.md` 为恢复入口；可在新会话提供这个路径并要求“恢复这项交付，先核对状态再继续”。旧 working-notes 入口继续可用；未指定路径时按本项目的任务身份查找，多个候选存在歧义再澄清。具体部分设计不足时先补方案和 Review，整体与专题设计按需要拆分并互链。
 
+### 长期关注事项（试用）
+
+可对 AI 说“把搜索增长建立为长期关注事项”或“复查之前的作品使用情况”。知识治理按需创建/复用`docs/tracks/YYYY-MM-DD-<topic>.track.md`，保存目标、观察入口、最新判断和下一次复查条件。具体优化仍沿原开发流程，循环实验方法继续由loop维护；文档不会自动运行，定时主动执行需宿主另行配置。命名与入口见[产物留痕](wiki/artifact-traceability.md)。
+
 ### 仓库维护
 
 - `npm run check`：核对 manifest、Skill frontmatter、相对链接和项目身份泄漏。
