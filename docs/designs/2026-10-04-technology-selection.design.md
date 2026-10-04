@@ -36,3 +36,9 @@ mode=design：用户目标有对应 owner、触发、产物与检查；reference
 用户要求不要用子代理后立即停止未完成探针，后续由主代理直接验证。手工场景回放：无依据新建游戏须先补技术决策；沿用栈文案改动无需候选比较；指定框架仍核对可行性；新增服务端依赖触发选型；限定问题的可丢弃实验允许先安装测试依赖。此证据证明规则覆盖，不宣称独立行为实验通过。
 
 mode=implementation Review：检查新增规则的 owner、触发/反例、条件加载、实验例外、manifest 和项目身份边界，无未关闭 findings。TS01/TS02 规则覆盖 passed；TS03 回归 passed；TS04 待公开包和真实新项目接入。retrospective_decision=保留条件规则试用；用户反馈与缺口已落在原 owner，不新增其它通用规则。发布/接入事实继续记录在本节。
+
+上游功能提交 8df16ed 普通推送 origin/main，实际远端 SHA 与本地 main 相同、0 0。官网 Worker 部署版本 af349df8-e001-4ce1-a426-49545a773bb4；公开下载包 SHA256 0f7d7812e290deab4846c59d52bfdb61a2a6acc8e8388bde09f466b6247bf0ab 与本地逐字节一致。首次 Python 默认 UA 请求被 403 拒绝，改用 curl 标准浏览器 UA 后成功核对，没有关闭 TLS 或放宽校验。
+
+受影响当前项目 deploy-your-app 经官方 upgrade dry-run 预览 5 文件、升级与 check 通过；精确提交 ec36f10 普通推送 origin/master，fetch 后本地主工作区 master 与远程实际 SHA 一致、0 0，保留原有 analytics 脚本改动及三个未跟踪文件。此为规则更新，无产品 runtime 改动，无需产品部署。
+
+英语跑酷通过官方探索创建脚本安装新体系（source revision 8df16ed），check 通过；在正式安装应用依赖前形成 docs/designs/2026-10-04-english-runner.design.md，比较 Phaser/原生 Canvas/真 3D 并完成方案 Review；随后 npm peer dependency 暴露工具链版本冲突，依据兼容约束修订设计而非 force 安装，证明实际任务使用选型记录。TS04 passed，全部 Required 当前 passed。规则交付闭环完成，后续产品任务由探索项目自身承担。
