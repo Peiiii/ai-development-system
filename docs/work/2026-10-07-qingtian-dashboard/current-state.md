@@ -7,4 +7,4 @@
 - 20:17 官网部署并回读通过：新旧包/hash、SKILL 校验、公开 tgz 隔离安装及浏览器原文阅读、公开旧归档安装/check。本机 global qingtian 0.1.0 已安装并自动打开，实际快照 33 项目 / 6,758 文档。数量为该次读取结果，非项目整体交付数。
 - 下一步：用户完成 npm login 后，立即 npm whoami、发布 dist/download/qingtian-0.1.0.tgz 并从 registry 全新安装核验；随后更新 README 发布状态、交付日志和合同。无需再次询问发布权限。
 - 发布依赖：npm whoami 返回 E401，实际 npm publish 返回 PUT E404，尚不能确定为命名或发布权限问题；20:16 重建 web login。可执行替代已完成：官网公开 tgz 可用，不冒称 npm registry 已发布。
-- open-required: QT-07；QT-08 的最终证据提交与推送在本轮收尾，结果回写日志。
+- open-required: QT-07。20:19 最终补丁与证据 654dde7 已普通推送，HEAD/origin/main 无差异、工作区干净；QT-08 已完成。

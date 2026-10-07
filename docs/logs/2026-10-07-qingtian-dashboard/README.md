@@ -39,6 +39,7 @@
 - 最终实际观察修正 `open-required: none` 的误报，增加直接反例验证；README 首用指向已经可用的官网包，准确记录 registry 认证依赖。发布流程的 48 文件检查和 11 项 Node tests 再次通过，无未关闭源码 finding。
 - 实际执行 `npm publish ./dist/download/qingtian-0.1.0.tgz --access public --ignore-scripts` 失败，PUT 返回 E404；20:15 `npm whoami` 仍 E401。发布未成功，不能仅凭 E404 判断包名被占用。旧 web login 等待过期后取消，20:16 重建登录并保留 npm 登录页给用户完成，未猜测或索取密码。
 - registry 恢复动作：认证成功→whoami→发布同一已核验 tgz→`npm view qingtian@0.1.0`→隔离环境从 registry 安装并跑相同使用链路→更新 README 与合同→精确提交推送。已具备发布授权，无额外审批；整体合同在此之前保持 blocked。
+- 20:19 最终补丁与证据 654dde7 已普通推送，HEAD/origin/main 0/0、工作区干净；真实本机大盘刷新后待关注由 5 降为 3，none 误报消失、当前 npm 依赖仍准确显示。实际查看最终桌面/手机截图 `.local/qingtian-dashboard/delivery/`，无页面错误；开发阶段临时服务器已关闭，只保留本机安装版大盘与待用户登录的 npm CLI 会话。
 
 ## 复盘
 
