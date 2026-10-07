@@ -135,7 +135,7 @@ h1 em { color: var(--accent); font-style: normal; }
 .system-note code { color: #d7e5c7; font: 11px var(--mono); }
 .system-note a { flex: 0 0 auto; color: var(--accent); font-size: 11px; font-weight: 700; }
 
-.flow-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 12px; }
+.flow-tabs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 12px; }
 .flow-tab { display: flex; align-items: center; gap: 17px; min-height: 64px; padding: 0 21px; color: #a9b9b6; text-align: left; background: #151e23; border: 1px solid #334148; border-radius: 6px; cursor: pointer; font-size: 15px; font-weight: 700; transition: background .2s, border-color .2s, color .2s; }
 .flow-tab:hover { border-color: #6d8a67; }
 .flow-tab.is-active { border-color: #9cc66d; color: #ecf4e7; background: #263729; }

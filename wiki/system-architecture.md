@@ -14,18 +14,18 @@
 
 ## 流程如何使用三部分
 
-1. 共享入口与 lifecycle 按任务性质选择 `standard`、`trivial` 或 `bugfix`，只指定当前需要的阶段。
+1. 共享入口与 lifecycle 按任务性质选择 `initialization`、`standard`、`trivial` 或 `bugfix`，只指定当前需要的阶段。
 2. 当前阶段的 Skill 执行方法；遇到治理、验收、知识维护、跨会话记录等场景，再加载对应专项 Skill。
 3. Skill 按需读取目标项目的事实和共享信息块。项目愿景、授权、部署环境、架构现状不从本仓库复制到其他项目。
 4. 交付前的复盘识别可复用增量，按[自动进化机制](evolution.md)回到原 owner 更新或不沉淀。
 
-三条流程的准确顺序、阶段门与例外条件只在 `payload/.agents/skills/development-lifecycle/SKILL.md` 维护。官网的可视化是阅读概要，不是第二套流程合同。
+四条流程的准确顺序、阶段门与例外条件只在 `payload/.agents/skills/development-lifecycle/SKILL.md` 维护。官网的可视化是阅读概要，不是第二套流程合同。
 
 流程中的设计、计划、验证、Review 与交付日志如何留痕和关联，见[产物留痕与命名](artifact-traceability.md)。产物是流程的可检查证据，不是三部分之外的第四个规则 owner。
 
 ## 大型交付（试用）
 
-当用户委托完整的大型成果，需要跨工作项或上下文持续维护结果时，lifecycle 按需加载其 `references/major-delivery.md`。它负责整体推进，具体工作继续三种任务 flow；默认一个交付阶段，必要拆分由验收合同给出依据，不新增第二个 Meta Skill。
+当用户委托完整的大型成果，需要跨工作项或上下文持续维护结果时，lifecycle 按需加载其 `references/major-delivery.md`。它负责整体推进，具体工作继续四种任务 flow；默认一个交付阶段，必要拆分由验收合同给出依据，不新增第二个 Meta Skill。
 
 已有验收合同拥有有效约定与显式修订，并引用日志中的原始输入；工作记录方法中的 `references/major-delivery-records.md` 拥有恢复入口、原始输入记录、持续日志和轻量模板。每部分书面方案明确来源对齐，设计、Review、验证各保留原职责，普通小任务不加载整套大型交付材料。宿主停止后是否能继续执行仍取决于宿主；真实收益待试用。
 
