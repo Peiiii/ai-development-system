@@ -300,3 +300,5 @@ h1 em { color: var(--accent); font-style: normal; }
   html { scroll-behavior: auto; }
   *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
 }
+
+.dashboard-command{margin:0;padding:24px 28px;font:13px/1.9 ui-monospace,SFMono-Regular,monospace;overflow:auto;color:var(--text,#edf4ff)}

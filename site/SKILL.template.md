@@ -1,13 +1,13 @@
 ---
 name: integrate-ai-development-system
-description: Install or upgrade DevWeave, a reusable AI Development System, in the user's code repository.
+description: Install or upgrade Qingtian, a reusable AI Development System, in the user's code repository.
 ---
 
-# Integrate DevWeave
+# Integrate Qingtian
 
 Canonical source: <https://ai-dev.nextclaw.io/SKILL.md>
 
-DevWeave is a reusable AI Development System. This skill is a handoff for an AI coding agent with network access, a shell, Node.js 20+, and permission to edit the target repository. It installs a shared development lifecycle, stage skills, and supporting methods into a project. The current native layout targets Codex and other agents that honor `AGENTS.md` plus `.agents/skills`. Reading this URL alone does not install files or make an unrelated agent tool discover those skills.
+Qingtian is a reusable AI Development System. This skill is a handoff for an AI coding agent with network access, a shell, Node.js 20+, and permission to edit the target repository. It installs a shared development lifecycle, stage skills, and supporting methods into a project. The current native layout targets Codex and other agents that honor `AGENTS.md` plus `.agents/skills`. Reading this URL alone does not install files or make an unrelated agent tool discover those skills.
 
 The system has three responsibilities: flow constraints choose the path and completion gates; stage and scenario Skills guide execution; Wiki holds project facts and information shared by Skills. Read the [architecture Wiki](https://ai-dev.nextclaw.io/wiki/system-architecture.md) when adapting the system or explaining its ownership. Project facts must come from the target repository, not from this generic bundle. Its [artifact Wiki](https://ai-dev.nextclaw.io/wiki/artifact-traceability.md) explains traceable designs, plans, review evidence, and logs; do not create empty documents solely to satisfy a pattern. Its early evolution loop is documented in the [evolution Wiki](https://ai-dev.nextclaw.io/wiki/evolution.md).
 
@@ -44,6 +44,10 @@ node "$ads_tmp_dir/bin/ai-development-system.mjs" install --target /absolute/pat
 
 After installation, run `check --target <absolute-repo-path>` and inspect the target's Git diff. Report which files were added, the lock's `sourceDigest`, and any remaining tool-specific adaptation. The installer never commits or pushes the target repository.
 
-Tell the user they can now request development work normally, without naming DevWeave in each prompt. For a later update, they can ask the AI to update DevWeave in this project; repeat the preview, upgrade, and check steps. Do not add CI jobs, build scripts, or runtime dependencies to the target project solely for DevWeave.
+Tell the user they can now request development work normally, without naming Qingtian in each prompt. For a later update, they can ask the AI to update Qingtian in this project; repeat the preview, upgrade, and check steps. Do not add CI jobs, build scripts, or runtime dependencies to the target project solely for Qingtian.
 
 For an agent tool that does not load `AGENTS.md` and `.agents/skills` natively, treat the installed files as source material and establish that tool's actual discovery path before claiming integration works. Do not silently edit a different AI tool's global settings.
+
+## Optional cross-project dashboard
+
+The Node.js 22.12+ CLI can open a local read-only dashboard of installed projects. Install the npm-compatible archive published alongside this snapshot (see the homepage for its version and checksum), then run `qingtian dashboard`. Use `qingtian projects add /absolute/path/to/project` for repositories outside the default scan roots. The CLI reuses the same install/check/upgrade implementation and existing lock files. The dashboard reads project documents; it does not execute project tasks or confirm host scheduling. Installing the shared rules does not require installing the dashboard.

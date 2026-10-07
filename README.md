@@ -1,6 +1,35 @@
-# DevWeave
+# 擎天 · Qingtian
 
-DevWeave 是从 NextClaw 的 AI 驱动开发体系抽离出的可复用版本；AI Development System 是其类别描述。首版面向 Codex，保留 `AGENTS.md`、顶层 `development-*` Skill、按需加载的 Wiki 方法和项目自己的专项规则。
+擎天（Qingtian，原名 DevWeave）是从 NextClaw 的 AI 驱动开发体系抽离出的可复用版本；AI Development System 是其类别描述。面向 Codex，保留 `AGENTS.md`、顶层 `development-*` Skill、按需加载的 Wiki 方法和项目自己的专项规则，并以 `qingtian` 命令提供跨项目大盘。
+
+## 一条命令打开项目大盘
+
+命令行工具需要 Node.js 22.12 或更新版本。安装并启动：
+
+```sh
+npm install -g qingtian
+qingtian dashboard
+```
+
+官网同时提供可直接通过 npm 安装的版本包，例如 `npm install -g https://ai-dev.nextclaw.io/download/qingtian-0.1.0.tgz`，及 `download/qingtian.sha256` 校验文件。源码开发可执行 `npm ci` 后运行 `npm run dashboard`。
+
+命令自动打开浏览器，默认从 `~/Projects` 和当前目录发现已接入的项目（以既有 `.agents/ai-development-system.lock.json` 识别），并汇总 README、docs、wiki 和项目知识目录中的 Markdown。登记项目始终加入，`--root` 仅覆盖自动扫描的位置；不同目录中的项目副本或工作区分别展示，路径可核对。展示项目总览、明确记录的待关注事项、最近产物、分类与跨项目正文搜索；点开原文可继续沿已收录的 Markdown 链接追溯。刷新重新读取文件，Ctrl+C 停止服务。文档的更新时间、局部交付与周期意图分别呈现；没有明确的当前状态显示待核实，不代表 AI 正在后台运行。
+
+```sh
+qingtian dashboard --root /path/to/projects  # 指定扫描范围，可重复 --root
+qingtian projects add /path/to/project      # 登记其它位置的接入项目
+qingtian projects list
+qingtian projects remove /path/to/project   # 仅移除登记，自动发现的项目仍展示
+qingtian dashboard --no-open --port 4317    # 不自动打开浏览器，指定端口
+qingtian install --target /path/to/project --dry-run
+qingtian install --target /path/to/project
+qingtian check --target /path/to/project
+qingtian upgrade --target /path/to/project --dry-run
+```
+
+成功的接入/升级会登记项目，dry-run 不登记。登记保存在 `~/.qingtian/projects.json`，可用 `QINGTIAN_HOME` 指定其它目录。扫描不会写入目标项目，异常和扫描上限在大盘中可见。服务仅监听本机，完整打开地址包含临时会话凭据；API 只读，Markdown 净化后显示。
+
+旧独立安装器与官网下载地址、锁文件和 `AGENTS.md` 受管标记保持可用，旧独立安装器仍支持 Node.js 20+；已有项目无需迁移或重新安装。
 
 ## 体系的三部分
 
@@ -14,7 +43,7 @@ DevWeave 是从 NextClaw 的 AI 驱动开发体系抽离出的可复用版本；
 
 官网：[ai-dev.nextclaw.io](https://ai-dev.nextclaw.io/)。把下面这句话发给具备联网、终端和项目文件权限的 AI 编码助手：
 
-> 请读取 https://ai-dev.nextclaw.io/SKILL.md，按照其中的步骤，把 DevWeave 接入当前项目。先检查现有规则和工作区改动，预览安装差异，完成后运行检查并告诉我改了什么。
+> 请读取 https://ai-dev.nextclaw.io/SKILL.md，按照其中的步骤，把 擎天 接入当前项目。先检查现有规则和工作区改动，预览安装差异，完成后运行检查并告诉我改了什么。
 
 公开的 `SKILL.md` 给出安装步骤与下载包的 SHA-256；安装包由本仓库的 `manifest.json`、`payload/` 和安装器构建后托管在 Cloudflare。源 Git 仓库可以保持私有。现有安装布局原生支持 Codex 和实际读取 `AGENTS.md`、`.agents/skills` 的工具；其它 AI 可以执行接入步骤，但要先验证其规则发现机制，不能只凭读取入口就宣称已自动生效。
 
@@ -41,7 +70,7 @@ node /path/to/ai-development-system/bin/ai-development-system.mjs upgrade --targ
 
 ## 接入后使用
 
-直接向 AI 提出开发任务，不必每次提及 DevWeave。需要更新时，让 AI 读取同一个公开入口，预览并执行升级，再运行 `check`。目标项目无需为 DevWeave 增加 CI、构建脚本或运行时依赖。
+直接向 AI 提出开发任务，不必每次提及 擎天。需要更新时，让 AI 读取同一个公开入口，预览并执行升级，再运行 `check`。目标项目无需为 擎天 增加 CI、构建脚本或运行时依赖。
 
 新项目、技术栈替换及新增关键运行/部署依赖，先在设计中完成技术选型：记录目标设备与部署约束、推荐依据、真实替代方案的取舍和关键可行性证据，再搭建产品脚手架与安装正式依赖。普通小改沿用现有栈并说明依据；用户指定技术仍检查适用性。选型由现有理解、设计和方案 Review 阶段承接，不新增审批或独立选型 Skill。
 
@@ -87,7 +116,7 @@ node benchmarks/run.mjs --case web-board --check
 npm run bench:remote
 ```
 
-默认只运行 DevWeave 组以节约订阅额度；需要对照时运行 `npm run bench:remote -- --arm both`。未通过验收的运行保留证据，但不会发布为已交付结果。每个通过结果都在 [DevWeave Lab 管理面板](https://devweave-lab.nextclaw.io/)列出，并获得 `<运行编号>.devweave-preview.nextclaw.io` 专属四级域名，直接打开根路径即可验收。发布器会等 HTTPS 可用后才将结果列入面板。管理密钥由本机私有文件保存，可用 `npm run lab:open` 在当前浏览器打开已登录面板；不要把密钥提交到仓库。面板支持预览、下载源码与报告、删除在线历史。Cloudflare Worker 与 R2 绑定位于 `showcase/`；它是测评服务，不进入接入项目。设计与验收边界见[在线交付设计](docs/designs/2026-09-28-benchmark-showcase.design.md)。
+默认只运行 擎天 组以节约订阅额度；需要对照时运行 `npm run bench:remote -- --arm both`。未通过验收的运行保留证据，但不会发布为已交付结果。每个通过结果都在 [擎天 Lab 管理面板](https://devweave-lab.nextclaw.io/)列出，并获得 `<运行编号>.devweave-preview.nextclaw.io` 专属四级域名，直接打开根路径即可验收。发布器会等 HTTPS 可用后才将结果列入面板。管理密钥由本机私有文件保存，可用 `npm run lab:open` 在当前浏览器打开已登录面板；不要把密钥提交到仓库。面板支持预览、下载源码与报告、删除在线历史。Cloudflare Worker 与 R2 绑定位于 `showcase/`；它是测评服务，不进入接入项目。设计与验收边界见[在线交付设计](docs/designs/2026-09-28-benchmark-showcase.design.md)。
 
 ### 大型交付（试用）
 

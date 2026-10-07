@@ -1,6 +1,5 @@
 {
-  "name": "ai-development-system",
-  "private": true,
+  "name": "qingtian",
   "type": "module",
   "scripts": {
     "check": "node checks/validate-payload.mjs",
@@ -8,9 +7,42 @@
     "bench:remote": "node benchmarks/run-remote.mjs",
     "lab:open": "node benchmarks/open-dashboard.mjs",
     "build:site": "node scripts/build-site.mjs",
-    "deploy:site": "npm run check && npm test && npm run build:site && wrangler deploy"
+    "deploy:site": "npm run check && npm test && npm run build:site && wrangler deploy",
+    "dashboard": "node bin/qingtian.mjs dashboard",
+    "test:browser": "node tests/dashboard-browser.mjs",
+    "test:package": "node tests/package-smoke.mjs"
   },
   "devDependencies": {
     "playwright": "1.63.0"
+  },
+  "version": "0.1.0",
+  "description": "擎天：可安装的 AI 驱动开发体系与跨项目产物大盘",
+  "bin": {
+    "qingtian": "bin/qingtian.mjs"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "files": [
+    "bin/",
+    "lib/",
+    "dashboard/",
+    "payload/",
+    "checks/",
+    "manifest.json",
+    "README.md"
+  ],
+  "homepage": "https://ai-dev.nextclaw.io/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Peiiii/ai-development-system.git"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  },
+  "dependencies": {
+    "marked": "18.1.0",
+    "sanitize-html": "2.18.0"
   }
 }

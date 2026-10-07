@@ -3,6 +3,7 @@
 import { createHash } from "node:crypto";
 import { execFileSync } from "node:child_process";
 import { promises as fs } from "node:fs";
+import { realpathSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -213,8 +214,8 @@ async function upgrade(target, source, lock, dryRun) {
   if (!dryRun) await applyChanges(target, changes);
 }
 
-async function main() {
-  const [action, ...args] = process.argv.slice(2);
+export async function main(argv = process.argv.slice(2)) {
+  const [action, ...args] = argv;
   if (!["install", "check", "upgrade"].includes(action)) {
     fail("Usage: ai-development-system.mjs <install|check|upgrade> --target <repo> [--agents=skip] [--dry-run]");
   }
@@ -242,7 +243,9 @@ async function main() {
   }
 }
 
-main().catch((error) => {
-  console.error(`ERROR: ${error.message}`);
-  process.exitCode = 1;
-});
+if (process.argv[1] && realpathSync(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  main().catch((error) => {
+    console.error(`ERROR: ${error.message}`);
+    process.exitCode = 1;
+  });
+}

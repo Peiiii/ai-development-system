@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#f6f8fb" />
+    <title>擎天 · 项目大盘</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/styles.css" />
+    <script type="module" src="/app.js"></script>
+  </head>
+  <body>
+    <div class="shell">
+      <aside class="sidebar">
+        <a class="brand" href="#"
+          ><span class="brand-mark" aria-hidden="true">擎</span
+          ><span><strong>擎天</strong><small>QINGTIAN</small></span></a
+        >
+        <div class="sidebar-heading">工作空间</div>
+        <button class="nav-item selected" id="overview">
+          <span aria-hidden="true">▦</span>项目总览<span
+            id="project-total"
+            class="count"
+            >—</span
+          >
+        </button>
+        <button class="nav-item" id="attention-nav">
+          <span aria-hidden="true">◉</span>待关注<span
+            id="attention-total"
+            class="count"
+            >—</span
+          >
+        </button>
+        <div class="sidebar-heading project-heading">
+          项目<span>按名称排列</span>
+        </div>
+        <div id="project-nav" class="project-nav"></div>
+        <div class="sidebar-footer">
+          <span class="local-dot"></span>文档快照<span id="sidebar-time"
+            >等待读取</span
+          >
+        </div>
+      </aside>
+      <main id="main">
+        <header class="toolbar">
+          <div class="breadcrumb">
+            工作空间<span>/</span><strong id="breadcrumb">项目总览</strong>
+          </div>
+          <button class="refresh" id="refresh">
+            <span aria-hidden="true">↻</span>重新读取
+          </button>
+        </header>
+        <div class="workspace">
+          <div class="page-heading">
+            <div>
+              <div class="eyebrow" id="eyebrow">WORKSPACE OVERVIEW</div>
+              <h1 id="page-title">项目总览<span class="title-dot">.</span></h1>
+            </div>
+            <span class="scan-time" id="scan-time">正在读取项目</span>
+          </div>
+          <div id="message" class="message" role="status" hidden></div>
+          <section class="metrics" aria-label="总览统计">
+            <div>
+              <span>已发现项目</span><strong id="metric-projects">—</strong
+              ><small>可追溯的工作空间</small>
+            </div>
+            <div>
+              <span>待关注事项</span><strong id="metric-attention">—</strong
+              ><small>明确记录的阻塞与待办</small>
+            </div>
+            <div>
+              <span>沉淀产物</span><strong id="metric-documents">—</strong
+              ><small>设计、计划、知识与交付</small>
+            </div>
+            <div>
+              <span>近 7 天更新</span><strong id="metric-recent">—</strong
+              ><small>以文档修改时间计</small>
+            </div>
+          </section>
+          <section id="attention-focus" class="attention-focus" hidden>
+            <div class="section-title">
+              <h2>先关注这些</h2>
+              <button id="focus-all" class="all-projects">查看全部 →</button>
+            </div>
+            <div id="focus-list" class="focus-list"></div>
+          </section>
+          <section class="project-section" id="project-section">
+            <div class="section-title">
+              <h2>最近更新的项目</h2>
+              <button class="all-projects" id="all-projects" hidden>
+                显示全部项目
+              </button>
+            </div>
+            <div class="project-grid" id="project-grid"></div>
+          </section>
+          <div class="content-columns">
+            <section class="artifacts-section">
+              <div class="section-title">
+                <h2 id="artifact-heading">最近产物</h2>
+                <span id="document-count">—</span>
+              </div>
+              <div class="search-wrap">
+                <span aria-hidden="true">⌕</span
+                ><input
+                  id="search"
+                  type="search"
+                  placeholder="搜索标题、路径或正文…"
+                  aria-label="搜索产物"
+                /><kbd>/</kbd>
+              </div>
+              <div class="filters" id="filters" aria-label="产物分类"></div>
+              <div class="artifact-list" id="artifact-list" aria-live="polite">
+                <div class="empty">正在读取项目产物…</div>
+              </div>
+              <button class="load-more" id="load-more" hidden>显示更多</button>
+            </section>
+            <aside class="attention-panel">
+              <div class="section-title">
+                <h2>需要关注</h2>
+                <span class="attention-dot"></span>
+              </div>
+              <div id="attention-list"></div>
+              <div class="evidence-note">
+                <strong>依据始终可见</strong>
+                <p>
+                  状态来自项目记录。更新时间表示文档变化；周期事项的启用意图与实际执行分别核实。
+                </p>
+              </div>
+            </aside>
+          </div>
+          <details class="scan-details">
+            <summary>
+              扫描范围与读取提示 <span id="warning-count"></span>
+            </summary>
+            <div id="scan-details"></div>
+            <p>
+              额外项目可执行
+              <code>qingtian projects add &lt;目录&gt;</code>；指定范围用
+              <code>qingtian dashboard --root &lt;目录&gt;</code>。
+            </p>
+          </details>
+        </div>
+      </main>
+    </div>
+    <dialog id="reader" aria-labelledby="reader-title">
+      <div class="reader-top">
+        <button id="reader-back" hidden aria-label="返回上一份文档">
+          ← 返回</button
+        ><span id="reader-location"></span
+        ><button id="reader-close" aria-label="关闭原文阅读">✕</button>
+      </div>
+      <div class="reader-meta">
+        <span id="reader-category" class="document-type"></span>
+        <h2 id="reader-title"></h2>
+        <div id="reader-path"></div>
+        <div class="reader-state" id="reader-state"></div>
+      </div>
+      <div class="reader-tabs">
+        <button class="active" id="formatted-tab">阅读</button
+        ><button id="source-tab">Markdown 原文</button
+        ><button id="copy-path">复制路径</button>
+      </div>
+      <div id="reader-message" class="message" role="status" hidden></div>
+      <article id="reader-body" class="prose"></article>
+      <pre id="reader-source" hidden></pre>
+    </dialog>
+  </body>
+</html>

@@ -4,26 +4,27 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#0b0f14" />
-    <meta name="description" content="DevWeave 是一套可复用的 AI Development System：流程约束、Skills、Wiki 与可追踪的开发产物。给 AI 一个 SKILL.md 地址即可开始接入。" />
+    <meta name="description" content="擎天 是一套可复用的 AI Development System：流程约束、Skills、Wiki 与可追踪的开发产物。给 AI 一个 SKILL.md 地址即可开始接入。" />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="DevWeave — 让 AI 开发有章可循" />
+    <meta property="og:title" content="擎天 — 让 AI 开发有章可循" />
     <meta property="og:description" content="一套可以安装、检查和升级的 AI 驱动开发方法。" />
     <meta property="og:url" content="https://ai-dev.nextclaw.io/" />
     <link rel="canonical" href="https://ai-dev.nextclaw.io/" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="/styles.css" />
     <script src="/main.js" defer></script>
-    <title>DevWeave · AI Development System</title>
+    <title>擎天 · AI Development System</title>
   </head>
   <body>
     <div class="page-shell">
       <header class="site-header wrap">
-        <a class="brand" href="/" aria-label="DevWeave 首页">
+        <a class="brand" href="/" aria-label="擎天 首页">
           <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
-          <span class="brand-type"><strong>DevWeave</strong><small>AI Development System · NextClaw</small></span>
+          <span class="brand-type"><strong>擎天</strong><small>AI Development System · NextClaw</small></span>
         </a>
         <nav class="site-nav" aria-label="主导航">
           <a href="#how-it-works">如何接入</a>
+          <a href="#dashboard">项目大盘</a>
           <a href="#inside">三大部分</a>
           <a href="#flow">开发流程</a>
           <a href="#artifacts">产物追踪</a>
@@ -35,9 +36,9 @@
       <main>
         <section class="hero wrap" aria-labelledby="hero-title">
           <div class="hero-copy">
-            <div class="eyebrow"><span class="live-dot"></span> DEVWEAVE / AI DEVELOPMENT SYSTEM</div>
+            <div class="eyebrow"><span class="live-dot"></span> QINGTIAN / AI DEVELOPMENT SYSTEM</div>
             <h1 id="hero-title">让 AI 开发<br /><em>有章可循。</em></h1>
-            <p class="hero-lead">DevWeave 把一套在真实项目中使用的开发方法，接入你自己的代码仓库。从理解问题到交付结果，每一步都有清晰的责任和可检查的证据。</p>
+            <p class="hero-lead">擎天 把一套在真实项目中使用的开发方法，接入你自己的代码仓库。从理解问题到交付结果，每一步都有清晰的责任和可检查的证据。</p>
             <div class="hero-actions">
               <button class="button button-primary" type="button" data-copy-prompt>复制接入指令 <span aria-hidden="true">↗</span></button>
               <a class="button button-quiet" href="/SKILL.md">阅读 SKILL.md <span aria-hidden="true">→</span></a>
@@ -68,11 +69,18 @@
 
         <div class="marquee" aria-label="开发流程阶段"><div class="marquee-inner"><span>理解任务</span><b>✳</b><span>设计方案</span><b>✳</b><span>开发实现</span><b>✳</b><span>验证测试</span><b>✳</b><span>审查复核</span><b>✳</b><span>交付沉淀</span><b>✳</b></div></div>
 
+        <section class="section wrap" id="dashboard" aria-labelledby="dashboard-title">
+          <div class="section-heading"><div><p class="section-kicker">QINGTIAN / PROJECT DASHBOARD</p><h2 id="dashboard-title">各项目的进展，一处看清。</h2></div><p>一条命令打开本地大盘，汇总项目进展、待关注事项与开发产物。沿原文找到设计、验收和交付依据。</p></div>
+          <div class="handoff-card"><div class="handoff-header"><span>命令行工具 · Node.js 22.12+</span><span class="handoff-tag">QINGTIAN {{QINGTIAN_VERSION}}</span></div><pre class="dashboard-command"><code>npm install -g https://ai-dev.nextclaw.io/download/qingtian-{{QINGTIAN_VERSION}}.tgz
+qingtian dashboard</code></pre><div class="handoff-bottom"><span>自动发现接入项目 · 原文阅读 · 正文搜索 · 手动刷新</span><a class="copy-link" href="/download/qingtian.sha256">下载校验信息 ↗</a></div></div>
+          <p class="flow-source">额外项目：<code>qingtian projects add /path/to/project</code>。指定范围：<code>qingtian dashboard --root /path/to/projects</code>。状态以项目文档为依据，后台实际执行需另行核实。</p>
+        </section>
+
         <section class="section wrap" id="how-it-works" aria-labelledby="how-title">
-          <div class="section-heading"><div><p class="section-kicker">01 / THE HANDOFF</p><h2 id="how-title">把这个地址，发给你的 AI。</h2></div><p>AI 会完成安装和核对。接入后直接照常提出开发任务，需要更新时再让 AI 升级 DevWeave。</p></div>
+          <div class="section-heading"><div><p class="section-kicker">01 / THE HANDOFF</p><h2 id="how-title">把这个地址，发给你的 AI。</h2></div><p>AI 会完成安装和核对。接入后直接照常提出开发任务，需要更新时再让 AI 升级 擎天。</p></div>
           <div class="handoff-card">
             <div class="handoff-header"><span><span class="spark">✳</span> 可复制给 AI 的指令</span><span class="handoff-tag">ONE LINK TO START</span></div>
-            <p id="prompt-text">请读取 <strong>https://ai-dev.nextclaw.io/SKILL.md</strong>，按照其中的步骤，把 DevWeave 接入当前项目。先检查现有规则和工作区改动，预览安装差异，完成后运行检查并告诉我改了什么。</p>
+            <p id="prompt-text">请读取 <strong>https://ai-dev.nextclaw.io/SKILL.md</strong>，按照其中的步骤，把 擎天 接入当前项目。先检查现有规则和工作区改动，预览安装差异，完成后运行检查并告诉我改了什么。</p>
             <div class="handoff-bottom"><span>适用于具备联网、终端和项目文件权限的 AI 编码助手</span><button class="copy-link" type="button" data-copy-prompt>复制指令 <span aria-hidden="true">↗</span></button></div>
           </div>
           <div class="steps">
@@ -164,7 +172,7 @@
         <section class="final-cta wrap" aria-labelledby="cta-title"><div class="cta-star" aria-hidden="true">✳</div><p class="section-kicker">READY WHEN YOUR REPO IS</p><h2 id="cta-title">从一个地址开始。</h2><p>把成熟的流程带入项目，把判断权留给你和你的 AI。</p><div class="cta-actions"><button class="button button-primary" type="button" data-copy-prompt>复制接入指令 <span aria-hidden="true">↗</span></button><a class="button button-outline" href="/SKILL.md">打开 SKILL.md</a></div></section>
       </main>
 
-      <footer class="site-footer wrap"><div class="footer-brand"><span class="footer-mark">✳</span><span>DevWeave<br /><small>AI Development System by <a href="https://nextclaw.io/">NextClaw</a></small></span></div><div class="footer-links"><a href="/SKILL.md">SKILL.md</a><a href="/wiki/system-architecture.md">体系 Wiki</a><a href="/download/ai-development-system.tar.gz">下载安装包</a><a href="https://nextclaw.io/">NextClaw ↗</a></div><span class="footer-note">A system for thoughtful AI development.</span></footer>
+      <footer class="site-footer wrap"><div class="footer-brand"><span class="footer-mark">✳</span><span>擎天<br /><small>AI Development System by <a href="https://nextclaw.io/">NextClaw</a></small></span></div><div class="footer-links"><a href="/SKILL.md">SKILL.md</a><a href="/wiki/system-architecture.md">体系 Wiki</a><a href="/download/ai-development-system.tar.gz">下载安装包</a><a href="https://nextclaw.io/">NextClaw ↗</a></div><span class="footer-note">A system for thoughtful AI development.</span></footer>
     </div>
     <div class="toast" role="status" aria-live="polite" id="copy-toast"></div>
   </body>

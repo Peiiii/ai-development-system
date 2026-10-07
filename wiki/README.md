@@ -1,6 +1,6 @@
-# DevWeave Wiki
+# 擎天 Wiki
 
-DevWeave 是这套可复用体系的名称；AI Development System 是类别描述。本 Wiki 记录体系自身的结构、当前事实和演进状态。可复用的执行规则仍以 `payload/` 中对应的规则与 Skill 为准；Wiki 不复制它们的完整指令，也不代替目标项目维护自己的事实。
+擎天 是这套可复用体系的名称；AI Development System 是类别描述。本 Wiki 记录体系自身的结构、当前事实和演进状态。可复用的执行规则仍以 `payload/` 中对应的规则与 Skill 为准；Wiki 不复制它们的完整指令，也不代替目标项目维护自己的事实。
 
 - [三部分结构与文件归属](system-architecture.md)：流程约束、Skills、Wiki 的职责和现有目录映射。
 - [当前实现事实](current-state.md)：已经交付与尚未覆盖的能力。
