@@ -123,6 +123,13 @@ test("state requires explicit current evidence, and partial delivery cannot eras
   assert.equal(parsed.title, "链接测试");
   assert.equal(parsed.category, "designs");
   assert.match(parsed.nextStep, /读原文/);
+  const attention = parseArtifact({
+    root: "/tmp/example",
+    relative: "docs/work/a/current-state.md",
+    text: "# 当前\n- open-required: none。真实增长样本不足。\n- open-required: QT-07\n",
+    updatedAt: "2026-10-07T00:00:00Z",
+  }).attention;
+  assert.deepEqual(attention, ["- open-required: QT-07"]);
 });
 
 test("index reports malformed lock, oversized Markdown, and symlinks; document budget is explicit", async (t) => {

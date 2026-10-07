@@ -7,11 +7,11 @@
 命令行工具需要 Node.js 22.12 或更新版本。安装并启动：
 
 ```sh
-npm install -g qingtian
+npm install -g https://ai-dev.nextclaw.io/download/qingtian-0.1.0.tgz
 qingtian dashboard
 ```
 
-官网同时提供可直接通过 npm 安装的版本包，例如 `npm install -g https://ai-dev.nextclaw.io/download/qingtian-0.1.0.tgz`，及 `download/qingtian.sha256` 校验文件。源码开发可执行 `npm ci` 后运行 `npm run dashboard`。
+以上使用官网公开版本包，校验文件为 `download/qingtian.sha256`。npm registry 发布当前等待账号认证；发布完成后也可执行 `npm install -g qingtian`。源码开发可执行 `npm ci` 后运行 `npm run dashboard`。
 
 命令自动打开浏览器，默认从 `~/Projects` 和当前目录发现已接入的项目（以既有 `.agents/ai-development-system.lock.json` 识别），并汇总 README、docs、wiki 和项目知识目录中的 Markdown。登记项目始终加入，`--root` 仅覆盖自动扫描的位置；不同目录中的项目副本或工作区分别展示，路径可核对。展示项目总览、明确记录的待关注事项、最近产物、分类与跨项目正文搜索；点开原文可继续沿已收录的 Markdown 链接追溯。刷新重新读取文件，Ctrl+C 停止服务。文档的更新时间、局部交付与周期意图分别呈现；没有明确的当前状态显示待核实，不代表 AI 正在后台运行。
 

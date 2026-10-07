@@ -32,7 +32,13 @@
 
 ## 发布与恢复
 
-待记录真实 Git、官网与 npm 结果。npm web login 页面是账号输入页，未获得有效认证；不将官网 tgz 分发写成 registry 发布。
+- f960515 已普通推送 origin/main，未覆盖并发提交 6dffbc9；工作区只提交本任务文件。
+- 官网实际部署成功；最终补丁版本 Cloudflare ID `38ed0578-0ff6-43ad-8946-439e64742fc4`，域名 https://ai-dev.nextclaw.io/。20:17 公开首页新名称与安装 URL、新旧包 checksum 与本地构建、SKILL 中旧包 checksum 全部一致，公开旧归档在临时项目 install/check 成功；`.local/qingtian-dashboard/public/report.json`。Node 直接 fetch 未使用本机代理而超时，使用正常代理的 curl 回读通过；一次取证脚本误把扁平归档识别为顶层目录，修正脚本后验证通过，非产品安装故障。
+- 最终官网 npm tgz SHA-256 `a463a0f1f97ff2c3af404ba0a35519e882967cecbb32d16e0f473e4651f0911e`；旧归档 `e4c5d1582428ccc868eef6dc271b3f164d346fa9fd08ff6de899942aa77cf16b`。20:15 从公开 URL 全新 npm 安装，安装/check/upgrade/规则保护、包内 CLI 大盘、正文搜索与阅读成功，`.local/qingtian-dashboard/package/report.json`，无浏览器错误。
+- 实际 global 安装 qingtian 0.1.0、运行 `qingtian dashboard --port 43179`，Chrome 自动出现“擎天 · 项目大盘”，读到 33 项目 / 6,758 文档；最终包更新后已重新运行，服务保留供用户使用。服务与完整 token 地址只在本机/当前聊天交付，不写公开包。
+- 最终实际观察修正 `open-required: none` 的误报，增加直接反例验证；README 首用指向已经可用的官网包，准确记录 registry 认证依赖。发布流程的 48 文件检查和 11 项 Node tests 再次通过，无未关闭源码 finding。
+- 实际执行 `npm publish ./dist/download/qingtian-0.1.0.tgz --access public --ignore-scripts` 失败，PUT 返回 E404；20:15 `npm whoami` 仍 E401。发布未成功，不能仅凭 E404 判断包名被占用。旧 web login 等待过期后取消，20:16 重建登录并保留 npm 登录页给用户完成，未猜测或索取密码。
+- registry 恢复动作：认证成功→whoami→发布同一已核验 tgz→`npm view qingtian@0.1.0`→隔离环境从 registry 安装并跑相同使用链路→更新 README 与合同→精确提交推送。已具备发布授权，无额外审批；整体合同在此之前保持 blocked。
 
 ## 复盘
 
