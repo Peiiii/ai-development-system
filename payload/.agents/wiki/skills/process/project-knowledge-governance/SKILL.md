@@ -1,6 +1,6 @@
 ---
 name: project-knowledge-governance
-description: 维护项目知识与事实；在沉淀、整理、归档、事实更新或资料冲突时，区分现状、决策、历史和假设，保存与复查长期关注事项，选择唯一落点；不把知识文档当执行指令。
+description: 维护项目知识与事实；在沉淀、整理、归档、事实更新或资料冲突时，区分现状、决策、历史和假设，保存长期关注与周期事项，选择唯一落点；不把知识文档当执行授权。
 ---
 
 # Project Knowledge Governance
@@ -22,6 +22,7 @@ description: 维护项目知识与事实；在沉淀、整理、归档、事实�
 - `docs/designs`：已经形成结构、边界、owner、数据流、协议或交互设计判断，需要作为后续实现依据。
 - `docs/plans`：已经准备执行的分步计划，包含范围、步骤、验证和交付顺序。
 - `docs/tracks`：长期关注事项的持续入口，保存目标、观察信号、最新判断与复查条件；创建或复查时读取[长期关注事项合同](references/long-term-tracks.md)。
+- `docs/recurring`：固定频率反复履行的职责，保存每次动作、完成标准、权限与结果入口；创建、维护或执行时读取[周期事项合同](references/recurring-items.md)。仅沉淀不启动调度。
 - `docs/loops`：持续任务的设计合同，定义目标、边界、循环方法、预算规则、晋升与停止条件；不保存执行状态或逐轮日志。
 - `docs/prd`：产品需求、用户价值、范围、验收、非目标和版本切分。
 - `docs/ROADMAP.md`：跨阶段、中长期方向和优先级。
@@ -59,6 +60,7 @@ Loop 定义跨轮决策规则，不接管开发生命周期。每个候选仍按
 - `docs/designs` 下的 Markdown 文件必须使用 `YYYY-MM-DD-<kebab-topic>.design.md`。
 - `docs/plans` 下的 Markdown 文件必须使用 `YYYY-MM-DD-<kebab-topic>.plan.md`。
 - `docs/tracks` 下的 Markdown 文件必须使用 `YYYY-MM-DD-<kebab-topic>.track.md`。
+- `docs/recurring` 下的 Markdown 文件必须使用 `YYYY-MM-DD-<kebab-topic>.recurring.md`。
 - `docs/loops` 下的 Markdown 文件必须使用 `YYYY-MM-DD-<kebab-topic>.loop.md`。
 - 普通主题使用中文正文、英文或拼音无歧义 kebab 文件名均可；优先英文短 slug，便于搜索和链接。
 - 同一天同主题的微调更新原文件，不拆细碎新文档。

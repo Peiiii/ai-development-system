@@ -23,9 +23,12 @@ DevWeave 的流程不仅规定任务如何推进，也要求在有价值的环�
 | 可作为实现依据的设计 | `docs/designs/YYYY-MM-DD-<topic>.design.md` |
 | 可执行的分步计划 | `docs/plans/YYYY-MM-DD-<topic>.plan.md` |
 | 长期关注事项的持续入口 | `docs/tracks/YYYY-MM-DD-<topic>.track.md` |
+| 固定频率反复履行的职责 | `docs/recurring/YYYY-MM-DD-<topic>.recurring.md` |
 | 持续循环任务的稳定合同 | `docs/loops/YYYY-MM-DD-<topic>.loop.md` |
 
 长期关注事项按需保存目标、观察信号、最新判断和复查条件；具体执行与loop方法沿原owner，不自动产生后台调度。合同与模板由共享包中的`project-knowledge-governance/references/long-term-tracks.md`维护，接入后按知识治理入口读取。
+
+周期事项保存频率、每次动作与完成标准、权限及结果入口；详细执行证据留在原任务或平台记录，真实调度配置由宿主维护。创建与执行的合同和模板由共享包中的 `project-knowledge-governance/references/recurring-items.md` 拥有，接入后按知识治理入口读取。仅保存事项不代表已启用自动执行。
 
 跨会话记录优先沿用项目已有目录；大型交付新建默认 `docs/work/YYYY-MM-DD-<delivery-slug>/current-state.md`，普通跨轮任务仍可用轻量 `working-notes.md`。从设计或任务入口链接，日期取创建日，同任务跨天沿用。已有路径不因命名统一机械迁移，不并建第二份当前状态。
 

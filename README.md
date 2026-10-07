@@ -107,6 +107,10 @@ npm run bench:remote
 
 可对 AI 说“把搜索增长建立为长期关注事项”或“复查之前的作品使用情况”。知识治理按需创建/复用`docs/tracks/YYYY-MM-DD-<topic>.track.md`，保存目标、观察入口、最新判断和下一次复查条件。具体优化仍沿原开发流程，循环实验方法继续由loop维护；文档不会自动运行，定时主动执行需宿主另行配置。命名与入口见[产物留痕](wiki/artifact-traceability.md)。
 
+### 周期事项（试用）
+
+可对 AI 说“把每周的运营动作沉淀为周期事项”。知识治理创建/复用 `docs/recurring/YYYY-MM-DD-<topic>.recurring.md`，保存频率、每次动作与完成标准、权限、结果入口及失败恢复约定。固定职责用 recurring，持续观察用 track，证据驱动的实验用 loop。保存文档不会启动后台任务；要求自动执行时另连接宿主调度并记录实际关联。每次执行先核对当前文档与实际完成证据，避免重复执行。命名见[产物留痕](wiki/artifact-traceability.md)。
+
 ### 仓库维护
 
 - `npm run check`：核对 manifest、Skill frontmatter、相对链接和项目身份泄漏。
