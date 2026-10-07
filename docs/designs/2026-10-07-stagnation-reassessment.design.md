@@ -2,7 +2,7 @@
 
 来源：2026-10-07用户在闲鱼运营会话要求“没有进展的时候要思辨”“跳到全局”“最好的方法论、别人成功的案例”“搜索调研、参考模仿”，并明确沉淀到AI驱动开发体系。原产品同时承担实际运营，不以体系文档代替商品、生成修复或真实增长。
 
-standard，L3共享规则与分发；design-document=required，plan=not-required；retrospective_state=pending。根因不是缺track/recurring/loop载体，而是它们恢复/复查后的行动选择只要求记录观察，没有停滞时返回全局、对外比较并实际调整的触发。
+standard，L3共享规则与分发；design-document=required，plan=not-required；retrospective_state=completed。根因不是缺track/recurring/loop载体，而是它们恢复/复查后的行动选择只要求记录观察，没有停滞时返回全局、对外比较并实际调整的触发。
 
 ## 最小路径与owner
 
