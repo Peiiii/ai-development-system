@@ -71,3 +71,5 @@
 - 从 registry @nextclaw/qingtian@0.1.1 隔离安装完整链路通过（23:11:28），metadata/latest=0.1.1，实际 registry tarball 与官网、本地 tgz 相同。最初直接回读 404，后续公开 GET 与 SHA-1 核验通过；不推断服务内部原因。.local/qingtian-dashboard/package/report.json、registry/qingtian-0.1.1.tgz、public/report.json。
 - 23:14:31 公开主页单项目文案、0.1.1 版本、Skill 路由、新旧校验与 registry 同包回读全部通过。npm tgz SHA-256 16176f0938444d4f481bbf5238fd07b6ace259c5deba9a17e200aad3112d98db，旧独立归档当次 SHA-256 b864d1d587593993bc5b6fe5b48871029169ede7562829b8b1dac16fc559dcfc（最终构建以公开 checksum 为准）。
 - 实际 IAB 桌面与 390×844 手机画面由主代理查看：当前项目首屏、两份推进记录、真实下一步、关注、分类产物可见，没有横向溢出；手机保留两份推进记录。oil-ui 截图工具启动超时，按工具文档改用宿主浏览器观察；没有独立视觉评分或伪造已保存截图文件。用户界面保留实际入口，试用/旧服务关闭。最终 Required 项关闭，复盘已归属共享工具 Skill，没有额外通用流程增量。
+- 最终源码 986e378 已普通推送 origin/main。官网最终事实同步版本 1c4fa2ec-0c90-42fe-a1e4-91f27e82a095；23:18:30 再次回读首页、Skill、新旧校验与 registry 同包、Wiki 最终事实全部通过。旧独立归档最终 SHA-256 b1632e99264b460996001ace78d40ff44ae1efac0530fde2363bfdead7fcb03e；npm tgz SHA-256 保持 16176f0938444d4f481bbf5238fd07b6ace259c5deba9a17e200aad3112d98db。
+- 本机入口最终刷新完成，仍在当前项目，页面已显示本轮已完成、待关注 0；这是当前项目这次文档快照，不代表其它项目完成。当前本机服务继续运行供用户查看；本轮没有其它必需未完成项。

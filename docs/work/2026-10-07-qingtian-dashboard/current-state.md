@@ -3,7 +3,7 @@
 - 任务：擎天 CLI、本机 Skill 接入与当前项目优先大盘交付。
 - 整体状态：completed；flow=standard；risk=L4；retrospective_state=completed（工具 Skill 增量）；scope-revision=3。
 - [有效合同](acceptance-contract.md)、[设计](../../designs/2026-10-07-qingtian-dashboard.design.md)、[计划](../../plans/2026-10-07-qingtian-dashboard.plan.md)、[日志](../../logs/2026-10-07-qingtian-dashboard/README.md)。方案 Review 已通过。
-- 实现、适用 Review 和测试完成；源码 f960515 已推送 origin/main。最后补丁排除 open-required: none 的误报，并将 README 的首用命令指向已可用的官网版本包。
+- 实现、适用 Review 和测试完成；scope 3 源码 986e378 已普通推送 origin/main。0.1.1 公开包、官网最终事实页及本机 CLI/Skill 已验证，最终部署与校验事实见日志。
 - 20:17 官网部署并回读通过：新旧包/hash、SKILL 校验、公开 tgz 隔离安装及浏览器原文阅读、公开旧归档安装/check。本机 global qingtian 0.1.0 已安装并自动打开，实际快照 33 项目 / 6,758 文档。数量为该次读取结果，非项目整体交付数。
 - 2026-10-08 22:02 继续交付。发现 nextbot 项目级 npm 凭据有效（身份 peiiii），按用户授权复用到 ~/.npmrc；旧配置私有备份，凭据未输出或提交。在 /tmp 验证共享认证通过。
 - 22:06 发布请求成功，22:11 确认 @nextclaw/qingtian@0.1.0 公开 metadata/latest 与 tarball；从 registry 隔离安装后接入/check/upgrade、大盘搜索与阅读均通过，本机 global 安装和 --version 通过。官网安装入口使用 scoped 包，CLI 仍 qingtian。
