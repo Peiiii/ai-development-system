@@ -2,7 +2,7 @@
 
 来源：2026-10-08用户在GemiGo长期运营跟进中要求“每次复盘完之后要有 action”“优化一下这个机制”。当前track已经允许下一步，停滞reference也要求执行，但普通实质复盘没有明确的行动处置门；等待搜索平台时容易把本轮检查当作改善完成。
 
-standard，L3共享规则与分发；design-document=required，plan=not-required。共享方法由payload/project-knowledge-governance拥有，项目原任务拥有执行状态；不用新文档类型、顶层Skill、调度器或行动账本。
+standard，L3共享规则与分发；design-document=required，plan=not-required；retrospective_state=completed。共享方法由payload/project-knowledge-governance拥有，项目原任务拥有执行状态；不用新文档类型、顶层Skill、调度器或行动账本。
 
 ## 方案与边界
 
@@ -25,3 +25,5 @@ standard，L3共享规则与分发；design-document=required，plan=not-require
 ## 方案 Review
 
 mode=design：从用户原意检查实际动作而非模板交付；RA01覆盖普通实质复盘的遗漏，RA02保证等待不吞掉独立工作，RA03保护只读监测、暂停和一次性完成门。公共合同单一owner，原任务仍拥有状态，宿主仍拥有调度；没有扩大外部权限、频率或查询预算。no findings，design-review: passed；收益待真实运行复核，不预称经营效果。
+
+交付与场景证据见[本批日志](../logs/2026-10-08-review-actions/README.md)。规则试用完成，实际改善收益由后续原事项复盘验证。
