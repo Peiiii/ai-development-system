@@ -23,3 +23,9 @@ mode=implementation，findings-first：无未关闭finding。公共方法在原�
 官网沿npm run deploy:site实际部署，Cloudflare版本c3d251dd-0edb-4db1-808d-c22a6b7b59f5。原始入口、checksum与公网实际下载tar包SHA一致：05411a2ebddfa583b9c13e9258b9e7f168f3cc679918d6c9f4824848451486c5；fresh install/check通过，新合同与源字节相同。公开npm包SHA：8cfbc2616642ad4cf50c8fe4c38571b61411aae46ad7c81c402d2d63b1b5723f，checksum匹配且实际包内合同与源相同。未重新发布npm registry版本；既有官网分发路径已更新。初次Python下载403后沿正常curl公开下载200验收，没有修改安全防护。
 
 GemiGo实际接续09:33—09:36的目录发现链路调查，排除了HTTP/robots/canonical和内部链接候选障碍；未发现可控缺陷便不盲改sitemap。原任务回链动作/时间/结果与软404验证的下一决策条件；SG01仍未闭合，文档与部署不是获客结果。规则验证是场景审查与安装保护证据，不是模型对照或业务增长实验。
+
+## 20:00 纠偏与再次验收
+
+用户明确排查只是Action的一部分。上午规则中“消除关键不确定性”把诊断错误放到完整改善层级，GemiGo真实实例暴露RA01假阳性。原目录调查证据仍有效，但不能计作增长Action完成。沿同一reference补完整工作项边界，并让正式开发复盘及README保持一致；不新增Skill/文档类型。RA06走查：仅诊断无故障→保留子步骤、继续选实际改进；已上线未测效果→实施验收与业务效果分开；明确只调查/只读/暂停→不扩权或盲改。
+
+本次修订check通过（49受管文件）、安装/升级/分发11项测试通过；RA06三边界和原正常轮询/等待/暂停反例通过，implementation Review无finding。Action合同1059→1383字符；AGENTS、Skill数量和description不变。分发与GemiGo产品接续待补证，上午验证不能证明本次修订正确。
