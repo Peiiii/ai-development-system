@@ -5,7 +5,7 @@
 ## 已具备
 
 - 擎天 是对外名称；AI Development System 是类别描述。`ai-dev.nextclaw.io`、Git 仓库名、安装器路径和锁文件名暂作为稳定技术标识保留。
-- `manifest.json` 当前列出 50 个受管文件，包括 lifecycle、七个阶段 Skill、按需专项 Skill 和 references。实际数量以 manifest 为准。
+- `manifest.json` 当前列出 56 个受管文件，包括 lifecycle、七个阶段 Skill、按需专项 Skill、references 与显式 workflow 目录。实际数量以 manifest 为准。
 - 安装器支持 `install`、`check`、`upgrade` 与 dry-run；目标项目的受管文件摘要和共享根规则段落记录在 `.agents/ai-development-system.lock.json`。
 - 默认安装在目标项目 `AGENTS.md` 添加受管共享入口。现有完整入口的项目可以选择 `--agents=skip`，但要自行保持 lifecycle 路由。
 - 官网位于 `https://ai-dev.nextclaw.io/`，原始入口为 `/SKILL.md`。Cloudflare 同域提供安装归档；构建时把归档 SHA-256 写入入口。源 Git 仓库保持私有，公开的是安装所需快照和本文档。

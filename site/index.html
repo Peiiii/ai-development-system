@@ -103,12 +103,13 @@ qingtian dashboard</code></pre><div class="handoff-bottom"><span>自动发现接
         </section>
 
         <section class="section wrap" id="flow" aria-labelledby="flow-title">
-          <div class="section-heading"><div><p class="section-kicker">03 / THE DEVELOPMENT FLOW</p><h2 id="flow-title">流程需要展示，但不能只有一条。</h2></div><p>lifecycle 根据任务性质选择路径，再把当前环节交给对应 Skill；Wiki 在需要事实和共享知识时进入。</p></div>
+          <div class="section-heading"><div><p class="section-kicker">03 / THE DEVELOPMENT FLOW</p><h2 id="flow-title">流程需要展示，但不能只有一条。</h2></div><p>五条命名 workflow：四种基础任务流程，加上可嵌套它们的大型交付流程。lifecycle 管理阶段，Skill 提供方法，Wiki 提供事实。</p></div>
           <div class="flow-tabs" aria-label="选择开发流程">
             <button type="button" class="flow-tab is-active" data-flow-button="standard" aria-pressed="true"><span>01</span> 标准任务 <small>STANDARD</small></button>
             <button type="button" class="flow-tab" data-flow-button="trivial" aria-pressed="false"><span>02</span> 简单改动 <small>TRIVIAL</small></button>
             <button type="button" class="flow-tab" data-flow-button="bugfix" aria-pressed="false"><span>03</span> 问题修复 <small>BUGFIX</small></button>
             <button type="button" class="flow-tab" data-flow-button="initialization" aria-pressed="false"><span>04</span> 项目初始化 <small>INITIALIZATION</small></button>
+            <button type="button" class="flow-tab" data-flow-button="major-delivery" aria-pressed="false"><span>05</span> 大型交付 <small>MAJOR DELIVERY</small></button>
           </div>
           <div class="flow-panel" data-flow-panel="standard">
             <div class="flow-panel-heading"><h3>标准任务</h3><p>有方案空间或较高风险时，先设计与审查，再实现、验证和交付。</p></div>
@@ -126,7 +127,12 @@ qingtian dashboard</code></pre><div class="handoff-bottom"><span>自动发现接
             <div class="flow-panel-heading"><h3>项目初始化</h3><p>新项目先明确环境与技术栈，通过方案审查后搭建，并验证首条真实用户链路；保留上下文与恢复入口。</p></div>
             <ol class="flow-stages"><li><span>01</span><strong>目标与项目接入</strong></li><li><span>02</span><strong>技术栈与链路设计</strong></li><li><span>03</span><strong>方案 Review</strong></li><li><span>04</span><strong>项目与产品实现</strong></li><li><span>05</span><strong>真实使用验证</strong></li><li><span>06</span><strong>实现 Review</strong></li><li><span>07</span><strong>交付</strong></li><li><span>08</span><strong>复盘与恢复</strong></li></ol>
           </div>
-          <p class="flow-source">上面是四种基础任务 workflow。大型交付也是 workflow：外层维护整体目标、依赖、集成与验收，内层嵌套、组合这些任务流程；子流程完成后将结果与证据交回外层。层次、阶段门和例外条件见 <a href="/wiki/system-architecture.md">架构 Wiki</a> 与其中指向的 lifecycle Skill。</p>
+          <div class="flow-panel" data-flow-panel="major-delivery" hidden>
+            <div class="flow-panel-heading"><h3>大型交付 · 外层组合流程</h3><p>跨工作项维护整体成果；内层可执行项目初始化、标准任务、简单改动或问题修复。子流程完成后，把结果与证据交回外层。</p></div>
+            <ol class="flow-stages"><li><span>01</span><strong>整体目标与验收约定</strong></li><li><span>02</span><strong>整体与当前部分设计</strong></li><li><span>03</span><strong>选择工作项与基础流程</strong></li><li><span>04</span><strong>执行并返回证据</strong></li><li><span>05</span><strong>集成验证与缺口核对</strong></li><li><span>06</span><strong>继续必要工作</strong></li><li><span>07</span><strong>整体交付、复盘与完成</strong></li></ol>
+            <p class="flow-source">有缺口就继续或记录真实阻塞；子流程结束不能关闭整体目标。<a href="/workflows/major-delivery.md">打开大型交付 workflow 正文 ↗</a></p>
+          </div>
+          <p class="flow-source">五条流程的实际文件见 <a href="/workflows/README.md">Workflow 目录</a>。大型交付与基础流程可组合，阶段调度和完成门仍由同一个 Lifecycle 管理；层次与嵌套见 <a href="/wiki/system-architecture.md">架构 Wiki</a>。</p>
         </section>
 
         <section class="section section-artifacts" id="artifacts" aria-labelledby="artifacts-title">

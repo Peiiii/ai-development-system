@@ -51,6 +51,12 @@
     ".agents/wiki/skills/process/project-knowledge-governance/references/recurring-items.md",
     ".agents/wiki/skills/process/project-knowledge-governance/references/review-actions.md",
     ".agents/wiki/skills/process/project-knowledge-governance/references/stagnation-reassessment.md",
-    ".agents/wiki/skills/tools/qingtian-dashboard/SKILL.md"
+    ".agents/wiki/skills/tools/qingtian-dashboard/SKILL.md",
+    ".agents/workflows/README.md",
+    ".agents/workflows/bugfix.md",
+    ".agents/workflows/initialization.md",
+    ".agents/workflows/major-delivery.md",
+    ".agents/workflows/standard.md",
+    ".agents/workflows/trivial.md"
   ]
 }

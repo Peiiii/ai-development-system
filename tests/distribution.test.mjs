@@ -53,6 +53,10 @@ test("published skill checksum identifies a bundle that installs into a fresh pr
   assert.ok(skill.includes(sha256));
   const architectureWiki = await readFile(path.join(root, "dist", "wiki", "system-architecture.md"), "utf8");
   assert.match(architectureWiki, /流程约束/);
+  for (const relative of ["workflows/README.md", "workflows/major-delivery.md", "skills/development-lifecycle/SKILL.md"]) {
+    assert.deepEqual(await readFile(path.join(root, "dist", relative)),
+      await readFile(path.join(root, "payload", ".agents", relative)), `public workflow source: ${relative}`);
+  }
   const artifactWiki = await readFile(path.join(root, "dist", "wiki", "artifact-traceability.md"), "utf8");
   assert.match(artifactWiki, /docs\/designs\/YYYY-MM-DD/);
 

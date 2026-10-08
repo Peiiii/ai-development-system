@@ -19,6 +19,10 @@ for (const filename of ["index.html", "styles.css", "main.js", "favicon.svg", "r
 }
 await fs.cp(path.join(root, "wiki"), path.join(output, "wiki"), { recursive: true });
 
+await fs.cp(path.join(root, "payload", ".agents", "workflows"), path.join(output, "workflows"), { recursive: true });
+await fs.cp(path.join(root, "payload", ".agents", "skills"), path.join(output, "skills"), { recursive: true });
+await fs.cp(path.join(root, "payload", ".agents", "wiki"), path.join(output, "wiki"), { recursive: true });
+
 execFileSync("tar", [
   "-czf", archive,
   "-C", root,

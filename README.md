@@ -11,7 +11,7 @@ npm install -g @nextclaw/qingtian
 qingtian dashboard
 ```
 
-官网也提供可直接安装的版本包：`npm install -g https://ai-dev.nextclaw.io/download/qingtian-0.1.1.tgz`，校验文件为 `download/qingtian.sha256`。源码开发可执行 `npm ci` 后运行 `npm run dashboard`。
+官网也提供可直接安装的版本包：`npm install -g https://ai-dev.nextclaw.io/download/qingtian-0.1.2.tgz`，校验文件为 `download/qingtian.sha256`。源码开发可执行 `npm ci` 后运行 `npm run dashboard`。
 
 命令自动打开浏览器，优先进入当前项目，首屏查看当前推进、下一步、待关注事项与分类产物；从项目子目录启动也识别所属项目。其它接入项目可在侧栏切换，选择“项目总览”才汇总跨项目信息。刷新或页面重载保留所选项目；点开原文可沿已收录的 Markdown 链接追溯。没有当前状态记录时显示明确空态，不以更新时间推断进度或后台执行。
 
@@ -122,7 +122,9 @@ npm run bench:remote
 
 默认只运行 擎天 组以节约订阅额度；需要对照时运行 `npm run bench:remote -- --arm both`。未通过验收的运行保留证据，但不会发布为已交付结果。每个通过结果都在 [擎天 Lab 管理面板](https://devweave-lab.nextclaw.io/)列出，并获得 `<运行编号>.devweave-preview.nextclaw.io` 专属四级域名，直接打开根路径即可验收。发布器会等 HTTPS 可用后才将结果列入面板。管理密钥由本机私有文件保存，可用 `npm run lab:open` 在当前浏览器打开已登录面板；不要把密钥提交到仓库。面板支持预览、下载源码与报告、删除在线历史。Cloudflare Worker 与 R2 绑定位于 `showcase/`；它是测评服务，不进入接入项目。设计与验收边界见[在线交付设计](docs/designs/2026-09-28-benchmark-showcase.design.md)。
 
-### 大型交付（试用）
+### Workflow 目录与大型交付（试用）
+
+共享源入口：[Workflow 目录](payload/.agents/workflows/README.md)、[大型交付](payload/.agents/workflows/major-delivery.md)。安装/升级后位于项目的 `.agents/workflows/`；目录明确列出五条命名 workflow，大型交付是可嵌套四种基础流程的外层组合流程。
 
 接入或升级后，可以直接对 AI 说：“按大型交付模式完成这项需求，保持我们已约定的目标，尽量自主推进。”lifecycle 在需要跨工作项/上下文维护整体结果时按需进入；内部继续使用 initialization、standard、trivial 或 bugfix，默认不拆多个交付阶段。
 

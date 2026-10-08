@@ -7,7 +7,7 @@ export default {
     const headers = new Headers(response.headers);
     if (
       pathname === "/SKILL.md" ||
-      (pathname.startsWith("/wiki/") && pathname.endsWith(".md"))
+      ((pathname.startsWith("/wiki/") || pathname.startsWith("/workflows/") || pathname.startsWith("/skills/")) && pathname.endsWith(".md"))
     ) {
       headers.set("content-type", "text/markdown; charset=utf-8");
       headers.set("content-disposition", "inline");

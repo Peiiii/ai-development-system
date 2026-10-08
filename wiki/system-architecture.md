@@ -25,6 +25,8 @@
 
 ## Workflow 的层次与嵌套
 
+显式入口在[Workflow 目录](../payload/.agents/workflows/README.md)，大型交付正文在[major-delivery.md](../payload/.agents/workflows/major-delivery.md)。安装后保留相同 `.agents/workflows/` 路径；官网也提供[在线流程目录](/workflows/README.md)与[大型交付正文](/workflows/major-delivery.md)。
+
 Workflow 表示围绕某个结果组织的完整工作过程。当前体系既有具体工作项的基础任务 workflow，也有维护整体结果的大型交付 workflow；介绍工作流时应同时列出两层，不能把四个 `flow` 值当成全部 workflow。
 
 | 层级 | Workflow | 负责的结果 |
@@ -52,11 +54,11 @@ flowchart TD
 
 这里的嵌套意味着外层拥有整体责任，内层拥有具体执行结果；内层完成只关闭对应子目标，须携证据回到外层。工作项排序或必要分阶段不降低原目标，不能以子流程结束或局部发布关闭整体交付。现有载体仍为 `delivery-mode: major` 与当前工作项的 `flow`，不需要增加第五个基础 `flow` 或第二个 Lifecycle。
 
-这张图解释现有方法，不表示已经实现强制执行的嵌套工作流引擎、任意深度递归或后台调度。准确执行门仍由原 Lifecycle 和大型交付 reference 拥有。
+这张图解释现有方法，不表示已经实现强制执行的嵌套工作流引擎、任意深度递归或后台调度。流程路径由 `.agents/workflows/` 中的对应文件拥有，阶段调度与整体完成仍由原 Lifecycle 拥有。
 
 ## 大型交付 Workflow（试用）
 
-当用户委托完整的大型成果，需要跨工作项或上下文持续维护结果时，lifecycle 按需加载其 `references/major-delivery.md`。大型交付 workflow 负责整体推进，并嵌套、组合四种基础任务 workflow；默认一个交付阶段，必要拆分由验收合同给出依据，不新增第二个 Meta Skill。
+当用户委托完整的大型成果，需要跨工作项或上下文持续维护结果时，lifecycle 按需加载 `.agents/workflows/major-delivery.md`；旧 `references/major-delivery.md` 只作兼容跳转。大型交付 workflow 负责整体推进，并嵌套、组合四种基础任务 workflow；默认一个交付阶段，必要拆分由验收合同给出依据，不新增第二个 Meta Skill。
 
 外层过程是：建立整体目标与有效验收约定 → 整体及当前部分设计 → 选择并推进工作项 → 集成验证与整体缺口核对 → 继续必要工作或明确真实阻塞 → 整体交付、复盘与完成检查。具体阶段门复用原方法，不另抄一套合同。
 
