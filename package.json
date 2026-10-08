@@ -1,5 +1,5 @@
 {
-  "name": "qingtian",
+  "name": "@nextclaw/qingtian",
   "type": "module",
   "scripts": {
     "check": "node checks/validate-payload.mjs",

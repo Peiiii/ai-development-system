@@ -25,4 +25,6 @@
 
 ## 擎天命令行与项目大盘（2026-10-07）
 
-`qingtian` 统一 install/check/upgrade、projects 与 dashboard；CLI 要求 Node.js 22.12+，旧独立安装器仍支持 Node 20+。本地只读大盘发现既有锁文件，汇总项目与 Markdown 产物，支持分类、正文搜索、原文及关联文档阅读、刷新和明确的异常提示。项目文件拥有事实，索引是可丢弃投影；不因文档存在就声称任务正在执行。新展示名不迁移已接入项目的锁文件、受管标记或公开安装归档 URL。npm 与官网实际发布证据见[交付日志](../docs/logs/2026-10-07-qingtian-dashboard/README.md)。
+`qingtian` 统一 install/check/upgrade、projects 与 dashboard；CLI 要求 Node.js 22.12+，旧独立安装器仍支持 Node 20+。本地只读大盘发现既有锁文件，汇总项目与 Markdown 产物，支持分类、正文搜索、原文及关联文档阅读、刷新和明确的异常提示。项目文件拥有事实，索引是可丢弃投影；不因文档存在就声称任务正在执行。新展示名不迁移已接入项目的锁文件、受管标记或公开安装归档 URL。
+
+2026-10-08，npm 已公开发布 `@nextclaw/qingtian@0.1.0`；安装命令 `npm install -g @nextclaw/qingtian`，启动 `qingtian dashboard`。官网同版本 tgz 与 registry 包一致，已从 registry 全新安装并实际验证接入与大盘使用。npm 包版本不可覆盖，后续共享 payload 或运行代码更新进入 npm 时须增加版本，再同步官网版本包。实际发布证据见[交付日志](../docs/logs/2026-10-07-qingtian-dashboard/README.md)。

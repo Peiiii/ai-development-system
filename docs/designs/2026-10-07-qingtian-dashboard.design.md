@@ -8,6 +8,8 @@
 
 ## 技术与职责
 
+2026-10-08 发布修订（scope 2）：用户明确授权在独立包名无法发布时复用 nextbot 的 npm 命名空间。实际发布名采用 `@nextclaw/qingtian`，bin/产品展示名仍为 `qingtian`/擎天，官网归档 URL 保持 `qingtian-<version>.tgz`。构建读取 npm pack 返回的实际文件名再归一化公开归档路径；真实 scoped 包从 registry 的隔离安装覆盖此变化。凭据为本机用户级配置，不进入源码、产物包或项目事实。
+
 沿用 Node.js ESM；旧独立安装器继续支持 Node 20+，新 npm CLI 与大盘采用 Node 22.12+，本机 22.23.2 已确认。采用原生 HTTP 与无构建浏览器界面，少量 Markdown 依赖 marked 18.1.0 / sanitize-html 2.18.0；官方说明 marked 不负责净化，HTML 必须独立净化。实查 npm audit 后，sanitize-html 2.17.0 有已知问题，使用已修复且要求 Node 22.12+ 的 2.18.0；不降低依赖版本迁就新工具尚无用户的旧运行时。相较 React/Vite，当前列表、搜索、原文读取无需构建与框架运行依赖；相较终端 TUI，网页更适合中文长文、表格与跨文档链接；云同步没有本次用户需求。新版运行要求在 help/package/README 一致传播；官网下载旧安装器不加载大盘依赖。此修订方案 Review 通过，现有项目安装合同未变。
 
 `bin/qingtian.mjs` 拥有统一命令入口；现有安装器导出同一 main，新旧入口调用同一实现。旧脚本、受管标记、锁文件和公开下载 URL 已有真实消费者，作为安装兼容合同保留；产品展示名统一为擎天，不复制安装器。

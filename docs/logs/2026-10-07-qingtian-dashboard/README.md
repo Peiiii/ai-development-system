@@ -44,3 +44,15 @@
 ## 复盘
 
 已验证事实回到 README 与 wiki/current-state；兼容保留只针对真实已接入锁、受管标记、旧安装器与 URL。`retrospective_decision=no-increment`（共享方法已有方案、验证、Review 与发布/阻塞合同；本次没有需要新增长期流程规则的证据）。整体仍因公开 npm 发布未完成保持未关闭。
+
+## 2026-10-08 关闭 npm 发布缺口
+
+- 用户要求立即交付，随后明确“实在不行就复用 nextbot 项目的 npm 命名空间”；scope 2 将公开包名改为 @nextclaw/qingtian，产品名/CLI、归档兼容入口保持。22:02 开始，22:04 找到 nextbot 项目级有效凭据；之前只查用户级凭据造成了不必要的登录往返，本轮纠正并关闭缺口。
+- 本机 ~/.npmrc 的原凭据返回 E401，nextbot 项目级凭据 whoami 返回 peiiii。按用户要求复用到用户级配置，旧配置在用户目录以 0600 私有备份，新配置 0600；未输出 token，未把凭据放进任一仓库或公开包。在 /tmp 的 whoami 通过，确认跨仓库可用。服务端权限及凭据有效期没有改变；不同仓库自身的 .npmrc 仍可能覆盖用户配置。
+- 独立 qingtian 发布实际返回 E403；@nextclaw/qingtian@0.1.0 的 npm publish 在22:06成功。初期 metadata 404，tarball/public access 先可见，22:11 public metadata/latest 和全新安装均通过；不把请求成功当最终验收。registry time.created=14:06:39Z，version 0.1.0=14:08:51Z，metadata 回读本地22:11。只记录观察，不猜测 npm 内部原因。
+- registry tarball https://registry.npmjs.org/@nextclaw/qingtian/-/qingtian-0.1.0.tgz；SHA-1 e033df99822a1c529c79c94807349f30b7bef75d，63文件，latest=0.1.0，公开访问状态 public；与实际 dist/download/qingtian-0.1.0.tgz 字节一致。
+- 49 受管文件 check、11 项 Node tests、production audit 0、tgz 隔离安装均通过。22:11 再从 @nextclaw/qingtian@0.1.0 全新安装，走完 dry-run 不登记、install/check/upgrade、专属规则保持、CLI 启动、浏览器正文搜索与原文阅读，无页面错误；.local/qingtian-dashboard/package/report.json 和 registry/metadata.json。本机旧 unscoped 包移除，新 scoped 包 global 安装并 qingtian --version=0.1.0；命令不变。
+- 官网 scoped 安装入口已部署（Cloudflare 822df5ae-f7cb-4a4b-a973-4c99f5a729e1），公开首页、新旧 checksum 与 SKILL checksum 回读通过，官网 tgz 与 npm registry 包 SHA-1 一致；.local/qingtian-dashboard/public/report.json。后续 Wiki 的最终发布事实同步继续按既有流程部署。
+- implementation-review: passed。发布名/lock 一致；npm pack 的 scoped 输出归一化到原官网文件名；包使用验收从 package.json 获取实际 scoped 安装路径；公开包不含 .npmrc/.local/docs/其它项目资料；既有旧归档/check 仍通过。无开放 finding，Required QT-07 已关闭；复盘 no-increment，凭据只在本机用户级管理，未新增共享规则或改变其它项目发布配置。
+- 22:15 最终 Wiki/公开事实再次部署，Cloudflare version fb81159c-8372-4cdc-ba09-6e3d7f95c5de；首次官网回读遇到短暂 TLS 连接失败，正常重试后新旧 checksum/SKILL/hash 全部通过。npm tgz SHA-256 e10e850d0564dd8dceccca68f77faeefc1786663ce088ac455a09e25aebc1f13，旧归档 SHA-256 7d816a9130d81539fdf09b726dbb4a3a47bcb4728a6bc91edc704e6631d4fc83。没有关闭 TLS 校验，也没有把一次网络失败当产品缺陷。
+- scoped npm global CLI 实际再次启动本机大盘，读取 34 项目 / 6,811 份文档；仅为该次快照，服务保留给用户。最终交付修改 11 文件精确提交，普通推送 origin/main，npm/官网/本机交付均完成；整个原合同 Required 全 passed。

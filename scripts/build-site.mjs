@@ -30,8 +30,11 @@ const skill = (await fs.readFile(path.join(site, "SKILL.template.md"), "utf8"))
 await fs.writeFile(path.join(output, "SKILL.md"), skill);
 await fs.writeFile(path.join(download, "ai-development-system.sha256"),
   `${sha256}  ai-development-system.tar.gz\n`);
-execFileSync('npm', ['pack', '--ignore-scripts', '--pack-destination', download], { cwd: root, stdio: ['ignore', 'pipe', 'pipe'] });
+const packed = JSON.parse(execFileSync('npm', ['pack', '--json', '--ignore-scripts', '--pack-destination', download], { cwd: root, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }));
 const npmArchive = `qingtian-${packageInfo.version}.tgz`;
+if (packed[0].filename !== npmArchive) {
+  await fs.rename(path.join(download, packed[0].filename), path.join(download, npmArchive));
+}
 const npmSha = createHash('sha256').update(await fs.readFile(path.join(download, npmArchive))).digest('hex');
 await fs.writeFile(path.join(download, 'qingtian.sha256'), `${npmSha}  ${npmArchive}\n`);
 console.log(`Built site and install bundle (${sha256})`);

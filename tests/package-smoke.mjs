@@ -6,6 +6,7 @@ import { spawn, spawnSync } from 'node:child_process';
 import { chromium } from 'playwright';
 
 const packageSource = process.argv[2];
+const packageInfo = JSON.parse(await fs.readFile(new URL('../package.json', import.meta.url), 'utf8'));
 if (!packageSource) throw new Error('提供实际 tgz 路径或 URL');
 const temporary = await fs.mkdtemp(path.join(os.tmpdir(),'qingtian-package-'));
 const base = await fs.realpath(temporary);
@@ -22,7 +23,7 @@ const run = (command,args,options={}) => {
 };
 try {
   run('npm',['install','--prefix',prefix,packageSource,'--ignore-scripts','--no-audit','--no-fund'],{timeout:120000});
-  const cli = path.join(prefix,'node_modules/qingtian/bin/qingtian.mjs');
+  const cli = path.join(prefix,'node_modules',packageInfo.name,'bin/qingtian.mjs');
   const version = run(process.execPath,[cli,'--version']).trim();
   await fs.mkdir(target);
   await fs.writeFile(path.join(target,'AGENTS.md'),'专属规则保持\n');
