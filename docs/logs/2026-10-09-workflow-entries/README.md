@@ -21,9 +21,9 @@
 
 2026-10-09 00:08（Asia/Shanghai）源码提交 `f1b977b`，已普通推送到 origin/main 并 fetch 核对 0/0。
 
-官网部署版本：`c03fcf8c-bb1e-4594-a923-c0a3ebe287b1`。公开目录 `/workflows/README.md`，大型交付 `/workflows/major-delivery.md`，官网包 `/download/qingtian-0.1.2.tgz`。
+官网初次部署版本：`c03fcf8c-bb1e-4594-a923-c0a3ebe287b1`；补充当前事实后的最终部署：`a0cf3215-8a2b-475b-8a5d-13c53f075d53`，变化的事实、入口、包及校验文件再次回读匹配。公开目录 `/workflows/README.md`，大型交付 `/workflows/major-delivery.md`，官网包 `/download/qingtian-0.1.2.tgz`。
 
-npm 已接受 `@nextclaw/qingtian@0.1.2` 发布；公开 registry 索引仍在处理，尚未核实可读取，不据此宣称 registry 安装成功。
+npm 发布接受后经历公开索引处理等待；2026-10-09 00:17（Asia/Shanghai）已能公开查询 `@nextclaw/qingtian@0.1.2`。registry tgz 与官网包字节一致，SHA-256：`83f61c894c85529f57cfea9f7294f73a185b03cbbfb33ed1179af20cdf4a3bb1`。官网与 registry 两个包地址分别全新安装，install/check/upgrade 与大盘浏览器 smoke 均通过；latest=0.1.2。最终 registry 安装证据时间：2026-10-09 00:17:59（Asia/Shanghai）。
 
 ## 复盘
 
