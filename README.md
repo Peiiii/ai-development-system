@@ -11,9 +11,11 @@ npm install -g @nextclaw/qingtian
 qingtian dashboard
 ```
 
-官网也提供可直接安装的版本包：`npm install -g https://ai-dev.nextclaw.io/download/qingtian-0.1.0.tgz`，校验文件为 `download/qingtian.sha256`。源码开发可执行 `npm ci` 后运行 `npm run dashboard`。
+官网也提供可直接安装的版本包：`npm install -g https://ai-dev.nextclaw.io/download/qingtian-0.1.1.tgz`，校验文件为 `download/qingtian.sha256`。源码开发可执行 `npm ci` 后运行 `npm run dashboard`。
 
-命令自动打开浏览器，默认从 `~/Projects` 和当前目录发现已接入的项目（以既有 `.agents/ai-development-system.lock.json` 识别），并汇总 README、docs、wiki 和项目知识目录中的 Markdown。登记项目始终加入，`--root` 仅覆盖自动扫描的位置；不同目录中的项目副本或工作区分别展示，路径可核对。展示项目总览、明确记录的待关注事项、最近产物、分类与跨项目正文搜索；点开原文可继续沿已收录的 Markdown 链接追溯。刷新重新读取文件，Ctrl+C 停止服务。文档的更新时间、局部交付与周期意图分别呈现；没有明确的当前状态显示待核实，不代表 AI 正在后台运行。
+命令自动打开浏览器，优先进入当前项目，首屏查看当前推进、下一步、待关注事项与分类产物；从项目子目录启动也识别所属项目。其它接入项目可在侧栏切换，选择“项目总览”才汇总跨项目信息。刷新或页面重载保留所选项目；点开原文可沿已收录的 Markdown 链接追溯。没有当前状态记录时显示明确空态，不以更新时间推断进度或后台执行。
+
+项目以既有 `.agents/ai-development-system.lock.json` 识别（本体系源仓库也可识别）。默认优先扫描当前项目，再发现 `~/Projects` 中的接入项目，汇总 README、docs、wiki 和项目知识目录中的 Markdown。登记项目始终加入，`--root` 仅覆盖自动扫描的位置；不同目录中的副本分别展示，路径可核对。扫描达到上限也保留明确指定的接入项目。当前目录未接入或不在指定范围内时进入总览选择项目。Ctrl+C 停止服务。
 
 ```sh
 qingtian dashboard --root /path/to/projects  # 指定扫描范围，可重复 --root
@@ -28,6 +30,8 @@ qingtian upgrade --target /path/to/project --dry-run
 ```
 
 成功的接入/升级会登记项目，dry-run 不登记。登记保存在 `~/.qingtian/projects.json`，可用 `QINGTIAN_HOME` 指定其它目录。扫描不会写入目标项目，异常和扫描上限在大盘中可见。服务仅监听本机，完整打开地址包含临时会话凭据；API 只读，Markdown 净化后显示。
+
+接入或升级共享体系后，可以直接对 AI 说“帮我打开擎天大盘”或“打开 AI 开发体系的跨项目大盘”。共享 AGENTS 入口会加载随体系安装的 `qingtian-dashboard` Skill，由 AI 检查/必要时安装 CLI、启动并验证数据可读，返回实际地址。旧版接入项目需要先升级体系，单独安装 CLI 不会修改项目规则。
 
 旧独立安装器与官网下载地址、锁文件和 `AGENTS.md` 受管标记保持可用，旧独立安装器仍支持 Node.js 20+；已有项目无需迁移或重新安装。
 

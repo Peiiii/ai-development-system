@@ -39,6 +39,13 @@ let currentDocument = null;
 let readerHistory = [];
 let documentSequence = 0;
 let showAllProjects = false;
+let viewInitialized = false;
+const viewKey = `qingtian-view:${token || ""}`;
+
+function currentWork(docs) {
+  return docs.filter((doc) => doc.category === "work" &&
+    /(?:current-state|working-notes)\.md$/.test(doc.path));
+}
 
 function el(tag, className, text) {
   const node = document.createElement(tag);
@@ -87,6 +94,7 @@ function projectDocuments(projectId) {
 function selectProject(id) {
   selectedProject = id;
   attentionOnly = false;
+  selectedCategory = "all";
   pageSize = 30;
   render();
 }
@@ -96,7 +104,7 @@ function renderProjects() {
   const grid = $("#project-grid");
   grid.replaceChildren();
   const sorted = [...snapshot.projects].sort((a, b) =>
-    a.name.localeCompare(b.name),
+    Number(b.id === snapshot.currentProjectId) - Number(a.id === snapshot.currentProjectId) || a.name.localeCompare(b.name),
   );
   for (const project of sorted) {
     const navButton = el(
@@ -105,7 +113,7 @@ function renderProjects() {
     );
     navButton.append(
       el("span", "project-initial", project.name.slice(0, 1).toUpperCase()),
-      el("span", "", project.name),
+      el("span", "", `${project.name}${project.id === snapshot.currentProjectId ? " · 当前" : ""}`),
     );
     navButton.title = project.path;
     navButton.addEventListener("click", () => selectProject(project.id));
@@ -262,20 +270,23 @@ function renderAttention() {
     list.append(
       el("p", "quiet-empty", `另有 ${docs.length - 20} 项，可从“待关注”查看。`),
     );
-  $("#attention-focus").hidden = Boolean(
-    selectedProject || attentionOnly || !docs.length,
-  );
+  const work = selectedProject ? currentWork(projectDocuments(selectedProject)) : docs;
+  $("#attention-focus").hidden = Boolean(attentionOnly || (!selectedProject && !docs.length));
+  $("#focus-heading").textContent = selectedProject ? "当前推进" : "先关注这些";
+  $("#focus-all").textContent = selectedProject ? "查看全部推进 →" : "查看全部 →";
+  $("#focus-all").hidden = !work.length;
   const focus = $("#focus-list");
   focus.replaceChildren();
-  for (const doc of [...docs]
+  const priority = { blocked: 0, "in-progress": 1, pending: 2, unknown: 3, paused: 4, completed: 5 };
+  for (const doc of [...work]
     .sort(
-      (a, b) => Number(b.status === "blocked") - Number(a.status === "blocked"),
+      (a, b) => (priority[a.status] ?? 3) - (priority[b.status] ?? 3),
     )
     .slice(0, 3)) {
     const project = snapshot.projects.find((p) => p.id === doc.projectId);
     const item = el("button", "focus-item");
     const top = el("div", "focus-item-top");
-    top.append(el("strong", "", project.name), stateBadge(doc));
+    top.append(el("strong", "", selectedProject ? doc.subject || doc.title : project.name), stateBadge(doc));
     item.append(
       top,
       el(
@@ -288,13 +299,15 @@ function renderAttention() {
     item.addEventListener("click", () => openDocument(doc.id));
     focus.append(item);
   }
+  if (selectedProject && !work.length)
+    focus.append(el("div", "quiet-empty", "尚无当前推进记录，可先从下方项目产物查看原文。"));
 }
 function render() {
   if (!snapshot) return;
   const project = snapshot.projects.find((p) => p.id === selectedProject);
   if (selectedProject && !project) selectedProject = null;
   const title = project
-    ? project.name
+    ? `${project.name}${attentionOnly ? " · 待关注" : ""}`
     : attentionOnly
       ? "待关注事项"
       : "项目总览";
@@ -314,6 +327,7 @@ function render() {
   );
   $("#attention-nav").classList.toggle("selected", attentionOnly);
   $("#project-section").hidden = Boolean(selectedProject || attentionOnly);
+  $("#attention-focus").classList.toggle("project-focus", Boolean(selectedProject));
   $("#artifact-heading").textContent = attentionOnly
     ? "待关注记录"
     : project
@@ -322,8 +336,10 @@ function render() {
   const scoped = snapshot.documents.filter(
     (doc) => !selectedProject || doc.projectId === selectedProject,
   );
+  $("#metric-scope-label").textContent = selectedProject ? "推进入口" : "已发现项目";
+  $("#metric-scope-note").textContent = selectedProject ? "以当前状态记录为依据" : "可追溯的工作空间";
   $("#metric-projects").textContent = selectedProject
-    ? "1"
+    ? currentWork(scoped).length
     : snapshot.projects.length;
   $("#metric-documents").textContent = scoped.length;
   $("#metric-attention").textContent = scoped.filter(needsAttention).length;
@@ -331,8 +347,7 @@ function render() {
     (doc) => Date.now() - new Date(doc.updatedAt).getTime() <= 7 * 86400000,
   ).length;
   $("#project-total").textContent = snapshot.projects.length;
-  $("#attention-total").textContent =
-    snapshot.documents.filter(needsAttention).length;
+  $("#attention-total").textContent = scoped.filter(needsAttention).length;
   $("#scan-time").textContent = `读取于 ${date(snapshot.scannedAt, true)}`;
   $("#sidebar-time").textContent = date(snapshot.scannedAt, true);
   renderProjects();
@@ -369,6 +384,7 @@ function render() {
     : "";
   warnings.forEach((warning) => details.append(el("p", "warning", warning)));
   if (!warnings.length) details.append(el("p", "", "本次读取没有异常提示。"));
+  sessionStorage.setItem(viewKey, JSON.stringify({ projectId: selectedProject, attentionOnly }));
 }
 async function refresh(initial = false) {
   const button = $("#refresh");
@@ -379,6 +395,14 @@ async function refresh(initial = false) {
     snapshot = await api(
       initial === true ? "/api/snapshot" : "/api/snapshot?refresh=1",
     );
+    if (!viewInitialized) {
+      let saved;
+      try { saved = JSON.parse(sessionStorage.getItem(viewKey)); } catch {}
+      const validSaved = saved && (saved.projectId === null || snapshot.projects.some((p) => p.id === saved.projectId));
+      selectedProject = validSaved ? saved.projectId : snapshot.currentProjectId;
+      attentionOnly = validSaved && saved.attentionOnly === true;
+      viewInitialized = true;
+    }
     if ($("#search").value.trim()) await search();
     else {
       searchIds = null;
@@ -481,13 +505,19 @@ $(".brand").addEventListener("click", (event) => {
   $("#overview").click();
 });
 $("#attention-nav").addEventListener("click", () => {
-  selectedProject = null;
   attentionOnly = true;
   selectedCategory = "all";
   pageSize = 30;
   render();
 });
-$("#focus-all").addEventListener("click", () => $("#attention-nav").click());
+$("#focus-all").addEventListener("click", () => {
+  if (!selectedProject) return $("#attention-nav").click();
+  selectedCategory = "work";
+  attentionOnly = false;
+  pageSize = 30;
+  render();
+  $("#artifact-heading").scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth" });
+});
 $("#refresh").addEventListener("click", refresh);
 $("#load-more").addEventListener("click", () => {
   pageSize += 30;

@@ -1222,6 +1222,13 @@ dialog::backdrop {
   overflow: hidden;
   overflow-wrap: anywhere;
 }
+.project-focus .focus-item {
+  border-color: var(--line);
+  background: var(--paper);
+}
+.project-focus .focus-item p {
+  color: var(--muted);
+}
 .metrics {
   padding: 16px 0;
   margin-bottom: 23px;
@@ -1247,7 +1254,7 @@ dialog::backdrop {
     grid-template-columns: minmax(0, 1fr);
     gap: 8px;
   }
-  .focus-item:not(:first-child) {
+  .attention-focus:not(.project-focus) .focus-item:not(:first-child) {
     display: none;
   }
   .metrics > div {

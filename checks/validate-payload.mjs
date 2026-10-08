@@ -25,7 +25,10 @@ assert.deepEqual([...manifest.files].sort(), actual, "manifest must list every p
 for (const relative of manifest.files) {
   const absolute = path.join(payload, relative);
   const content = readFileSync(absolute, "utf8");
-  assert.doesNotMatch(content, /NextClaw|nextclaw|NCP|NEXTCLAW_HOME/, `${relative} contains project identity`);
+  // The official public CLI package is a dependency identifier, not target-project facts.
+  const identityContent = relative === ".agents/wiki/skills/tools/qingtian-dashboard/SKILL.md"
+    ? content.replaceAll("@nextclaw/qingtian", "") : content;
+  assert.doesNotMatch(identityContent, /NextClaw|nextclaw|NCP|NEXTCLAW_HOME/, `${relative} contains project identity`);
   if (relative.endsWith("/SKILL.md")) {
     const name = relative.split("/").at(-2);
     assert.match(content, new RegExp(`^---\\nname: ${name}\\n`), `${relative} has wrong frontmatter`);

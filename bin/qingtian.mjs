@@ -11,7 +11,7 @@ const packageInfo = JSON.parse(
 const help = `擎天 Qingtian ${packageInfo.version} · AI 驱动开发体系
 
   qingtian dashboard [--root <目录>] [--port <端口>] [--no-open]
-      自动发现接入项目，打开跨项目大盘；--root 可重复指定。
+      打开当前项目大盘，可切换其它接入项目；--root 可重复指定。
   qingtian projects add <项目目录>
   qingtian projects remove <项目目录>
   qingtian projects list
@@ -98,6 +98,7 @@ async function main(argv) {
   const dashboard = await startDashboard({
     roots: roots.length ? roots : await defaultRoots(),
     port,
+    currentDirectory: process.cwd(),
   });
   console.log(
     `擎天大盘已启动 · ${dashboard.snapshot.projects.length} 个项目 · ${dashboard.snapshot.documents.length} 份产物\n${dashboard.url}\nCtrl+C 停止服务。完整地址包含本次会话凭据，请仅在自己的浏览器使用。`,

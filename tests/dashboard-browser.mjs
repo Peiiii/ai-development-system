@@ -40,6 +40,7 @@ for (const name of ["产品甲", "产品乙"]) {
 const dashboard = await startDashboard({
   roots: [base],
   configDir: path.join(base, "config"),
+  currentDirectory: path.join(base, "产品甲", "docs"),
 });
 const emptyDashboard = await startDashboard({
   roots: [path.join(base, "empty")],
@@ -54,8 +55,21 @@ try {
   page.on("pageerror", (error) => errors.push(error.message));
   await page.goto(dashboard.url);
   await page.waitForFunction(
-    () => document.querySelector("#metric-projects").textContent === "2",
+    () => document.querySelector("#page-title").textContent.includes("产品甲"),
   );
+  assert.equal(await page.locator("#project-section").isVisible(), false);
+  assert.equal(await page.locator("#focus-heading").innerText(), "当前推进");
+  assert.equal(await page.locator("#focus-list .focus-item").count(), 1);
+  assert.equal(await page.locator("#metric-scope-label").innerText(), "推进入口");
+  assert.equal(await page.locator("#metric-documents").innerText(), "3");
+  assert.equal(await page.locator("#attention-list .attention-item").count(), 1);
+  assert.doesNotMatch(await page.locator("#artifact-list").innerText(), /产品乙/);
+  await page.reload();
+  await page.waitForFunction(() => document.querySelector("#page-title").textContent.includes("产品甲"));
+  await page.locator("#attention-nav").click();
+  assert.equal(await page.locator(".artifact-row").count(), 1);
+  assert.match(await page.locator("#page-title").innerText(), /产品甲.*待关注/);
+  await page.locator("#overview").click();
   assert.equal(await page.locator(".project-card").count(), 2);
   await page
     .locator("#project-nav .project-link")
@@ -150,6 +164,9 @@ try {
     passed: true,
     checkedAt: new Date().toISOString(),
     checks: [
+      "current project first from subdirectory",
+      "scoped progress and attention",
+      "project scope survives reload",
       "project selection",
       "full-body search",
       "reader/source",

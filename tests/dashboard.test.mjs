@@ -10,6 +10,7 @@ import {
   changeProject,
   readProjects,
   lockName,
+  defaultRoots,
 } from "../lib/projects.mjs";
 import {
   indexProjects,
@@ -63,6 +64,25 @@ test("project discovery deduplicates registrations, skips dependencies and links
   await fs.writeFile(path.join(config, "projects.json"), "bad");
   await assert.rejects(readProjects(config), /无法读取/);
   await assert.rejects(changeProject("add", base, config), /未接入/);
+});
+
+test("current project resolves from subdirectories and remains visible after another root exhausts the budget", async (t) => {
+  const { base, project, write } = await fixture(t);
+  const current = await project("z-current");
+  await project("other");
+  await write(current, "docs/nested/README.md", "# 当前项目资料");
+  const cwd = path.join(current, "docs/nested");
+  assert.equal((await defaultRoots(cwd))[0], current);
+  const limited = await discoverProjects({ roots: [base, current], maxDirectories: 1 });
+  assert.ok(limited.paths.includes(current));
+  assert.match(limited.warnings.join(" "), /上限/);
+  const dashboard = await startDashboard({ roots: [base], currentDirectory: cwd, configDir: path.join(base, "config") });
+  t.after(() => dashboard.close());
+  assert.equal(dashboard.snapshot.projects.length, 2);
+  assert.equal(dashboard.snapshot.projects[0].path, current);
+  const selected = dashboard.snapshot.projects.find((p) => p.id === dashboard.snapshot.currentProjectId);
+  assert.equal(selected.path, current);
+  assert.equal((await dashboard.refresh()).currentProjectId, selected.id);
 });
 
 test("state requires explicit current evidence, and partial delivery cannot erase an overall blocker", () => {
@@ -122,6 +142,10 @@ test("state requires explicit current evidence, and partial delivery cannot eras
   });
   assert.equal(parsed.title, "链接测试");
   assert.equal(parsed.category, "designs");
+  const fact = parseArtifact({root: "/tmp/example", relative: "wiki/current-state.md", text: "# 项目事实", updatedAt: "2026-10-07T00:00:00Z"});
+  assert.equal(fact.category, "knowledge");
+  const task = parseArtifact({root: "/tmp/example", relative: "docs/work/task/current-state.md", text: "# 当前执行状态\n- 任务：实际交付任务；阶段：实现\n", updatedAt: "2026-10-07T00:00:00Z"});
+  assert.equal(task.subject, "实际交付任务");
   assert.match(parsed.nextStep, /读原文/);
   const attention = parseArtifact({
     root: "/tmp/example",

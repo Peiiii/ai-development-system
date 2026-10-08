@@ -56,3 +56,18 @@
 - implementation-review: passed。发布名/lock 一致；npm pack 的 scoped 输出归一化到原官网文件名；包使用验收从 package.json 获取实际 scoped 安装路径；公开包不含 .npmrc/.local/docs/其它项目资料；既有旧归档/check 仍通过。无开放 finding，Required QT-07 已关闭；复盘 no-increment，凭据只在本机用户级管理，未新增共享规则或改变其它项目发布配置。
 - 22:15 最终 Wiki/公开事实再次部署，Cloudflare version fb81159c-8372-4cdc-ba09-6e3d7f95c5de；首次官网回读遇到短暂 TLS 连接失败，正常重试后新旧 checksum/SKILL/hash 全部通过。npm tgz SHA-256 e10e850d0564dd8dceccca68f77faeefc1786663ce088ac455a09e25aebc1f13，旧归档 SHA-256 7d816a9130d81539fdf09b726dbb4a3a47bcb4728a6bc91edc704e6631d4fc83。没有关闭 TLS 校验，也没有把一次网络失败当产品缺陷。
 - scoped npm global CLI 实际再次启动本机大盘，读取 34 项目 / 6,811 份文档；仅为该次快照，服务保留给用户。最终交付修改 11 文件精确提交，普通推送 origin/main，npm/官网/本机交付均完成；整个原合同 Required 全 passed。
+
+## 2026-10-08：本机安装、AI 打开入口与单项目优先（scope 3）
+
+- 原始输入：用户要求「我的本机你给我安装一下」「安装这个体系之后，我直接让 AI 来打开这个大盘」。后续纠正：先把单个项目做好，跨项目识别能力可以保留；并要求尽量不要用子代理。发布、普通推送沿既有授权。
+- 22:39:55 开始。旧 49 文件安装副本的独立盲测没有大盘 Skill、包名或可执行入口，未擅自猜测启动。新增下级 `tools/qingtian-dashboard` Skill、共享 AGENTS 明确路由与 source 仓库入口，manifest 变为 50 文件。技能体包含运行条件、必要安装、持久会话、真实数据及当前项目验证、实际 URL 和停止方式。
+- 前向试用从新安装副本发现 Skill 并实际运行 global 0.1.0，认证 snapshot HTTP 200；但当前副本不在列表：广域扫描先耗尽 15,000 目录预算。该结果为失败证据，不能算当前项目可用。修复默认扫描当前所属项目优先、显式接入根不受其它根的预算耗尽影响，服务优先索引当前项目并输出 currentProjectId。用户提出不用子代理后未再派发，修复后复验由主代理完成。行为记录 `.local/qingtian-skill-forward/behavior.json`。
+- 单项目首页显示当前推进与下一步、待关注及分类产物；其它项目仍可切换或进入总览。待关注保留当前项目范围，刷新和页面重载保留选择；Wiki 的 current-state 是项目知识，不再计作任务推进入口。推进标题使用原文明确的任务/交付字段，原文仍可追溯，不生成进度百分比。手机当前推进条目不隐藏。沿用现有工作台，无新增视觉方向或独立视觉评分。
+- 23:04 50 文件 check、13 项 Node tests、14 项浏览器验证通过，覆盖子目录/扫描预算、项目优先索引、项目范围/刷新重载、正文搜索、阅读及空态。新 Skill frontmatter 验证通过。官网 tgz 干净隔离安装后 install/check/upgrade、专属规则保留、安装 Skill/路由、当前项目首页、搜索与阅读全部通过，无页面错误。
+- 实现 Review：公共包名例外限定到单个 Skill 的精确依赖标识，附真实反例验证仍拒绝项目身份泄漏；相同运行时/同一安装器复用，当前项目识别使用实际路径及已接入根，视图只读，未引入其它项目文件写入。npm 白名单 64 文件，私有文件 0；依赖未变。没有开放实现 finding。
+- 23:05 npm 接受 @nextclaw/qingtian@0.1.1 发布，SHA-1 602505548968f467ab2d45b4ef6d4eab7820d478。初期 metadata/tarball 404，继续核对公开结果，不重复发布。官网 Cloudflare 91ff4464-cd3f-49ce-9f75-9a59511528f0 部署成功。23:08 本机先安装同一已验证 tgz，qingtian --version=0.1.1；同源 Skill 安装到 ~/.codex/skills/qingtian-dashboard/SKILL.md，SHA-256 a20c6c1f971ef0e1b6a0a1296ffd7454ca4ef295b6bb2a1fa55a4bc48a1e3378，与包中及 payload 完全一致。
+- 只在忽略的试用副本安全升级并 check；未批量修改其它接入项目。新接入和升级后的项目携带明确路由；本机的全局 Codex Skill 可在新会话被发现。复盘增量归属工具 Skill；不增加泛化开发流程、审批或新阶段。运行 URL/token 仅留本机和当前会话，不进入公开记录。
+- 23:11 主代理复验：global 0.1.1 从本仓库及旧试用副本启动，认证 snapshot HTTP 200，currentProjectId 分别对应实际当前项目且在索引第一位；README 原文可读。试用副本升级 check passed；.local/qingtian-skill-forward/post-repair.json。全机快照 34 项目/当前项目 34 文档，试用快照 35 项目/当前副本 1 文档；都是此次观察数量。广域目录深度/扫描预算有 983 条提示，当前根与当前文档没有遗漏，不把其它项目扫描视为完整。
+- 从 registry @nextclaw/qingtian@0.1.1 隔离安装完整链路通过（23:11:28），metadata/latest=0.1.1，实际 registry tarball 与官网、本地 tgz 相同。最初直接回读 404，后续公开 GET 与 SHA-1 核验通过；不推断服务内部原因。.local/qingtian-dashboard/package/report.json、registry/qingtian-0.1.1.tgz、public/report.json。
+- 23:14:31 公开主页单项目文案、0.1.1 版本、Skill 路由、新旧校验与 registry 同包回读全部通过。npm tgz SHA-256 16176f0938444d4f481bbf5238fd07b6ace259c5deba9a17e200aad3112d98db，旧独立归档当次 SHA-256 b864d1d587593993bc5b6fe5b48871029169ede7562829b8b1dac16fc559dcfc（最终构建以公开 checksum 为准）。
+- 实际 IAB 桌面与 390×844 手机画面由主代理查看：当前项目首屏、两份推进记录、真实下一步、关注、分类产物可见，没有横向溢出；手机保留两份推进记录。oil-ui 截图工具启动超时，按工具文档改用宿主浏览器观察；没有独立视觉评分或伪造已保存截图文件。用户界面保留实际入口，试用/旧服务关闭。最终 Required 项关闭，复盘已归属共享工具 Skill，没有额外通用流程增量。

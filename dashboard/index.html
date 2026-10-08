@@ -61,8 +61,8 @@
           <div id="message" class="message" role="status" hidden></div>
           <section class="metrics" aria-label="总览统计">
             <div>
-              <span>已发现项目</span><strong id="metric-projects">—</strong
-              ><small>可追溯的工作空间</small>
+              <span id="metric-scope-label">已发现项目</span><strong id="metric-projects">—</strong
+              ><small id="metric-scope-note">可追溯的工作空间</small>
             </div>
             <div>
               <span>待关注事项</span><strong id="metric-attention">—</strong
@@ -79,7 +79,7 @@
           </section>
           <section id="attention-focus" class="attention-focus" hidden>
             <div class="section-title">
-              <h2>先关注这些</h2>
+              <h2 id="focus-heading">先关注这些</h2>
               <button id="focus-all" class="all-projects">查看全部 →</button>
             </div>
             <div id="focus-list" class="focus-list"></div>

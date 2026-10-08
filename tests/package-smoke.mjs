@@ -25,6 +25,7 @@ try {
   run('npm',['install','--prefix',prefix,packageSource,'--ignore-scripts','--no-audit','--no-fund'],{timeout:120000});
   const cli = path.join(prefix,'node_modules',packageInfo.name,'bin/qingtian.mjs');
   const version = run(process.execPath,[cli,'--version']).trim();
+  assert.equal(version,packageInfo.version);
   await fs.mkdir(target);
   await fs.writeFile(path.join(target,'AGENTS.md'),'专属规则保持\n');
   run(process.execPath,[cli,'install','--target',target,'--dry-run']);
@@ -32,11 +33,14 @@ try {
   run(process.execPath,[cli,'install','--target',target]);
   run(process.execPath,[cli,'check','--target',target]);
   run(process.execPath,[cli,'upgrade','--target',target]);
+  const skillRelative='.agents/wiki/skills/tools/qingtian-dashboard/SKILL.md';
+  assert.equal(await fs.readFile(path.join(target,skillRelative),'utf8'),await fs.readFile(new URL('../payload/'+skillRelative,import.meta.url),'utf8'));
+  assert.match(await fs.readFile(path.join(target,'AGENTS.md'),'utf8'),/wiki\/skills\/tools\/qingtian-dashboard\/SKILL\.md/);
   assert.match(await fs.readFile(path.join(target,'AGENTS.md'),'utf8'),/^专属规则保持/);
   await fs.writeFile(path.join(target,'README.md'),'# 实际安装包产物\n[方案](docs/designs/a.md)\n');
   await fs.mkdir(path.join(target,'docs/designs'),{recursive:true});
   await fs.writeFile(path.join(target,'docs/designs/a.md'),'# 包内实际方案\n公开包正文检索唯一词\n');
-  service = spawn(process.execPath,[cli,'dashboard','--no-open','--root',target,'--port','0'],{env,stdio:['ignore','pipe','pipe']});
+  service = spawn(process.execPath,[cli,'dashboard','--no-open','--root',target,'--port','0'],{env,cwd:target,stdio:['ignore','pipe','pipe']});
   const url = await new Promise((resolve,reject)=>{
     let output='';const timer=setTimeout(()=>reject(new Error('安装包大盘启动超时')),20000);
     service.stdout.on('data',chunk=>{output+=chunk.toString();const match=output.match(/http:\/\/127\.0\.0\.1:\d+\/#token=[a-f0-9]+/);if(match){clearTimeout(timer);resolve(match[0]);}});
@@ -47,14 +51,15 @@ try {
   const page=await browser.newPage({viewport:{width:1280,height:900}});
   const errors=[];page.on('pageerror',error=>errors.push(error.message));
   await page.goto(url);
-  await page.waitForFunction(()=>document.querySelector('#metric-projects').textContent==='1');
+  await page.waitForFunction(()=>document.querySelector('#page-title').textContent.includes('product'));
+  assert.equal(await page.locator('#project-section').isVisible(),false);
   await page.locator('#search').fill('公开包正文检索唯一词');
   await page.waitForFunction(()=>document.querySelectorAll('.artifact-row').length===1);
   await page.locator('.artifact-row').click();
   await page.waitForFunction(()=>document.querySelector('#reader-title').textContent==='包内实际方案');
   assert.match(await page.locator('#reader-body').innerText(),/公开包正文检索唯一词/);
   assert.deepEqual(errors,[]);
-  const report={passed:true,version,packageSource,checkedAt:new Date().toISOString(),checks:['isolated npm install','dry-run no registration','install/check/upgrade','project rules retained','packaged CLI dashboard launch','browser body search','packaged document read'],errors};
+  const report={passed:true,version,packageSource,checkedAt:new Date().toISOString(),checks:['isolated npm install','dry-run no registration','install/check/upgrade','project rules retained','installed dashboard Skill and AGENTS route','packaged CLI current-project launch','browser body search','packaged document read'],errors};
   await fs.mkdir('.local/qingtian-dashboard/package',{recursive:true});
   await fs.writeFile('.local/qingtian-dashboard/package/report.json',JSON.stringify(report,null,2));
   console.log(JSON.stringify(report,null,2));

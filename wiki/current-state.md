@@ -1,11 +1,11 @@
 # 当前实现事实
 
-更新日期：2026-10-07。事实来源为本仓库的 `manifest.json`、`payload/`、`bin/ai-development-system.mjs`、`scripts/build-site.mjs`、`wrangler.jsonc` 与自动化测试。
+更新日期：2026-10-08。事实来源为本仓库的 `manifest.json`、`payload/`、`bin/ai-development-system.mjs`、`scripts/build-site.mjs`、`wrangler.jsonc` 与自动化测试。
 
 ## 已具备
 
 - 擎天 是对外名称；AI Development System 是类别描述。`ai-dev.nextclaw.io`、Git 仓库名、安装器路径和锁文件名暂作为稳定技术标识保留。
-- `manifest.json` 当前列出 47 个受管文件，包括 lifecycle、七个阶段 Skill、按需专项 Skill 和 references。实际数量以 manifest 为准。
+- `manifest.json` 当前列出 50 个受管文件，包括 lifecycle、七个阶段 Skill、按需专项 Skill 和 references。实际数量以 manifest 为准。
 - 安装器支持 `install`、`check`、`upgrade` 与 dry-run；目标项目的受管文件摘要和共享根规则段落记录在 `.agents/ai-development-system.lock.json`。
 - 默认安装在目标项目 `AGENTS.md` 添加受管共享入口。现有完整入口的项目可以选择 `--agents=skip`，但要自行保持 lifecycle 路由。
 - 官网位于 `https://ai-dev.nextclaw.io/`，原始入口为 `/SKILL.md`。Cloudflare 同域提供安装归档；构建时把归档 SHA-256 写入入口。源 Git 仓库保持私有，公开的是安装所需快照和本文档。
@@ -27,4 +27,6 @@
 
 `qingtian` 统一 install/check/upgrade、projects 与 dashboard；CLI 要求 Node.js 22.12+，旧独立安装器仍支持 Node 20+。本地只读大盘发现既有锁文件，汇总项目与 Markdown 产物，支持分类、正文搜索、原文及关联文档阅读、刷新和明确的异常提示。项目文件拥有事实，索引是可丢弃投影；不因文档存在就声称任务正在执行。新展示名不迁移已接入项目的锁文件、受管标记或公开安装归档 URL。
 
-2026-10-08，npm 已公开发布 `@nextclaw/qingtian@0.1.0`；安装命令 `npm install -g @nextclaw/qingtian`，启动 `qingtian dashboard`。官网同版本 tgz 与 registry 包一致，已从 registry 全新安装并实际验证接入与大盘使用。npm 包版本不可覆盖，后续共享 payload 或运行代码更新进入 npm 时须增加版本，再同步官网版本包。实际发布证据见[交付日志](../docs/logs/2026-10-07-qingtian-dashboard/README.md)。
+2026-10-08，`@nextclaw/qingtian@0.1.1` 已公开发布，latest=0.1.1；从 registry 全新安装、接入/check/upgrade、安装 Skill 与路由、当前项目首页、搜索和阅读已验证。官网同版本 tgz 与 registry 包字节一致，新旧包/hash 公开回读通过；本机 CLI 及同源 Codex Skill 已安装。安装命令 `npm install -g @nextclaw/qingtian`，启动 `qingtian dashboard`。新版默认进入当前项目，首屏展示当前推进、下一步、关注与产物；其它接入项目保留切换入口。当前项目及明确指定的接入根优先读取，不因其它扫描耗尽预算而漏掉。
+
+安装或升级共享体系会携带 `qingtian-dashboard` 下级工具 Skill 及共享 AGENTS 路由，AI 可直接响应“帮我打开擎天大盘”并执行到数据可读的真实地址；已有项目须升级受管体系后获得该入口。独立 npm CLI 安装不会批量改写其它项目规则。npm 包版本不可覆盖，后续共享 payload 或运行代码更新进入 npm 时须增加版本，再同步官网版本包。实际发布证据见[交付日志](../docs/logs/2026-10-07-qingtian-dashboard/README.md)。

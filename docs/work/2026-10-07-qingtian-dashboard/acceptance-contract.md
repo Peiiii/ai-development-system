@@ -1,8 +1,8 @@
 # 擎天大盘交付合同
 
 - contract-id: qingtian-dashboard-20261007
-- parent-goal: 用户以擎天 / qingtian 一条命令打开跨项目大盘，看懂进展并追溯产物，能从公开入口安装使用。
-- scope-revision: 2；scope-confirmation: user-confirmed，2026-10-08 当前聊天：必要时复用 nextbot 的 npm 命名空间。发布包为 @nextclaw/qingtian，终端命令仍为 qingtian。
+- parent-goal: 用户以擎天 / qingtian 一条命令打开当前项目大盘，看懂推进、下一步与产物；可切换其它项目，能从公开入口安装使用。
+- scope-revision: 3；scope-confirmation: user-confirmed，2026-10-08 当前聊天：本机安装，并在体系中提供 AI 可直接打开大盘的 Skill。发布包为 @nextclaw/qingtian，终端命令仍为 qingtian。
 - [原始来源与授权](../../logs/2026-10-07-qingtian-dashboard/README.md)；提交、推送、官网与 npm 发布均已授权。
 - 单阶段，工作项只决定顺序。文档事实为 owner，大盘不修改项目事实或冒称后台执行。
 
@@ -18,7 +18,9 @@
 | QT-06 | true | 桌面/手机真实交互与视觉验收，已有项目真实产物可读，本机命令可用 | passed | browser/report.json、公开来源 package/report.json、final 桌面/手机图；实际 global CLI 安装和自动打开通过 |
 | QT-07 | true | tgz 隔离安装、npm 公开发布与公开包回读使用，官网更名和包/hash 更新核验 | passed | 2026-10-08 @nextclaw/qingtian@0.1.0 已公开发布，22:11 从 registry 隔离安装并完整使用通过；官网包与 registry tarball 一致，公开校验通过；global 安装通过 |
 | QT-08 | true | 适用测试/Review 通过，精确提交推送，记录复盘及真实交付/剩余边界 | passed | 测试与 Review passed；f960515 已推送，复盘 no-increment，真实发布/剩余依赖记录在日志；最终补丁与证据精确提交 |
+| QT-09 | true | 本机 CLI 和同源 Skill 可用；安装体系后 AI 能经明确入口实际打开并验证大盘；新版公开发布 | passed | 0.1.1 隔离 registry 安装、Skill/AGENTS 路由、使用链路通过；global CLI 和同源 Codex Skill 已安装；试用副本安全升级 check、真实启动及当前项目原文读取通过 |
+| QT-10 | true | 当前项目默认首页；从子目录识别、扫描预算保护；推进/关注/产物不混入其它项目，刷新重载保留范围 | passed | 13 项 Node tests 与 14 项 browser 验证；23:11 本机认证快照当前项目优先及原文读取通过，主代理实际查看本机桌面与手机单项目首页 |
 
 ## 当前阶段门与尚未关闭
 
-所有 Required 项已通过。npm 发布、公开回读、干净环境实际使用、本机安装和官网入口已完成；此前 E401 认证缺口通过用户授权的 nextbot 凭据复用关闭，独立包名 E403 按用户授权改用 @nextclaw 命名空间。没有 scope reduction。
+所有 Required 项已通过。scope 3 的 Skill 路由、当前项目优先、本机 CLI/Skill、0.1.1 公开 metadata/latest、registry 隔离安装、官网包/hash 回读完成。跨项目广域扫描仍受目录预算/深度限制并报告提示，当前项目及明确指定的接入根不因此遗漏。没有 scope reduction；普通推送按既有授权收尾核验。
