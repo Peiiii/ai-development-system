@@ -29,3 +29,9 @@ GemiGo实际接续09:33—09:36的目录发现链路调查，排除了HTTP/robot
 用户明确排查只是Action的一部分。上午规则中“消除关键不确定性”把诊断错误放到完整改善层级，GemiGo真实实例暴露RA01假阳性。原目录调查证据仍有效，但不能计作增长Action完成。沿同一reference补完整工作项边界，并让正式开发复盘及README保持一致；不新增Skill/文档类型。RA06走查：仅诊断无故障→保留子步骤、继续选实际改进；已上线未测效果→实施验收与业务效果分开；明确只调查/只读/暂停→不扩权或盲改。
 
 本次修订check通过（49受管文件）、安装/升级/分发11项测试通过；RA06三边界和原正常轮询/等待/暂停反例通过，implementation Review无finding。Action合同1059→1383字符；AGENTS、Skill数量和description不变。分发与GemiGo产品接续待补证，上午验证不能证明本次修订正确。
+
+修订交付：payload 5ea090b普通推送main，既有官网分发部署0fce292b-a9bc-4955-a331-7a53320045c5；公开tar包SHA 00152d44dfb083621295bd913ab6e8feb0e2db48c7c0c0d9d0e105ec39057001，npm官网包SHA 767112616a51e2c97bf9119b34fc1a6af71ecacefa591d5d318c7afbafe1cf71，实际下载checksum/合同字节一致，tar包新安装/check通过。GemiGo经官方dry-run→upgrade→check接入3文件，同一automation保留ID/频率/聊天，加入排查只是子步骤和完整工作项未闭合规则。
+
+真实纠偏实例已从排查推进到“HTML指南非品牌获客优化”：源码eea375c，实际缺口为已有导入.html能力未在两语言指南说明。中英文指南的任务标题、答案、直接导入与样例操作已经改进并生产验收；Pages生产04ec8b81-8032-4b0b-9f4d-65ec5f15dfac/gh-pages 472c972，两语言原始HTML/可见手机渲染及指南→部署→文件真实导入通过，主JS hash匹配。业务效果尚未测，完整Action保持效果待复查，不能由排查、上线或QA访问推断增长；原事项/任务拥有剩余判定与10-16 09:00首次检查点。源码/目标主线同步核对与四个WIP保护通过，收尾仅补证文档；不重复产品部署。
+
+本次机制修订retrospective_decision=correct-existing-completion-boundary；retrospective_state=completed。该经验不是追加常驻“注意”：收窄原owner的Action粒度与完成语义，原后台鉴权、查询保护及Bing输入边界保留。RA06已用真实产品实施/验收场景证明不会把诊断当完整改善；真实增长仍由后续业务窗口验证。
