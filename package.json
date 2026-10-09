@@ -9,13 +9,13 @@
     "build:site": "node scripts/build-site.mjs",
     "deploy:site": "npm run check && npm test && npm run build:site && wrangler deploy",
     "dashboard": "node bin/qingtian.mjs dashboard",
-    "test:browser": "node tests/dashboard-browser.mjs",
+    "test:browser": "node tests/dashboard-browser.mjs && node tests/dashboard-theme.mjs",
     "test:package": "node tests/package-smoke.mjs"
   },
   "devDependencies": {
     "playwright": "1.63.0"
   },
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "擎天：可安装的 AI 驱动开发体系与跨项目产物大盘",
   "bin": {
     "qingtian": "bin/qingtian.mjs"

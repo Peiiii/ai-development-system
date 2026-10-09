@@ -316,6 +316,8 @@ function render() {
     el("span", "title-dot", "."),
   );
   $("#breadcrumb").textContent = title;
+  $("#scope-path").textContent = project ? project.path : "所有接入项目 · 推进与产物";
+  $(".workspace").classList.add("ready");
   $("#eyebrow").textContent = project
     ? "PROJECT WORKSPACE"
     : attentionOnly

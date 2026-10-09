@@ -58,8 +58,15 @@ try {
   await page.locator('.artifact-row').click();
   await page.waitForFunction(()=>document.querySelector('#reader-title').textContent==='包内实际方案');
   assert.match(await page.locator('#reader-body').innerText(),/公开包正文检索唯一词/);
+  await page.keyboard.press('Escape');
+  await page.getByRole('button',{name:'浅色主题',exact:true}).click();
+  assert.equal(await page.locator('html').getAttribute('data-theme'),'light');
+  assert.equal(await page.locator('#search').inputValue(),'公开包正文检索唯一词');
+  await page.reload();
+  await page.waitForFunction(()=>document.querySelector('#page-title').textContent.includes('product'));
+  assert.equal(await page.locator('html').getAttribute('data-theme'),'light');
   assert.deepEqual(errors,[]);
-  const report={passed:true,version,packageSource,checkedAt:new Date().toISOString(),checks:['isolated npm install','dry-run no registration','install/check/upgrade','project rules retained','installed dashboard Skill and AGENTS route','packaged CLI current-project launch','browser body search','packaged document read'],errors};
+  const report={passed:true,version,packageSource,checkedAt:new Date().toISOString(),checks:['isolated npm install','dry-run no registration','install/check/upgrade','project rules retained','installed dashboard Skill and AGENTS route','packaged CLI current-project launch','browser body search','packaged document read','packaged theme switch and persistence'],errors};
   await fs.mkdir('.local/qingtian-dashboard/package',{recursive:true});
   await fs.writeFile('.local/qingtian-dashboard/package/report.json',JSON.stringify(report,null,2));
   console.log(JSON.stringify(report,null,2));
