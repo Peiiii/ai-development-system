@@ -74,6 +74,16 @@ node /path/to/ai-development-system/bin/ai-development-system.mjs upgrade --targ
 
 ## 接入后使用
 
+### 可选插件：开发阶段标记（默认关闭）
+
+安装包携带该方法，但默认不加载、不输出。在目标项目根 `AGENTS.md` 的**项目自有段落**（体系受管标记外）加入：
+
+```text
+- Qingtian 插件 development-step-tracing：开启
+```
+
+下一次开发任务或恢复时，Lifecycle会按真实阶段输出例如 `[flow:standard][step:implementation]`；同阶段普通进度不重复。改为“关闭”或删除行即可关闭，升级保留项目自有配置。规则见[开发阶段标记](payload/.agents/wiki/skills/process/development-step-tracing/SKILL.md)。这是AI输出约定，非程序强制；不包含Token统计或大盘，也不替代非开发任务的运营模板。未升级的安装副本需先升级体系。
+
 直接向 AI 提出开发任务，不必每次提及 擎天。需要更新时，让 AI 读取同一个公开入口，预览并执行升级，再运行 `check`。目标项目无需为 擎天 增加 CI、构建脚本或运行时依赖。
 
 新项目、技术栈替换及新增关键运行/部署依赖，先在设计中完成技术选型：记录目标设备与部署约束、推荐依据、真实替代方案的取舍和关键可行性证据，再搭建产品脚手架与安装正式依赖。普通小改沿用现有栈并说明依据；用户指定技术仍检查适用性。选型由现有理解、设计和方案 Review 阶段承接，不新增审批或独立选型 Skill。
