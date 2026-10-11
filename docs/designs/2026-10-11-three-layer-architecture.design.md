@@ -32,3 +32,5 @@
 节点采用原生 details/summary，支持键盘激活，窄屏纵向排列；全屏仅在浏览器支持时提供。图中的线表达内容组织关系，正文保留直接读写与职责依赖说明。沿用官网字体、颜色，替换此前的静态分层卡片，不重复堆叠两套总览。
 
 验证包含展开/收起、单分支、键盘操作和全屏进出；桌面与手机截图和报告位于 `/tmp/qingtian-explorer-overview/`、`/tmp/qingtian-explorer-expanded/`。
+
+展开画面复核发现既有 page-shell 的 `overflow: hidden` 会让按钮聚焦时横向滚动外层，裁切左侧内容；改用 `overflow: clip` 保持裁切装饰但不建立滚动容器。补验展开后桌面架构区左边界保持 40px，截图复核入口为 `/tmp/qingtian-explorer-fixed/`。
