@@ -1,4 +1,6 @@
-# 标准任务 Workflow
+# 标准需求开发 Workflow
+
+展示名称为“标准需求开发工作流”；内部 `flow: standard` 与 `standard.md` 路径保持兼容，进入条件、阶段门和完成判断沿现有合同。
 
 ## 进入条件
 

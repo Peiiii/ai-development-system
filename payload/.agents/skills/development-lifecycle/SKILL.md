@@ -42,7 +42,7 @@ Task Understanding 给出目标、授权、验收、证据/未知、owner、风�
 | --- | --- | --- |
 | 大型交付 | 外层组合 | [major-delivery](../../workflows/major-delivery.md) |
 | 项目初始化 | 基础任务 | [initialization](../../workflows/initialization.md) |
-| 标准任务 | 基础任务 | [standard](../../workflows/standard.md) |
+| 标准需求开发 | 基础任务 | [standard](../../workflows/standard.md) |
 | 简单改动 | 基础任务 | [trivial](../../workflows/trivial.md) |
 | 问题修复 | 基础任务 | [bugfix](../../workflows/bugfix.md) |
 

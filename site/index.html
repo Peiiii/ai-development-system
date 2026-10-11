@@ -105,14 +105,14 @@ qingtian dashboard</code></pre><div class="handoff-bottom"><span>当前项目优
         <section class="section wrap" id="flow" aria-labelledby="flow-title">
           <div class="section-heading"><div><p class="section-kicker">03 / THE DEVELOPMENT FLOW</p><h2 id="flow-title">流程需要展示，但不能只有一条。</h2></div><p>五条命名 workflow：四种基础任务流程，加上可嵌套它们的大型交付流程。lifecycle 管理阶段，Skill 提供方法，Wiki 提供事实。</p></div>
           <div class="flow-tabs" aria-label="选择开发流程">
-            <button type="button" class="flow-tab is-active" data-flow-button="standard" aria-pressed="true"><span>01</span> 标准任务 <small>STANDARD</small></button>
+            <button type="button" class="flow-tab is-active" data-flow-button="standard" aria-pressed="true"><span>01</span> 标准需求开发 <small>STANDARD</small></button>
             <button type="button" class="flow-tab" data-flow-button="trivial" aria-pressed="false"><span>02</span> 简单改动 <small>TRIVIAL</small></button>
             <button type="button" class="flow-tab" data-flow-button="bugfix" aria-pressed="false"><span>03</span> 问题修复 <small>BUGFIX</small></button>
             <button type="button" class="flow-tab" data-flow-button="initialization" aria-pressed="false"><span>04</span> 项目初始化 <small>INITIALIZATION</small></button>
             <button type="button" class="flow-tab" data-flow-button="major-delivery" aria-pressed="false"><span>05</span> 大型交付 <small>MAJOR DELIVERY</small></button>
           </div>
           <div class="flow-panel" data-flow-panel="standard">
-            <div class="flow-panel-heading"><h3>标准任务</h3><p>有方案空间或较高风险时，先设计与审查，再实现、验证和交付。</p></div>
+            <div class="flow-panel-heading"><h3>标准需求开发</h3><p>有方案空间或较高风险时，先设计与审查，再实现、验证和交付。</p></div>
             <ol class="flow-stages"><li><span>01</span><strong>理解任务</strong></li><li><span>02</span><strong>方案设计</strong></li><li><span>03</span><strong>方案 Review</strong></li><li><span>04</span><strong>开发实现</strong></li><li><span>05</span><strong>验证测试</strong></li><li><span>06</span><strong>实现 Review</strong></li><li><span>07</span><strong>交付</strong></li><li><span>08</span><strong>复盘</strong></li></ol>
           </div>
           <div class="flow-panel" data-flow-panel="trivial" hidden>
@@ -128,7 +128,7 @@ qingtian dashboard</code></pre><div class="handoff-bottom"><span>当前项目优
             <ol class="flow-stages"><li><span>01</span><strong>目标与项目接入</strong></li><li><span>02</span><strong>技术栈与链路设计</strong></li><li><span>03</span><strong>方案 Review</strong></li><li><span>04</span><strong>项目与产品实现</strong></li><li><span>05</span><strong>真实使用验证</strong></li><li><span>06</span><strong>实现 Review</strong></li><li><span>07</span><strong>交付</strong></li><li><span>08</span><strong>复盘与恢复</strong></li></ol>
           </div>
           <div class="flow-panel" data-flow-panel="major-delivery" hidden>
-            <div class="flow-panel-heading"><h3>大型交付 · 外层组合流程</h3><p>跨工作项维护整体成果；内层可执行项目初始化、标准任务、简单改动或问题修复。子流程完成后，把结果与证据交回外层。</p></div>
+            <div class="flow-panel-heading"><h3>大型交付 · 外层组合流程</h3><p>跨工作项维护整体成果；内层可执行项目初始化、标准需求开发、简单改动或问题修复。子流程完成后，把结果与证据交回外层。</p></div>
             <ol class="flow-stages"><li><span>01</span><strong>整体目标与验收约定</strong></li><li><span>02</span><strong>整体与当前部分设计</strong></li><li><span>03</span><strong>选择工作项与基础流程</strong></li><li><span>04</span><strong>执行并返回证据</strong></li><li><span>05</span><strong>集成验证与缺口核对</strong></li><li><span>06</span><strong>继续必要工作</strong></li><li><span>07</span><strong>整体交付、复盘与完成</strong></li></ol>
             <p class="flow-source">有缺口就继续或记录真实阻塞；子流程结束不能关闭整体目标。<a href="/workflows/major-delivery.md">打开大型交付 workflow 正文 ↗</a></p>
           </div>
@@ -140,7 +140,7 @@ qingtian dashboard</code></pre><div class="handoff-bottom"><span>当前项目优
             <div class="section-heading"><div><p class="section-kicker">04 / ARTIFACTS & EVIDENCE</p><h2 id="artifacts-title">工程产物与证据，支撑完整交付。</h2></div><p>贯穿 Agent 工作流、Skills、Wiki，承载方案、执行状态和验证结果，支持追踪、恢复与可检验的交付。</p></div>
             <div class="artifact-grid">
               <article class="artifact-card"><span>01 / THINK & DESIGN</span><h3>想法与设计</h3><p>记录问题、取舍和方案，让实现前的 Review 有明确对象。</p><code>docs/designs/YYYY-MM-DD-&lt;topic&gt;.design.md</code></article>
-              <article class="artifact-card"><span>02 / PLAN & WORK</span><h3>计划与过程</h3><p>复杂任务保留计划和跨会话工作笔记，便于继续推进和核对范围。</p><code>docs/plans/YYYY-MM-DD-&lt;topic&gt;.plan.md</code></article>
+              <article class="artifact-card"><span>02 / PLAN & WORK</span><h3>计划与过程</h3><p>保存有效约定、进度与下一动作，支持跨会话、跨 AI、跨人的开发接续；接手时核对实际现场。</p><code>docs/plans/YYYY-MM-DD-&lt;topic&gt;.plan.md</code></article>
               <article class="artifact-card"><span>03 / VERIFY & REVIEW</span><h3>验证与审查</h3><p>把测试证据、Review 结论和返工结果关联到本次任务。</p><code>验证证据 → Review findings → 修正</code></article>
               <article class="artifact-card"><span>04 / DELIVER & LEARN</span><h3>交付与复盘</h3><p>重要交付进入日志；复盘再判断哪些经验该更新到原 owner。</p><code>docs/logs/ · 按项目约定命名</code></article>
             </div>

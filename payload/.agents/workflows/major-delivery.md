@@ -6,7 +6,7 @@
 
 建立整体约定 → 整体及当前部分设计 → 选择工作项并执行适用基础 workflow → 返回结果、证据、风险与未闭合项 → 集成验证并核对整体缺口 → 继续必要工作或记录真实阻塞 → 整体交付、复盘与完成检查。
 
-基础入口：[项目初始化](initialization.md)、[标准任务](standard.md)、[简单改动](trivial.md)、[问题修复](bugfix.md)。内层完成只关闭对应工作项；结果与证据交回外层，不直接关闭 parent-goal。所有层级仍由同一个 Lifecycle 检查适用完成门。
+基础入口：[项目初始化](initialization.md)、[标准需求开发](standard.md)、[简单改动](trivial.md)、[问题修复](bugfix.md)。内层完成只关闭对应工作项；结果与证据交回外层，不直接关闭 parent-goal。所有层级仍由同一个 Lifecycle 检查适用完成门。
 
 ## 建立整体责任
 
