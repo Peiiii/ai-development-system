@@ -1,0 +1,20 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { readWorkflowAtlas } from '../scripts/workflow-atlas.mjs';
+import { fileURLToPath } from 'node:url';
+const root=fileURLToPath(new URL('..',import.meta.url));
+test('website workflows preserve formal reviews, short paths and the outer delivery loop',async()=>{
+  const atlas=await readWorkflowAtlas(root);
+  assert.equal(Object.keys(atlas).length,5);
+  const stages=name=>atlas[name].children.filter(node=>node.id.includes('-step-')).map(node=>node.step);
+  const standard=stages('standard');
+  assert.equal(standard.length,8);
+  assert.match(standard[2],/Review\(mode=design\)/);
+  assert.match(standard[5],/Review\(mode=implementation\)/);
+  assert.equal(stages('trivial').length,5);
+  assert.match(stages('initialization')[3],/首条运行链路/);
+  assert.match(stages('bugfix')[1],/复现.*根因/);
+  assert.match(stages('major-delivery')[2],/基础 workflow/);
+  assert.match(stages('major-delivery')[5],/继续必要工作.*真实阻塞/);
+  assert.match(atlas.bugfix.children.at(-1).children.map(n=>n.title).join(' '),/skip-design/);
+});

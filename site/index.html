@@ -12,7 +12,7 @@
     <link rel="canonical" href="https://ai-dev.nextclaw.io/" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="/styles.css" />
-    <script src="/main.js" defer></script>
+    <script src="/main.js" type="module"></script>
     <title>擎天 · AI Development System</title>
   </head>
   <body>
@@ -94,10 +94,10 @@ qingtian dashboard</code></pre><div class="handoff-bottom"><span>当前项目优
           <div class="wrap">
             <div class="section-heading"><div><p class="section-kicker">02 / THREE LAYERS, ONE SYSTEM</p><h2 id="inside-title">三层架构，组织完整工程交付。</h2></div><p>工作流组织过程，Skills 提供方法与行为约束，知识与任务资料承载执行依据、状态和证据。</p></div>
             <div class="architecture-explorer" id="architecture-tree" aria-label="交互式三层架构图">
-              <div class="explorer-toolbar"><div><span class="explorer-dot"></span> ARCHITECTURE ATLAS <small>向右展开 · 拖动画布 · 滚轮缩放</small></div><div class="explorer-actions"><button type="button" data-arch-action="expand">展开全部</button><button type="button" data-arch-action="collapse">收起分支</button><button type="button" data-arch-action="fit">适应画布</button><button type="button" data-arch-action="fullscreen">全屏查看</button></div></div>
+              <div class="explorer-toolbar"><div><span class="explorer-dot"></span> ARCHITECTURE ATLAS <small>向右展开 · 拖动画布 · 滚轮缩放</small></div><div class="explorer-actions"><button type="button" data-arch-action="expand">展开全部</button><button type="button" data-arch-action="collapse">收起分支</button><button type="button" data-arch-action="focus">聚焦分支</button><button type="button" data-arch-action="fit">适应画布</button><button type="button" data-arch-action="fullscreen">全屏查看</button></div></div>
               <div class="atlas-breadcrumb"><button type="button" data-arch-action="fit">擎天</button><span>/</span><span id="atlas-selection">三层架构总览</span><span class="atlas-legend"><i></i>工作流 <i></i>方法 <i></i>知识与任务资料</span></div>
               <div class="atlas-viewport" tabindex="0" aria-label="架构画布，拖动平移，使用加减按钮缩放"><svg class="atlas-svg" role="group" aria-label="擎天架构节点与关系"><g class="atlas-scene"></g></svg><div class="atlas-zoom"><button type="button" data-arch-action="zoom-out" aria-label="缩小">−</button><output id="atlas-scale">100%</output><button type="button" data-arch-action="zoom-in" aria-label="放大">+</button></div></div>
-              <div class="explorer-foot"><span>每个分支都可展开成独立节点</span><span>连线表达内容归属；工作流与方法可直接读写底层资料</span></div>
+              <div class="explorer-foot"><span>展开工作流，查看编号步骤与适用流程门</span><span>连线表达内容归属；工作流与方法可直接读写底层资料</span></div>
             </div>
             <div class="system-note"><span>两种约束</span><p>方法约束回答“做事遵循什么方法”；任务约束回答“这次要满足什么条件”。三层表达职责与依赖，工作流也可直接读取底层状态和证据。</p><a href="/wiki/system-architecture.md">查看完整架构树 ↗</a></div>
           </div>

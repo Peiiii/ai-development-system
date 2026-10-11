@@ -1,3 +1,4 @@
+import { readWorkflowAtlas } from "./workflow-atlas.mjs";
 import { createHash } from "node:crypto";
 import { execFileSync } from "node:child_process";
 import { promises as fs } from "node:fs";
@@ -17,6 +18,7 @@ for (const filename of ["index.html", "styles.css", "main.js", "favicon.svg", "r
   const content = await fs.readFile(path.join(site, filename), 'utf8');
   await fs.writeFile(path.join(output, filename), content.replaceAll('{{QINGTIAN_VERSION}}', packageInfo.version));
 }
+await fs.writeFile(path.join(output, "workflow-atlas.json"), JSON.stringify(await readWorkflowAtlas(root)));
 await fs.cp(path.join(root, "wiki"), path.join(output, "wiki"), { recursive: true });
 
 await fs.cp(path.join(root, "payload", ".agents", "workflows"), path.join(output, "workflows"), { recursive: true });

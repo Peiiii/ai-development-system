@@ -30,6 +30,7 @@ for (const button of flowButtons) {
   });
 }
 
+const workflowAtlas = await fetch('/workflow-atlas.json').then(response=>{if(!response.ok)throw new Error('工作流数据加载失败');return response.json();});
 const architecture = document.querySelector('#architecture-tree');
 if (architecture) {
   const viewport = architecture.querySelector('.atlas-viewport');
@@ -39,8 +40,8 @@ if (architecture) {
   const mobile = () => window.innerWidth < 600;
   const layers = [
     { id:'flow', title:'工作流层', subtitle:'组织工程过程', color:'#c6ed81', groups:[
-      { id:'basic', title:'基础工作流', subtitle:'覆盖工程迭代周期常规场景', leaves:['初始化','标准需求开发','简单修改','缺陷修复'] },
-      { id:'major', title:'大型交付', subtitle:'组合基础工作流，维护整体成果', leaves:['选择并组织工作项','接收结果、证据与剩余缺口','集成与整体验收'] },
+      { id:'basic', title:'基础工作流', subtitle:'覆盖工程迭代周期常规场景', children:['initialization','standard','trivial','bugfix'].map(id=>workflowAtlas[id]) },
+      { ...workflowAtlas['major-delivery'], id:'major', title:'大型交付', subtitle:'外层组合流程（试用）· 7 个步骤' },
       { id:'control', title:'流程控制', subtitle:'组织阶段与整体完成判断', leaves:['阶段推进','返工路由','完成判断'] }
     ]},
     { id:'method', title:'方法层', subtitle:'Skills · 执行方法与行为约束', color:'#79c9cf', groups:[
@@ -55,6 +56,12 @@ if (architecture) {
       { id:'evidence', title:'验证证据', subtitle:'支持对应范围的结果判断', leaves:['测试结果','实际运行观察','Review 与验收结论'] }
     ]}
   ];
+  function normalize(node,color,depth=0,parent){
+    const children=(node.children||node.groups||node.leaves||[]).map((child,index)=>normalize(typeof child==='string'?{id:`${node.id}-${index}`,title:child}:child,node.color||color,depth+1,node.id));
+    return {...node,color:node.color||color,parent,depth,children,type:depth===0?'root':depth===1?'layer':children.length?'group':'leaf',expandable:depth>0&&children.length>0};
+  }
+  const tree=normalize({id:'root',title:'AI 驱动开发体系',subtitle:'完整交付 · 多类型、多层级工作流',children:layers},'#c6ed81');
+  function allBranches(node=tree){return [node,...node.children.flatMap(child=>allBranches(child))].filter(item=>item.expandable);}
   const opened = new Set(mobile() ? [] : layers.map(x=>x.id));
   let nodes=[], edges=[], bounds={width:1200,height:740}, selected='root';
   let camera={x:0,y:0,scale:1};
@@ -62,33 +69,18 @@ if (architecture) {
   const lines = (value, count=19) => { const chars=Array.from(value); const rows=[]; while(chars.length) rows.push(chars.splice(0,count).join('')); return rows; };
   function layout() {
     nodes=[];edges=[];
-    const gap=22;
-    const groupHeight=group=>opened.has(group.id)?Math.max(84,group.leaves.reduce((height,title)=>height+(lines(title).length>1?66:54)+16,-16)):84;
-    let nextY=24;
-    layers.forEach((layer,index)=>{
-      const visible=opened.has(layer.id);
-      const height=visible?layer.groups.reduce((total,group)=>total+groupHeight(group)+gap,-gap):94;
-      const parent={...layer,x:410,y:nextY+(height-94)/2,w:340,h:94,type:'layer',tag:`0${index+1} / ${['WORKFLOWS','METHODS','MATERIALS'][index]}`,expandable:true,parent:'root'};
-      nodes.push(parent);
-      let groupY=nextY;
-      if(visible) for(const group of layer.groups) {
-        const span=groupHeight(group);
-        const node={...group,x:820,y:groupY+(span-84)/2,w:322,h:84,color:layer.color,type:'group',expandable:true,parent:layer.id};
-        nodes.push(node);edges.push({from:parent,to:node,color:layer.color});
-        let leafY=groupY;
-        if(opened.has(group.id)) group.leaves.forEach((title,leafIndex)=>{
-          const leaf={id:`${group.id}-${leafIndex}`,title,x:1212,y:leafY,w:296,h:lines(title).length>1?66:54,color:layer.color,type:'leaf',parent:group.id};
-          nodes.push(leaf);edges.push({from:node,to:leaf,color:layer.color});leafY+=leaf.h+16;
-        });
-        groupY+=span+gap;
-      }
-      nextY+=height+42;
-    });
-    const height=nextY-42+24;
-    const root={id:'root',title:'AI 驱动开发体系',subtitle:'完整交付 · 多类型、多层级工作流',x:24,y:(height-100)/2,w:316,h:100,color:'#c6ed81',type:'root'};
-    nodes.unshift(root);
-    nodes.filter(node=>node.type==='layer').forEach(layer=>edges.push({from:root,to:layer,color:layer.color}));
-    bounds={width:Math.max(...nodes.map(node=>node.x+node.w))+24,height};
+    const heightOf=node=>node.type==='root'?100:node.type==='layer'?94:node.type==='leaf'?lines(node.title).length*20+26:Math.max(84,lines(node.title,18).length*20+(node.subtitle?56:34));
+    const childrenOf=node=>node===tree||opened.has(node.id)?node.children:[];
+    const spanOf=node=>Math.max(heightOf(node),childrenOf(node).reduce((total,child)=>total+spanOf(child)+22,-22));
+    function place(model,top){
+      const span=spanOf(model),h=heightOf(model);
+      const node={...model,x:model.depth?410+(model.depth-1)*400:24,y:top+(span-h)/2,w:model.type==='root'?316:model.type==='layer'?340:model.type==='leaf'?296:322,h};
+      if(model.type==='layer')node.tag=`0${layers.findIndex(layer=>layer.id===model.id)+1} / ${model.id==='flow'?'WORKFLOWS':model.id==='method'?'METHODS':'MATERIALS'}`;
+      nodes.push(node);const children=childrenOf(model);let childY=top+(span-children.reduce((total,child)=>total+spanOf(child)+22,-22))/2;
+      for(const child of children){const target=place(child,childY);edges.push({from:node,to:target,color:target.color});childY+=spanOf(child)+22;}
+      return node;
+    }
+    place(tree,24);bounds={width:Math.max(...nodes.map(node=>node.x+node.w))+24,height:spanOf(tree)+48};
   }
   function render() {
     layout();
@@ -100,7 +92,7 @@ if (architecture) {
     scene.innerHTML=paths+nodes.map(node=>{
       const titleRows=lines(node.title,node.type==='leaf'?19:18);
       const ty=node.type==='leaf'?(node.h-titleRows.length*20)/2+15:node.tag?46:32;
-      return `<g class="atlas-node is-${node.type}${selected===node.id?' is-selected':''}" data-node="${node.id}" transform="translate(${node.x} ${node.y})" style="--node-color:${node.color}" role="button" tabindex="0" aria-label="${escape(node.title)}${node.expandable?'，点击展开或收起':''}" ${node.expandable?`aria-expanded="${opened.has(node.id)}"`:''}><rect width="${node.w}" height="${node.h}" rx="10"/>${node.tag?`<text class="node-tag" x="18" y="22">${node.tag}</text>`:''}<text class="node-title" x="18" y="${ty}">${titleRows.map((row,i)=>`<tspan x="18" dy="${i?20:0}">${escape(row)}</tspan>`).join('')}</text>${node.subtitle?`<text class="node-subtitle" x="18" y="${node.tag?72:node.type==='root'?76:58}">${escape(node.subtitle)}</text>`:''}${node.expandable?`<text class="node-toggle" x="${node.w-30}" y="${node.tag?48:32}">${opened.has(node.id)?'−':'+'}</text>`:''}<circle class="atlas-port" cx="${node.w}" cy="${node.h/2}" r="3"/></g>`;
+      return `<g class="atlas-node is-${node.type}${selected===node.id?' is-selected':''}" data-node="${node.id}" transform="translate(${node.x} ${node.y})" style="--node-color:${node.color}" role="button" tabindex="0" aria-label="${escape(node.title)}${node.expandable?'，点击展开或收起':''}" ${node.expandable?`aria-expanded="${opened.has(node.id)}"`:''}><rect width="${node.w}" height="${node.h}" rx="10"/>${node.tag?`<text class="node-tag" x="18" y="22">${node.tag}</text>`:''}<text class="node-title" x="18" y="${ty}">${titleRows.map((row,i)=>`<tspan x="18" dy="${i?20:0}">${escape(row)}</tspan>`).join('')}</text>${node.subtitle?`<text class="node-subtitle" x="18" y="${node.tag?72:node.type==='root'?76:32+(titleRows.length-1)*20+26}">${escape(node.subtitle)}</text>`:''}${node.expandable?`<text class="node-toggle" x="${node.w-30}" y="${node.tag?48:32}">${opened.has(node.id)?'−':'+'}</text>`:''}<circle class="atlas-port" cx="${node.w}" cy="${node.h/2}" r="3"/></g>`;
     }).join('');
     applyCamera();
   }
@@ -179,9 +171,9 @@ if (architecture) {
   for(const button of architecture.querySelectorAll('[data-arch-action]')){
     if(button.dataset.archAction==='fullscreen'&&!document.fullscreenEnabled)button.hidden=true;
     button.addEventListener('click',async()=>{const action=button.dataset.archAction;
-      if(action==='expand')transition(()=>{layers.forEach(l=>{opened.add(l.id);l.groups.forEach(g=>opened.add(g.id));});render();fit();});
+      if(action==='expand')transition(()=>{allBranches().forEach(node=>opened.add(node.id));render();fit();});
       if(action==='collapse')transition(()=>{opened.clear();if(!mobile())layers.forEach(l=>opened.add(l.id));selected='root';selection.textContent='三层架构总览';render();fit();});
-      if(action==='fit')transition(fit);if(action==='zoom-in')transition(()=>zoom(1.2));if(action==='zoom-out')transition(()=>zoom(1/1.2));
+      if(action==='focus')transition(()=>focusNode(nodes.find(node=>node.id===selected)||nodes[0]));if(action==='fit')transition(fit);if(action==='zoom-in')transition(()=>zoom(1.2));if(action==='zoom-out')transition(()=>zoom(1/1.2));
       if(action==='fullscreen'){try{if(document.fullscreenElement===architecture)await document.exitFullscreen();else await architecture.requestFullscreen();}catch{button.hidden=true;}}
     });
   }
