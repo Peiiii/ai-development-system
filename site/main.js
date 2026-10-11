@@ -29,3 +29,26 @@ for (const button of flowButtons) {
     for (const panel of flowPanels) panel.hidden = panel.dataset.flowPanel !== selected;
   });
 }
+
+const architecture = document.querySelector('#architecture-tree');
+if (architecture) {
+  for (const button of architecture.querySelectorAll('[data-arch-action]')) {
+    if (button.dataset.archAction === 'fullscreen' && !document.fullscreenEnabled) button.hidden = true;
+    button.addEventListener('click', async () => {
+      const action = button.dataset.archAction;
+      if (action === 'expand' || action === 'collapse') {
+        for (const node of architecture.querySelectorAll('details')) node.open = action === 'expand';
+      } else if (action === 'fullscreen') {
+        try {
+          if (document.fullscreenElement === architecture) await document.exitFullscreen();
+          else await architecture.requestFullscreen();
+        } catch { button.hidden = true; }
+      }
+    });
+  }
+  document.addEventListener('fullscreenchange', () => {
+    const button = architecture.querySelector('[data-arch-action="fullscreen"]');
+    button.textContent = document.fullscreenElement === architecture ? '退出全屏' : '全屏查看';
+    button.setAttribute('aria-pressed', String(document.fullscreenElement === architecture));
+  });
+}
