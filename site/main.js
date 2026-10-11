@@ -117,24 +117,75 @@ if (architecture) {
     camera.x=(viewport.clientWidth-width*camera.scale)/2-left*camera.scale;
     camera.y=(viewport.clientHeight-height*camera.scale)/2-top*camera.scale;applyCamera();
   }
-  function activate(id){const node=nodes.find(n=>n.id===id);if(!node)return;selected=id;selection.textContent=id==='root'?'三层架构总览':node.title;if(node.expandable){if(opened.has(id))opened.delete(id);else opened.add(id);render();focusNode(nodes.find(n=>n.id===id));}else if(id==='root'){render();fit();}else{render();focusNode(nodes.find(n=>n.id===id));}architecture.querySelector(`[data-node="${id}"]`)?.focus({preventScroll:true});}
+  let motion=0;
+  const reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
+  function stopMotion(){cancelAnimationFrame(motion);motion=0;}
+  function transition(update){
+    stopMotion();
+    const beforeCamera={...camera};
+    const before=new Map([...scene.querySelectorAll('[data-node]')].map(element=>{
+      const matrix=element.transform.baseVal[0].matrix;
+      return [element.dataset.node,{x:matrix.e,y:matrix.f,opacity:Number(element.style.opacity||1)}];
+    }));
+    update();
+    if(reducedMotion.matches)return;
+    const targetCamera={...camera};
+    const elements=new Map([...scene.querySelectorAll('[data-node]')].map(element=>[element.dataset.node,element]));
+    const paths=[...scene.querySelectorAll('.atlas-edge')];
+    const starts=new Map(nodes.map(node=>[node.id,before.get(node.id)||{x:node.x-36,y:node.y,opacity:0}]));
+    const started=performance.now();
+    function frame(now){
+      const progress=Math.min(1,(now-started)/360),ease=1-Math.pow(1-progress,3);
+      const positions=new Map();
+      for(const node of nodes){
+        const start=starts.get(node.id),x=start.x+(node.x-start.x)*ease,y=start.y+(node.y-start.y)*ease;
+        const opacity=start.opacity+(1-start.opacity)*ease;
+        const element=elements.get(node.id);element.setAttribute('transform',`translate(${x} ${y})`);element.style.opacity=opacity;
+        positions.set(node.id,{x,y,opacity});
+      }
+      edges.forEach(({from,to},index)=>{
+        const a=positions.get(from.id),b=positions.get(to.id);
+        const x=a.x+from.w,y=a.y+from.h/2,endX=b.x,endY=b.y+to.h/2,mid=(x+endX)/2;
+        paths[index].setAttribute('d',`M ${x} ${y} C ${mid} ${y}, ${mid} ${endY}, ${endX} ${endY}`);
+        paths[index].style.opacity=.65*Math.min(a.opacity,b.opacity);
+      });
+      camera={x:beforeCamera.x+(targetCamera.x-beforeCamera.x)*ease,y:beforeCamera.y+(targetCamera.y-beforeCamera.y)*ease,scale:beforeCamera.scale+(targetCamera.scale-beforeCamera.scale)*ease};
+      applyCamera();motion=progress<1?requestAnimationFrame(frame):0;
+    }
+    frame(started);
+  }
+  function activate(id){
+    const node=nodes.find(n=>n.id===id);if(!node)return;
+    const element=scene.querySelector(`[data-node="${id}"]`),position=element.transform.baseVal[0].matrix;
+    const anchor={x:position.e*camera.scale+camera.x,y:position.f*camera.scale+camera.y};
+    selected=id;selection.textContent=id==='root'?'三层架构总览':node.title;
+    transition(()=>{
+      if(node.expandable){
+        if(opened.has(id))opened.delete(id);else opened.add(id);
+        render();const updated=nodes.find(n=>n.id===id);
+        if(mobile())focusNode(updated);
+        else {camera.x=anchor.x-updated.x*camera.scale;camera.y=anchor.y-updated.y*camera.scale;applyCamera();}
+      }else if(id==='root'){render();fit();}else{render();}
+    });
+    architecture.querySelector(`[data-node="${id}"]`)?.focus({preventScroll:true});
+  }
   scene.addEventListener('click',e=>{const node=e.target.closest('[data-node]');if(node)activate(node.dataset.node);});
   scene.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){const node=e.target.closest('[data-node]');if(node){e.preventDefault();activate(node.dataset.node);}}});
   let drag=null;
-  viewport.addEventListener('pointerdown',e=>{if(e.target.closest('[data-node],button'))return;drag={id:e.pointerId,x:e.clientX,y:e.clientY,cx:camera.x,cy:camera.y};viewport.setPointerCapture(e.pointerId);viewport.classList.add('is-dragging');});
+  viewport.addEventListener('pointerdown',e=>{if(e.target.closest('[data-node],button'))return;stopMotion();drag={id:e.pointerId,x:e.clientX,y:e.clientY,cx:camera.x,cy:camera.y};viewport.setPointerCapture(e.pointerId);viewport.classList.add('is-dragging');});
   viewport.addEventListener('pointermove',e=>{if(drag&&drag.id===e.pointerId){camera.x=drag.cx+e.clientX-drag.x;camera.y=drag.cy+e.clientY-drag.y;applyCamera();}});
   const endDrag=()=>{drag=null;viewport.classList.remove('is-dragging');};viewport.addEventListener('pointerup',endDrag);viewport.addEventListener('pointercancel',endDrag);
-  viewport.addEventListener('wheel',e=>{e.preventDefault();const r=viewport.getBoundingClientRect();zoom(Math.exp(-e.deltaY*.0015),e.clientX-r.left,e.clientY-r.top);},{passive:false});
+  viewport.addEventListener('wheel',e=>{e.preventDefault();stopMotion();const r=viewport.getBoundingClientRect();zoom(Math.exp(-e.deltaY*.0015),e.clientX-r.left,e.clientY-r.top);},{passive:false});
   for(const button of architecture.querySelectorAll('[data-arch-action]')){
     if(button.dataset.archAction==='fullscreen'&&!document.fullscreenEnabled)button.hidden=true;
     button.addEventListener('click',async()=>{const action=button.dataset.archAction;
-      if(action==='expand'){layers.forEach(l=>{opened.add(l.id);l.groups.forEach(g=>opened.add(g.id));});render();fit();}
-      if(action==='collapse'){opened.clear();if(!mobile())layers.forEach(l=>opened.add(l.id));selected='root';selection.textContent='三层架构总览';render();fit();}
-      if(action==='fit')fit();if(action==='zoom-in')zoom(1.2);if(action==='zoom-out')zoom(1/1.2);
+      if(action==='expand')transition(()=>{layers.forEach(l=>{opened.add(l.id);l.groups.forEach(g=>opened.add(g.id));});render();fit();});
+      if(action==='collapse')transition(()=>{opened.clear();if(!mobile())layers.forEach(l=>opened.add(l.id));selected='root';selection.textContent='三层架构总览';render();fit();});
+      if(action==='fit')transition(fit);if(action==='zoom-in')transition(()=>zoom(1.2));if(action==='zoom-out')transition(()=>zoom(1/1.2));
       if(action==='fullscreen'){try{if(document.fullscreenElement===architecture)await document.exitFullscreen();else await architecture.requestFullscreen();}catch{button.hidden=true;}}
     });
   }
   document.addEventListener('fullscreenchange',()=>{const button=architecture.querySelector('[data-arch-action="fullscreen"]');button.textContent=document.fullscreenElement===architecture?'退出全屏':'全屏查看';button.setAttribute('aria-pressed',String(document.fullscreenElement===architecture));});
-  new ResizeObserver(()=>{render();fit();}).observe(viewport);
+  new ResizeObserver(()=>{stopMotion();render();fit();}).observe(viewport);
   render();fit();
 }
