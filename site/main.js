@@ -36,7 +36,7 @@ if (architecture) {
   const scene = architecture.querySelector('.atlas-scene');
   const scaleOutput = architecture.querySelector('#atlas-scale');
   const selection = architecture.querySelector('#atlas-selection');
-  const mobile = () => viewport.clientWidth < 600;
+  const mobile = () => window.innerWidth < 600;
   const layers = [
     { id:'flow', title:'工作流层', subtitle:'组织工程过程', color:'#c6ed81', groups:[
       { id:'basic', title:'基础工作流', subtitle:'覆盖工程迭代周期常规场景', leaves:['初始化','标准需求开发','简单修改','缺陷修复'] },
@@ -62,49 +62,61 @@ if (architecture) {
   const lines = (value, count=19) => { const chars=Array.from(value); const rows=[]; while(chars.length) rows.push(chars.splice(0,count).join('')); return rows; };
   function layout() {
     nodes=[];edges=[];
-    const narrow=mobile();
-    const root={id:'root',title:'AI 驱动开发体系',subtitle:'完整交付 · 多类型、多层级工作流',x:narrow?40:436,y:30,w:340,h:100,color:'#c6ed81',type:'root'};
-    nodes.push(root);
-    let nextY=190; let maxY=0;
+    const gap=22;
+    const groupHeight=group=>opened.has(group.id)?Math.max(84,group.leaves.reduce((height,title)=>height+(lines(title).length>1?66:54)+16,-16)):84;
+    let nextY=24;
     layers.forEach((layer,index)=>{
-      const x=narrow?40:40+index*392;const y=narrow?nextY:190;
-      const parent={...layer,x,y,w:340,h:94,type:'layer',tag:`0${index+1} / ${['WORKFLOWS','METHODS','MATERIALS'][index]}`, expandable:true};
-      nodes.push(parent); edges.push({from:root,to:parent,color:layer.color});
-      let groupY=y+132;
-      if(opened.has(layer.id)) for(const group of layer.groups) {
-        const node={...group,x:x+18,y:groupY,w:322,h:84,color:layer.color,type:'group',expandable:true,parent:layer.id};
-        nodes.push(node); edges.push({from:parent,to:node,color:layer.color,side:true});groupY+=110;
+      const visible=opened.has(layer.id);
+      const height=visible?layer.groups.reduce((total,group)=>total+groupHeight(group)+gap,-gap):94;
+      const parent={...layer,x:410,y:nextY+(height-94)/2,w:340,h:94,type:'layer',tag:`0${index+1} / ${['WORKFLOWS','METHODS','MATERIALS'][index]}`,expandable:true,parent:'root'};
+      nodes.push(parent);
+      let groupY=nextY;
+      if(visible) for(const group of layer.groups) {
+        const span=groupHeight(group);
+        const node={...group,x:820,y:groupY+(span-84)/2,w:322,h:84,color:layer.color,type:'group',expandable:true,parent:layer.id};
+        nodes.push(node);edges.push({from:parent,to:node,color:layer.color});
+        let leafY=groupY;
         if(opened.has(group.id)) group.leaves.forEach((title,leafIndex)=>{
-          const rowCount=lines(title).length;
-          const leaf={id:`${group.id}-${leafIndex}`,title,x:x+44,y:groupY-8,w:296,h:rowCount>1?66:54,color:layer.color,type:'leaf',parent:group.id};
-          nodes.push(leaf);edges.push({from:node,to:leaf,color:layer.color,side:true});groupY+=leaf.h+16;
+          const leaf={id:`${group.id}-${leafIndex}`,title,x:1212,y:leafY,w:296,h:lines(title).length>1?66:54,color:layer.color,type:'leaf',parent:group.id};
+          nodes.push(leaf);edges.push({from:node,to:leaf,color:layer.color});leafY+=leaf.h+16;
         });
-        groupY+=opened.has(group.id)?10:0;
+        groupY+=span+gap;
       }
-      maxY=Math.max(maxY,groupY);if(narrow)nextY=groupY+20;
+      nextY+=height+42;
     });
-    bounds={width:narrow?430:1220,height:maxY+24};
+    const height=nextY-42+24;
+    const root={id:'root',title:'AI 驱动开发体系',subtitle:'完整交付 · 多类型、多层级工作流',x:24,y:(height-100)/2,w:316,h:100,color:'#c6ed81',type:'root'};
+    nodes.unshift(root);
+    nodes.filter(node=>node.type==='layer').forEach(layer=>edges.push({from:root,to:layer,color:layer.color}));
+    bounds={width:Math.max(...nodes.map(node=>node.x+node.w))+24,height};
   }
   function render() {
     layout();
-    const paths=edges.map(({from,to,color,side})=>{
-      const startX=side?from.x+9:from.x+from.w/2;
-      const startY=side?from.y+from.h:from.y+from.h;
-      const endX=side?to.x:to.x+to.w/2;const endY=side?to.y+to.h/2:to.y;
-      const d=side?`M ${startX} ${startY} V ${endY-9} Q ${startX} ${endY} ${startX+9} ${endY} H ${endX}`:`M ${startX} ${startY} C ${startX} ${startY+30}, ${endX} ${endY-30}, ${endX} ${endY}`;
-      return `<path class="atlas-edge" style="stroke:${color}" d="${d}"/>`;
+    const paths=edges.map(({from,to,color})=>{
+      const startX=from.x+from.w,startY=from.y+from.h/2;
+      const endX=to.x,endY=to.y+to.h/2,midX=(startX+endX)/2;
+      return `<path class="atlas-edge" style="stroke:${color}" d="M ${startX} ${startY} C ${midX} ${startY}, ${midX} ${endY}, ${endX} ${endY}"/>`;
     }).join('');
     scene.innerHTML=paths+nodes.map(node=>{
       const titleRows=lines(node.title,node.type==='leaf'?19:18);
       const ty=node.type==='leaf'?(node.h-titleRows.length*20)/2+15:node.tag?46:32;
-      return `<g class="atlas-node is-${node.type}${selected===node.id?' is-selected':''}" data-node="${node.id}" transform="translate(${node.x} ${node.y})" style="--node-color:${node.color}" role="button" tabindex="0" aria-label="${escape(node.title)}${node.expandable?'，点击展开或收起':''}" ${node.expandable?`aria-expanded="${opened.has(node.id)}"`:''}><rect width="${node.w}" height="${node.h}" rx="10"/>${node.tag?`<text class="node-tag" x="18" y="22">${node.tag}</text>`:''}<text class="node-title" x="18" y="${ty}">${titleRows.map((row,i)=>`<tspan x="18" dy="${i?20:0}">${escape(row)}</tspan>`).join('')}</text>${node.subtitle?`<text class="node-subtitle" x="18" y="${node.tag?72:node.type==='root'?76:58}">${escape(node.subtitle)}</text>`:''}${node.expandable?`<text class="node-toggle" x="${node.w-30}" y="${node.tag?48:32}">${opened.has(node.id)?'−':'+'}</text>`:''}<circle class="atlas-port" cx="${node.w/2}" cy="${node.h}" r="3"/></g>`;
+      return `<g class="atlas-node is-${node.type}${selected===node.id?' is-selected':''}" data-node="${node.id}" transform="translate(${node.x} ${node.y})" style="--node-color:${node.color}" role="button" tabindex="0" aria-label="${escape(node.title)}${node.expandable?'，点击展开或收起':''}" ${node.expandable?`aria-expanded="${opened.has(node.id)}"`:''}><rect width="${node.w}" height="${node.h}" rx="10"/>${node.tag?`<text class="node-tag" x="18" y="22">${node.tag}</text>`:''}<text class="node-title" x="18" y="${ty}">${titleRows.map((row,i)=>`<tspan x="18" dy="${i?20:0}">${escape(row)}</tspan>`).join('')}</text>${node.subtitle?`<text class="node-subtitle" x="18" y="${node.tag?72:node.type==='root'?76:58}">${escape(node.subtitle)}</text>`:''}${node.expandable?`<text class="node-toggle" x="${node.w-30}" y="${node.tag?48:32}">${opened.has(node.id)?'−':'+'}</text>`:''}<circle class="atlas-port" cx="${node.w}" cy="${node.h/2}" r="3"/></g>`;
     }).join('');
     applyCamera();
   }
   function applyCamera(){scene.setAttribute('transform',`translate(${camera.x} ${camera.y}) scale(${camera.scale})`);scaleOutput.value=`${Math.round(camera.scale*100)}%`;}
-  function fit(){const w=viewport.clientWidth,h=viewport.clientHeight;camera.scale=Math.min(1.05,(w-36)/bounds.width,(h-36)/bounds.height);camera.x=(w-bounds.width*camera.scale)/2;camera.y=(h-bounds.height*camera.scale)/2;applyCamera();}
+  function fit(){if(mobile()){focusNode(nodes.find(node=>node.id==='root'));return;}const w=viewport.clientWidth,h=viewport.clientHeight;camera.scale=Math.min(1.05,(w-36)/bounds.width,(h-36)/bounds.height);camera.x=(w-bounds.width*camera.scale)/2;camera.y=(h-bounds.height*camera.scale)/2;applyCamera();}
   function zoom(factor,px=viewport.clientWidth/2,py=viewport.clientHeight/2){const old=camera.scale;camera.scale=Math.min(2,Math.max(.15,old*factor));camera.x=px-(px-camera.x)*camera.scale/old;camera.y=py-(py-camera.y)*camera.scale/old;applyCamera();}
-  function focusNode(node){const children=nodes.filter(n=>n.parent===node.id);const height=children.length?Math.max(...children.map(n=>n.y+n.h))-node.y+35:node.h+65;camera.scale=Math.min(1.1,(viewport.clientWidth-70)/380,(viewport.clientHeight-70)/height);camera.x=(viewport.clientWidth-node.w*camera.scale)/2-node.x*camera.scale;camera.y=35-node.y*camera.scale;applyCamera();}
+  function focusNode(node){
+    const children=nodes.filter(n=>n.parent===node.id);
+    // On small screens, bring the newly revealed column into view at readable size.
+    const visible=mobile()&&children.length?children:[node,...children];
+    const left=Math.min(...visible.map(n=>n.x)),top=Math.min(...visible.map(n=>n.y));
+    const width=Math.max(...visible.map(n=>n.x+n.w))-left,height=Math.max(...visible.map(n=>n.y+n.h))-top;
+    camera.scale=Math.min(1.1,(viewport.clientWidth-48)/width,(viewport.clientHeight-64)/height);
+    camera.x=(viewport.clientWidth-width*camera.scale)/2-left*camera.scale;
+    camera.y=(viewport.clientHeight-height*camera.scale)/2-top*camera.scale;applyCamera();
+  }
   function activate(id){const node=nodes.find(n=>n.id===id);if(!node)return;selected=id;selection.textContent=id==='root'?'三层架构总览':node.title;if(node.expandable){if(opened.has(id))opened.delete(id);else opened.add(id);render();focusNode(nodes.find(n=>n.id===id));}else if(id==='root'){render();fit();}else{render();focusNode(nodes.find(n=>n.id===id));}architecture.querySelector(`[data-node="${id}"]`)?.focus({preventScroll:true});}
   scene.addEventListener('click',e=>{const node=e.target.closest('[data-node]');if(node)activate(node.dataset.node);});
   scene.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){const node=e.target.closest('[data-node]');if(node){e.preventDefault();activate(node.dataset.node);}}});
