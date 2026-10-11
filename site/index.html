@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#0b0f14" />
-    <meta name="description" content="擎天 是一套可复用的 AI Development System：流程约束、Skills、Wiki 与可追踪的开发产物。给 AI 一个 SKILL.md 地址即可开始接入。" />
+    <meta name="description" content="擎天 是一套可复用的 AI Development System：Agent 工作流、Skills、Wiki，通过工程产物与证据支撑完整交付。给 AI 一个 SKILL.md 地址即可开始接入。" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="擎天 — 让 AI 开发有章可循" />
     <meta property="og:description" content="一套可以安装、检查和升级的 AI 驱动开发方法。" />
@@ -27,7 +27,7 @@
           <a href="#dashboard">项目大盘</a>
           <a href="#inside">三大部分</a>
           <a href="#flow">开发流程</a>
-          <a href="#artifacts">产物追踪</a>
+          <a href="#artifacts">产物与证据</a>
           <a href="#evolution">自动进化</a>
         </nav>
         <a class="nav-link" href="/SKILL.md">查看 SKILL.md <span aria-hidden="true">↗</span></a>
@@ -137,7 +137,7 @@ qingtian dashboard</code></pre><div class="handoff-bottom"><span>当前项目优
 
         <section class="section section-artifacts" id="artifacts" aria-labelledby="artifacts-title">
           <div class="wrap">
-            <div class="section-heading"><div><p class="section-kicker">04 / REVIEWABLE ARTIFACTS</p><h2 id="artifacts-title">过程留下产物，判断有迹可循。</h2></div><p>设计、计划、验证与交付记录放在明确的位置；Review 能找到依据，复盘能重新看到当时的判断。</p></div>
+            <div class="section-heading"><div><p class="section-kicker">04 / ARTIFACTS & EVIDENCE</p><h2 id="artifacts-title">工程产物与证据，支撑完整交付。</h2></div><p>贯穿 Agent 工作流、Skills、Wiki，承载方案、执行状态和验证结果，支持追踪、恢复与可检验的交付。</p></div>
             <div class="artifact-grid">
               <article class="artifact-card"><span>01 / THINK & DESIGN</span><h3>想法与设计</h3><p>记录问题、取舍和方案，让实现前的 Review 有明确对象。</p><code>docs/designs/YYYY-MM-DD-&lt;topic&gt;.design.md</code></article>
               <article class="artifact-card"><span>02 / PLAN & WORK</span><h3>计划与过程</h3><p>复杂任务保留计划和跨会话工作笔记，便于继续推进和核对范围。</p><code>docs/plans/YYYY-MM-DD-&lt;topic&gt;.plan.md</code></article>
@@ -145,7 +145,7 @@ qingtian dashboard</code></pre><div class="handoff-bottom"><span>当前项目优
               <article class="artifact-card"><span>04 / DELIVER & LEARN</span><h3>交付与复盘</h3><p>重要交付进入日志；复盘再判断哪些经验该更新到原 owner。</p><code>docs/logs/ · 按项目约定命名</code></article>
             </div>
             <div class="artifact-trace"><strong>从任务到复盘</strong><span>需求与设计 <b>→</b> 实现与验证 <b>→</b> Review <b>→</b> 交付日志 <b>→</b> 复盘沉淀</span></div>
-            <p class="artifact-note">共享命名规则还包括 <code>thoughts/</code> 与 <code>loops/</code> 的日期前缀、角色后缀。日志目录由项目制定；NextClaw 的 <code>v&lt;semver&gt;-&lt;slug&gt;</code> 只是一个项目示例。简单任务不强制创建空文档。<a href="/wiki/artifact-traceability.md">阅读产物与命名 Wiki ↗</a></p>
+            <p class="artifact-note">设计描述方案，记录承载过程，验证结果支持对应范围的结论；文档存在不等于结果已获证明。共享命名规则还包括 <code>thoughts/</code> 与 <code>loops/</code> 的日期前缀、角色后缀，日志按项目约定命名。简单任务不强制创建空文档。<a href="/wiki/artifact-traceability.md">阅读工程产物与证据 Wiki ↗</a></p>
           </div>
         </section>
 

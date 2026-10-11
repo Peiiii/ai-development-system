@@ -43,7 +43,9 @@ qingtian upgrade --target /path/to/project --dry-run
 2. **Skills**：七个阶段 Skill 负责开发环节；专项 Skill 处理治理、验收、知识和迭代等场景。
 3. **Wiki**：保存项目事实和多个 Skill 共享的信息块。通用信息由本仓库维护，目标项目维护自己的事实。
 
-部分专项 Skill 因渐进加载位于 `.agents/wiki/skills`，在职责上仍归 Skills。设计、计划、验证、Review 和重要交付通过命名规范与日志形成可追踪的产物链；简单任务不强制生成文档。当前的自动进化主要通过交付前复盘，把有证据的改进候选分流到流程、Skill 或 Wiki；持续发现与效果反馈仍待演进。详见[体系 Wiki](wiki/README.md)。
+三大职责模块通过**工程产物与证据**承载方案、执行状态和验证结果，支持追踪、恢复与可检验的交付；这是体系的核心支撑。设计与记录不自动证明行为已通过验收，证据须有明确适用范围。详见[工程产物与证据](wiki/artifact-traceability.md)。
+
+部分专项 Skill 因渐进加载位于 `.agents/wiki/skills`，在职责上仍归 Skills；简单任务不强制生成文档。当前的自动进化主要通过交付前复盘，把有证据的改进候选分流到流程、Skill 或 Wiki；持续发现与效果反馈仍待演进。详见[体系 Wiki](wiki/README.md)。
 
 ## 给 AI 一个接入地址
 
