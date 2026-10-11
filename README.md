@@ -2,6 +2,8 @@
 
 擎天（Qingtian，原名 DevWeave）是从 NextClaw 的 AI 驱动开发体系抽离出的可复用版本；AI Development System 是其类别描述。面向 Codex，保留 `AGENTS.md`、顶层 `development-*` Skill、按需加载的 Wiki 方法和项目自己的专项规则，并以 `qingtian` 命令提供跨项目大盘。
 
+体系的两个重点是**完整工程交付**，以及**覆盖工程迭代周期常规场景的多类型、多层级 Agent 工作流**。现有工作流包括四种基础任务路径，以及组合这些路径、维护整体成果的大型交付工作流。定义与讲述方式见[Agent 工作流定位](wiki/system-architecture.md#agent-工作流定位与介绍表达)。
+
 ## 一条命令打开项目大盘
 
 命令行工具需要 Node.js 22.12 或更新版本。安装并启动：
