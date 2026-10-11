@@ -302,3 +302,23 @@ h1 em { color: var(--accent); font-style: normal; }
 }
 
 .dashboard-command{margin:0;padding:24px 28px;font:13px/1.9 ui-monospace,SFMono-Regular,monospace;overflow:auto;color:var(--text,#edf4ff)}
+
+/* Architecture: three responsibility layers, with four material roles. */
+.architecture-stack { display: grid; gap: 0; }
+.architecture-layer { display: grid; grid-template-columns: 230px 1fr; gap: 32px; padding: 28px 32px; border: 1px solid #30404a; border-radius: 7px; background: #152028; }
+.architecture-layer-flow { background: linear-gradient(125deg, #253c33, #172721); border-color: #577759; }
+.layer-heading span, .foundation-heading > span { color: var(--accent); font: 500 11px var(--mono); letter-spacing: .06em; }
+.layer-heading h3, .foundation-heading h3 { margin: 12px 0 8px; font-size: 27px; letter-spacing: -.04em; }
+.layer-heading p, .foundation-heading p { margin: 0; color: #abb9b6; font-size: 13px; }
+.layer-body strong { font-size: 17px; }
+.layer-body p { margin: 10px 0 16px; color: #abb9b6; font-size: 14px; line-height: 1.85; max-width: 680px; }
+.layer-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.layer-tags span { padding: 5px 10px; border: 1px solid #496054; border-radius: 4px; color: #c5d4c6; font-size: 11px; }
+.layer-link { padding: 12px 0; text-align: center; color: #91ad99; font-size: 12px; }
+.architecture-foundation { padding: 28px 32px; border: 1px solid #45584e; border-radius: 7px; background: #131e21; }
+.foundation-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 24px; }
+.foundation-grid > div { border-top: 1px solid #354443; padding-top: 16px; }
+.foundation-grid h4 { margin: 0 0 10px; font-size: 15px; }
+.foundation-grid p { color: #abb9b6; font-size: 13px; line-height: 1.8; margin: 0; }
+@media (max-width: 1050px) { .foundation-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 700px) { .architecture-layer { grid-template-columns: 1fr; gap: 22px; padding: 24px; } .architecture-foundation { padding: 24px; } .foundation-grid { grid-template-columns: 1fr; } .layer-heading h3, .foundation-heading h3 { font-size: 24px; } }

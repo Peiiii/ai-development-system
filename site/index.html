@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#0b0f14" />
-    <meta name="description" content="擎天 是一套可复用的 AI Development System：Agent 工作流、Skills、Wiki，通过工程产物与证据支撑完整交付。给 AI 一个 SKILL.md 地址即可开始接入。" />
+    <meta name="description" content="擎天 是一套可复用的 AI Development System：工作流层、方法层、知识与任务资料层，支撑完整工程交付。给 AI 一个 SKILL.md 地址即可开始接入。" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="擎天 — 让 AI 开发有章可循" />
     <meta property="og:description" content="一套可以安装、检查和升级的 AI 驱动开发方法。" />
@@ -25,7 +25,7 @@
         <nav class="site-nav" aria-label="主导航">
           <a href="#how-it-works">如何接入</a>
           <a href="#dashboard">项目大盘</a>
-          <a href="#inside">三大部分</a>
+          <a href="#inside">三层架构</a>
           <a href="#flow">开发流程</a>
           <a href="#artifacts">产物与证据</a>
           <a href="#evolution">自动进化</a>
@@ -92,13 +92,20 @@ qingtian dashboard</code></pre><div class="handoff-bottom"><span>当前项目优
 
         <section class="section section-inside" id="inside" aria-labelledby="inside-title">
           <div class="wrap">
-            <div class="section-heading"><div><p class="section-kicker">02 / THREE PARTS, ONE SYSTEM</p><h2 id="inside-title">三大部分，彼此分工。</h2></div><p>流程决定何时做，Skill 负责如何做，Wiki 提供做判断所需的事实与共享信息。</p></div>
-            <div class="system-grid">
-              <article class="system-card system-card-featured"><div class="card-top"><span>01 / FLOW</span><span class="card-glyph">↘</span></div><h3>流程约束</h3><p>共享根规则与 lifecycle 定义任务分类、阶段门、授权边界和完成条件。它决定该走哪条路径、何时进入下一环节。</p><div class="card-code">AGENTS.md → development-lifecycle</div></article>
-              <article class="system-card"><div class="card-top"><span>02 / EXECUTION</span><span class="card-glyph">⌘</span></div><h3>Skills</h3><p>每个开发环节有对应的阶段 Skill；治理、验收、知识与迭代等专项场景由独立 Skill 按需处理。</p><div class="card-foot">阶段 Skill + 专项场景 Skill</div></article>
-              <article class="system-card"><div class="card-top"><span>03 / KNOWLEDGE</span><span class="card-glyph">▣</span></div><h3>Wiki</h3><p>沉淀项目事实、稳定术语和多个 Skill 共享的信息块。上游维护通用知识，目标项目维护自己的事实。</p><div class="card-foot">项目事实 + 共享信息块</div></article>
+            <div class="section-heading"><div><p class="section-kicker">02 / THREE LAYERS, ONE SYSTEM</p><h2 id="inside-title">三层架构，组织完整工程交付。</h2></div><p>工作流组织过程，Skills 提供方法与行为约束，知识与任务资料承载执行依据、状态和证据。</p></div>
+            <div class="architecture-stack" aria-label="工作流层、方法层、知识与任务资料层">
+              <article class="architecture-layer architecture-layer-flow"><div class="layer-heading"><span>01 / WORKFLOWS</span><h3>工作流层</h3><p>组织工程过程</p></div><div class="layer-body"><strong>基础工作流 + 大型交付</strong><p>初始化、标准需求开发、简单修改、缺陷修复；大型交付组合它们，维护整体成果。</p><div class="layer-tags"><span>阶段推进</span><span>返工</span><span>完成判断</span></div></div></article>
+              <div class="layer-link" aria-hidden="true">↓ 组织执行 · 按需调用</div>
+              <article class="architecture-layer"><div class="layer-heading"><span>02 / METHODS</span><h3>方法层</h3><p>Skills</p></div><div class="layer-body"><strong>执行方法 + 行为约束</strong><p>理解、设计、实现、验证、Review 等阶段方法，以及验收治理、知识治理、工作记录等专项方法。</p><div class="layer-tags"><span>怎么做</span><span>遵循什么方法</span></div></div></article>
+              <div class="layer-link" aria-hidden="true">↕ 读取依据 · 写入产物</div>
+              <article class="architecture-foundation"><div class="foundation-heading"><span>03 / KNOWLEDGE & TASK MATERIALS</span><h3>知识与任务资料层</h3><p>支撑判断、执行与接续</p></div><div class="foundation-grid">
+                <div><h4>项目知识 · Wiki</h4><p>环境、架构、既有行为、稳定知识与决策。</p></div>
+                <div><h4>任务约定与方案</h4><p>目标、需求、范围、验收合同，以及设计取舍和计划。</p></div>
+                <div><h4>工作记录与状态</h4><p>原始输入、过程变化、进度、剩余缺口与下一动作。</p></div>
+                <div><h4>验证证据</h4><p>测试结果、实际运行观察、Review 与验收结论。</p></div>
+              </div></article>
             </div>
-            <div class="system-note"><span>目录提示</span><p>有些专项 Skill 为了渐进加载放在 <code>.agents/wiki/skills/</code>；它们在职责上仍属于 Skills。Wiki 中的事实与信息块不承担执行流程。</p><a href="/wiki/system-architecture.md">阅读架构 Wiki ↗</a></div>
+            <div class="system-note"><span>两种约束</span><p>方法约束回答“做事遵循什么方法”；任务约束回答“这次要满足什么条件”。三层表达职责与依赖，工作流也可直接读取底层状态和证据。</p><a href="/wiki/system-architecture.md">查看完整架构树 ↗</a></div>
           </div>
         </section>
 
@@ -137,7 +144,7 @@ qingtian dashboard</code></pre><div class="handoff-bottom"><span>当前项目优
 
         <section class="section section-artifacts" id="artifacts" aria-labelledby="artifacts-title">
           <div class="wrap">
-            <div class="section-heading"><div><p class="section-kicker">04 / ARTIFACTS & EVIDENCE</p><h2 id="artifacts-title">工程产物与证据，支撑完整交付。</h2></div><p>贯穿 Agent 工作流、Skills、Wiki，承载方案、执行状态和验证结果，支持追踪、恢复与可检验的交付。</p></div>
+            <div class="section-heading"><div><p class="section-kicker">04 / ARTIFACTS & EVIDENCE</p><h2 id="artifacts-title">工程产物与证据，支撑完整交付。</h2></div><p>位于知识与任务资料层，承载任务约定、方案、执行状态和验证结果，支持追踪、恢复与可检验的交付。</p></div>
             <div class="artifact-grid">
               <article class="artifact-card"><span>01 / THINK & DESIGN</span><h3>想法与设计</h3><p>记录问题、取舍和方案，让实现前的 Review 有明确对象。</p><code>docs/designs/YYYY-MM-DD-&lt;topic&gt;.design.md</code></article>
               <article class="artifact-card"><span>02 / PLAN & WORK</span><h3>计划与过程</h3><p>保存有效约定、进度与下一动作，支持跨会话、跨 AI、跨人的开发接续；接手时核对实际现场。</p><code>docs/plans/YYYY-MM-DD-&lt;topic&gt;.plan.md</code></article>
