@@ -7,7 +7,7 @@ description: 仅在项目显式开启开发阶段标记插件时，展示已由L
 
 ## 开关与边界
 
-默认关闭，由项目根AGENTS.md的项目自有段落保存开关，安装/升级不自动开启。开启行：
+安装/升级时在项目根AGENTS.md的项目自有段落初始化为开启；已有明确开启/关闭选择保留，配置冲突阻止写入。开启行：
 
 ```text
 - Qingtian 插件 development-step-tracing：开启
@@ -23,10 +23,11 @@ description: 仅在项目显式开启开发阶段标记插件时，展示已由L
 
 - 开始任务且flow已确定：`[flow:standard][step:task-understanding]`（值按真实分类替换）。
 - flow尚未确定：先只写`[step:task-understanding]`；冻结flow后首次阶段转换补一次flow。
-- 阶段转换：`[step:implementation]`、`[step:validation]`等；同一阶段普通进度不重复。
+- 每条普通用户可见工作消息（进度与最终答复）都展示当前真实flow/step，同阶段普通进度也不省略。发送前检查唯一、有效且符合事实，不增加专用消息。
+- 阶段转换：`[flow:standard][step:implementation]`、`[flow:standard][step:validation]`等，flow按原分类；每条重新标当前阶段，不补造未经历的步骤。
 - 返工返回旧阶段：再次标真实目标阶段，不伪造跳过的阶段。
 - 恢复任务：从原任务记录核flow/phase，在第一条有意义的接续消息标当前阶段；无法确认则先理解核查，不能按最近提交猜阶段。
-- 收尾：标当前真实阶段并说明完成/未完成边界，不把`step`当完成凭证。已经处于同一阶段时不重复标记。
+- 收尾：仍标当前真实阶段并说明完成/未完成边界，不把`step`当完成凭证。同阶段收尾也必须有标记。
 
 允许flow：`initialization`、`standard`、`trivial`、`bugfix`。允许phase：`task-understanding`、`design`、`implementation`、`validation`、`review`、`delivery`、`retrospective`。方案与实现审查都用review，正文注明mode。每条消息最多一个flow和一个step；示例和引用不得在首行伪装成真实标记。
 

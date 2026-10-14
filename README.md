@@ -19,7 +19,7 @@ npm install -g @nextclaw/qingtian
 qingtian dashboard
 ```
 
-官网也提供可直接安装的版本包：`npm install -g https://ai-dev.nextclaw.io/download/qingtian-0.1.3.tgz`，校验文件为 `download/qingtian.sha256`。源码开发可执行 `npm ci` 后运行 `npm run dashboard`。大盘右上角提供浅色、深色、跟随系统主题；选择会记住，并延续至本机其它启动端口。
+官网也提供可直接安装的版本包：`npm install -g https://ai-dev.nextclaw.io/download/qingtian-0.1.4.tgz`，校验文件为 `download/qingtian.sha256`。源码开发可执行 `npm ci` 后运行 `npm run dashboard`。大盘右上角提供浅色、深色、跟随系统主题；选择会记住，并延续至本机其它启动端口。
 
 命令自动打开浏览器，优先进入当前项目，首屏查看当前推进、下一步、待关注事项与分类产物；从项目子目录启动也识别所属项目。其它接入项目可在侧栏切换，选择“项目总览”才汇总跨项目信息。刷新或页面重载保留所选项目；点开原文可沿已收录的 Markdown 链接追溯。没有当前状态记录时显示明确空态，不以更新时间推断进度或后台执行。
 
@@ -33,7 +33,7 @@ qingtian projects remove /path/to/project   # 仅移除登记，自动发现的�
 qingtian dashboard --no-open --port 4317    # 不自动打开浏览器，指定端口
 qingtian install --target /path/to/project --dry-run
 qingtian install --target /path/to/project
-qingtian check --target /path/to/project
+qingtian check --target /path/to/project --readiness
 qingtian upgrade --target /path/to/project --dry-run
 ```
 
@@ -84,15 +84,17 @@ node /path/to/ai-development-system/bin/ai-development-system.mjs upgrade --targ
 
 ## 接入后使用
 
-### 可选插件：开发阶段标记（默认关闭）
+### 接入初始化与开发阶段标记（默认开启）
 
-安装包携带该方法，但默认不加载、不输出。在目标项目根 `AGENTS.md` 的**项目自有段落**（体系受管标记外）加入：
+安装与升级会在目标项目根 `AGENTS.md` 的**项目自有段落**（体系受管标记外）初始化下列配置；已有明确开启或关闭选择保留，重复、冲突或非法配置阻止写入。dry-run只展示差异；`--agents=skip`不修改项目规则，需要自行补齐入口和配置：
 
 ```text
 - Qingtian 插件 development-step-tracing：开启
 ```
 
-下一次开发任务或恢复时，Lifecycle会按真实阶段输出例如 `[flow:standard][step:implementation]`；同阶段普通进度不重复。改为“关闭”或删除行即可关闭，升级保留项目自有配置。规则见[开发阶段标记](payload/.agents/wiki/skills/process/development-step-tracing/SKILL.md)。这是AI输出约定，非程序强制；不包含Token统计或大盘，也不替代非开发任务的运营模板。未升级的安装副本需先升级体系。
+下一次开发任务或恢复时，Lifecycle会按真实阶段输出例如 `[flow:standard][step:implementation]`；每条普通工作消息都带当前真实标记，同阶段进度与最终答复也不省略。明确改为“关闭”停用专属开发格式，普通消息仍沿共享规则的轻量step兜底；删除行表示尚未初始化，下一次升级补回默认。规则见[开发阶段标记](payload/.agents/wiki/skills/process/development-step-tracing/SKILL.md)。这是AI输出约定，非程序强制；不包含Token统计或大盘，也不替代非开发任务的运营模板。未升级的安装副本需先升级体系。
+
+安装后的必要验收分两层：运行 `qingtian check --target /path/to/project --readiness` 核文件、Lifecycle入口和单一展示配置；再由当前AI核宿主的真实发现路径，在新建或刷新规则的上下文中确认首条真实工作响应带阶段标记。文件校验通过不证明既有会话已重新加载，也不保证模型未来绝无遗漏；不可观察的运行验证必须标待验证。无需自动启动大盘、制造产品任务或修改其它AI的全局配置。
 
 直接向 AI 提出开发任务，不必每次提及 擎天。需要更新时，让 AI 读取同一个公开入口，预览并执行升级，再运行 `check`。目标项目无需为 擎天 增加 CI、构建脚本或运行时依赖。
 

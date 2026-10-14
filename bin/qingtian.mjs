@@ -17,9 +17,9 @@ const help = `擎天 Qingtian ${packageInfo.version} · AI 驱动开发体系
   qingtian projects list
       登记额外项目，或移除登记；自动扫描发现的项目仍会展示。
   qingtian install --target <项目目录> [--dry-run] [--agents=skip]
-  qingtian check --target <项目目录>
+  qingtian check --target <项目目录> [--readiness]
   qingtian upgrade --target <项目目录> [--dry-run]
-      接入、检查和升级；保留既有项目规则，拒绝覆盖受管文件改动。
+      接入、检查和升级；默认初始化阶段展示，保留明确开关；--readiness 核规则入口和展示配置，宿主加载仍需真实验证。
   qingtian --version
 
 Node.js 22.12+。默认扫描 ~/Projects 和当前目录；指定 --root 时覆盖默认根目录。

@@ -15,7 +15,7 @@ Task Understanding 给出目标、授权、验收、证据/未知、owner、风�
 
 ## 可选插件
 
-开发阶段标记默认关闭。开始任务时核对项目根 `AGENTS.md` 的项目自有段落：仅出现独立配置行 `- Qingtian 插件 development-step-tracing：开启` 时，读取[开发阶段标记](../../wiki/skills/process/development-step-tracing/SKILL.md)，在真实阶段转换时遵循其输出合同。缺配置或配置为“关闭”时不加载、不输出；配置重复或冲突时说明配置无效并按关闭处理，开发继续。开启只增加流程可见性，不改变阶段门或完成标准；限定调查/单阶段任务也不扩展范围。其它可选模块尚未定义，不能猜测启用。
+安装/升级默认初始化开发阶段标记；开始及恢复时核对根 `AGENTS.md` 项目自有段落的独立配置行 `- Qingtian 插件 development-step-tracing：开启`。开启时读取[开发阶段标记](../../wiki/skills/process/development-step-tracing/SKILL.md)，每条用户可见开发工作消息都沿真实阶段展示，同阶段也不省略。明确关闭时保留选择；缺配置、重复或冲突时说明接入未完成，使用共享 AGENTS 的轻量 step 兜底并继续开发，不擅改开关。开启只增加可见性，不改变阶段门或完成标准；限定调查/单阶段任务不扩范围。其它可选模块尚未定义，不能猜测启用。
 
 ## 分类与风险
 

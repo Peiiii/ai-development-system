@@ -11,6 +11,8 @@ const sourceRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), ".
 const lockName = ".agents/ai-development-system.lock.json";
 const startMarker = "<!-- ai-development-system:start -->";
 const endMarker = "<!-- ai-development-system:end -->";
+const tracingPath = ".agents/wiki/skills/process/development-step-tracing/SKILL.md";
+const tracingLine = "- Qingtian 插件 development-step-tracing：开启";
 
 function hash(value) {
   return createHash("sha256").update(value).digest("hex");
@@ -101,6 +103,48 @@ function managedBlock(text) {
   return { start, end: end + endMarker.length, text: text.slice(start, end + endMarker.length) };
 }
 
+function tracingConfiguration(text) {
+  const block = managedBlock(text);
+  const projectText = block ? text.slice(0, block.start) + text.slice(block.end) : text;
+  let fence = null;
+  const lines = projectText.split(/\r?\n/).filter((line) => {
+    const marker = line.match(/^\s*(`{3,}|~{3,})/);
+    if (marker) {
+      if (!fence) fence = marker[1][0];
+      else if (fence === marker[1][0]) fence = null;
+      return false;
+    }
+    return !fence && /^\s*-\s*Qingtian 插件 development-step-tracing(?:[：:]|$)/.test(line);
+  });
+  if (!lines.length) return null;
+  if (lines.length !== 1 || !/^- Qingtian 插件 development-step-tracing：(?:开启|关闭)$/.test(lines[0])) {
+    fail("Invalid development-step-tracing configuration: use one project-owned 开启/关闭 line");
+  }
+  return lines[0].endsWith("开启") ? "enabled" : "disabled";
+}
+
+async function initializeTracing(target, source, changes, agentsMode) {
+  if (!source.files.has(tracingPath)) return;
+  const bytes = changes.get("AGENTS.md") ?? await readOptional(await targetPath(target, "AGENTS.md"));
+  const text = bytes?.toString("utf8") ?? "";
+  const configured = tracingConfiguration(text);
+  if (!configured && agentsMode === "managed") {
+    changes.set("AGENTS.md", Buffer.from(`${text.trimEnd()}\n\n${tracingLine}\n`));
+  }
+}
+
+async function checkReadiness(target, lock) {
+  const bytes = await readOptional(await targetPath(target, "AGENTS.md"));
+  const text = bytes?.toString("utf8") ?? "";
+  if (!text.includes(".agents/skills/development-lifecycle/SKILL.md")) {
+    fail("Integration incomplete: root AGENTS.md must route to development-lifecycle");
+  }
+  if (!(tracingPath in lock.files)) fail("Integration incomplete: upgrade to install development-step-tracing");
+  const configuration = tracingConfiguration(text);
+  if (!configuration) fail("Integration incomplete: project-owned tracing configuration missing; upgrade or explicitly configure it");
+  console.log(`READY: rule entry and tracing configuration ${configuration}; host loading and first real marked response still require verification`);
+}
+
 async function readLock(target) {
   const bytes = await readOptional(await targetPath(target, lockName));
   if (!bytes) return null;
@@ -177,6 +221,7 @@ async function install(target, source, agentsMode, dryRun) {
     agents: { mode: agentsMode, hash: agentsHash },
   };
   changes.set(lockName, Buffer.from(`${JSON.stringify(lock, null, 2)}\n`));
+  await initializeTracing(target, source, changes, agentsMode);
   printPlan("install", changes);
   if (!dryRun) await applyChanges(target, changes);
 }
@@ -210,6 +255,7 @@ async function upgrade(target, source, lock, dryRun) {
   const nextLockBytes = Buffer.from(`${JSON.stringify(nextLock, null, 2)}\n`);
   const oldLockBytes = await readOptional(await targetPath(target, lockName));
   if (!oldLockBytes || !oldLockBytes.equals(nextLockBytes)) changes.set(lockName, nextLockBytes);
+  await initializeTracing(target, source, changes, lock.agents.mode);
   printPlan("upgrade", changes);
   if (!dryRun) await applyChanges(target, changes);
 }
@@ -217,16 +263,18 @@ async function upgrade(target, source, lock, dryRun) {
 export async function main(argv = process.argv.slice(2)) {
   const [action, ...args] = argv;
   if (!["install", "check", "upgrade"].includes(action)) {
-    fail("Usage: ai-development-system.mjs <install|check|upgrade> --target <repo> [--agents=skip] [--dry-run]");
+    fail("Usage: ai-development-system.mjs <install|check|upgrade> --target <repo> [--agents=skip] [--dry-run] [check --readiness]");
   }
   let target = null;
   let agentsMode = "managed";
   let dryRun = false;
+  let readiness = false;
   for (let index = 0; index < args.length; index += 1) {
     const arg = args[index];
     if (arg === "--target") target = args[++index];
     else if (arg === "--agents=skip" && action === "install") agentsMode = "skip";
     else if (arg === "--dry-run" && action !== "check") dryRun = true;
+    else if (arg === "--readiness" && action === "check") readiness = true;
     else fail(`Unknown argument: ${arg}`);
   }
   if (!target) fail("--target is required");
@@ -240,6 +288,7 @@ export async function main(argv = process.argv.slice(2)) {
   else {
     await verifyInstalled(target, lock);
     console.log(lock.sourceDigest === source.sourceDigest ? "OK: installed payload matches source" : "OK: installed payload is intact; upstream changes are available");
+    if (readiness) await checkReadiness(target, lock);
   }
 }
 

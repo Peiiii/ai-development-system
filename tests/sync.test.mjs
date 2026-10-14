@@ -97,3 +97,98 @@ test("managed AGENTS edits block an upgrade and dry-run changes nothing", async 
   assert.match(rejected.stderr, /AGENTS.md managed block changed/);
   assert.match(await readFile(agentsFile, "utf8"), /local override/);
 });
+
+async function tracingFixture(t) {
+  const context = await fixture(t);
+  const relative = ".agents/wiki/skills/process/development-step-tracing/SKILL.md";
+  const file = path.join(context.source, "payload", relative);
+  await mkdir(path.dirname(file), { recursive: true });
+  await writeFile(file, "tracing rules\n");
+  const manifestPath = path.join(context.source, "manifest.json");
+  const manifest = JSON.parse(await readFile(manifestPath, "utf8"));
+  manifest.files.push(relative);
+  await writeFile(manifestPath, JSON.stringify(manifest));
+  await writeFile(path.join(context.source, "payload", "AGENTS.shared.md"),
+    "Use .agents/skills/development-lifecycle/SKILL.md\n");
+  return context;
+}
+
+test("tracing initializes outside the managed block; readiness distinguishes host loading", async (t) => {
+  const {target, run} = await tracingFixture(t);
+  await writeFile(path.join(target, "AGENTS.md"), "Project policy\n");
+  assert.equal(run("install", "--dry-run").status, 0);
+  assert.equal(await readFile(path.join(target, "AGENTS.md"), "utf8"), "Project policy\n");
+  assert.equal(run("install").status, 0);
+  const agents = await readFile(path.join(target, "AGENTS.md"), "utf8");
+  assert.match(agents, /<!-- ai-development-system:end -->\n\n- Qingtian 插件 development-step-tracing：开启/);
+  const ready = run("check", "--readiness");
+  assert.equal(ready.status, 0, ready.stderr);
+  assert.match(ready.stdout, /configuration enabled; host loading.*still require verification/);
+});
+
+test("upgrade preserves explicit disabled tracing without changing project policy", async (t) => {
+  const {source, target, run} = await tracingFixture(t);
+  await writeFile(path.join(target, "AGENTS.md"), "Project policy\n- Qingtian 插件 development-step-tracing：关闭\n");
+  assert.equal(run("install").status, 0);
+  await writeFile(path.join(source, "payload", "AGENTS.shared.md"), "New .agents/skills/development-lifecycle/SKILL.md\n");
+  assert.equal(run("upgrade").status, 0);
+  const agents = await readFile(path.join(target, "AGENTS.md"), "utf8");
+  assert.equal((agents.match(/development-step-tracing/g) ?? []).length, 1);
+  assert.match(agents, /development-step-tracing：关闭/);
+  assert.match(run("check", "--readiness").stdout, /configuration disabled/);
+});
+
+test("upgrade initializes missing tracing once and repeat upgrade is idempotent", async (t) => {
+  const {target, run} = await tracingFixture(t);
+  assert.equal(run("install").status, 0);
+  const file = path.join(target, "AGENTS.md");
+  await writeFile(file, (await readFile(file, "utf8")).replace("- Qingtian 插件 development-step-tracing：开启\n", ""));
+  assert.equal(run("check", "--readiness").status, 1);
+  assert.equal(run("upgrade").status, 0);
+  const initialized = await readFile(file, "utf8");
+  assert.equal(run("upgrade").status, 0);
+  assert.equal(await readFile(file, "utf8"), initialized);
+  assert.equal((initialized.match(/development-step-tracing/g) ?? []).length, 1);
+});
+
+test("conflicting tracing configuration rejects install before any payload write", async (t) => {
+  const {target, run} = await tracingFixture(t);
+  await writeFile(path.join(target, "AGENTS.md"), "- Qingtian 插件 development-step-tracing：开启\n- Qingtian 插件 development-step-tracing：关闭\n");
+  const rejected = run("install");
+  assert.equal(rejected.status, 1);
+  assert.match(rejected.stderr, /Invalid development-step-tracing configuration/);
+  await assert.rejects(readFile(path.join(target, ".agents/skills/demo/SKILL.md")), {code:"ENOENT"});
+  assert.equal(run("check").status, 1);
+});
+
+test("skip mode never initializes user rules; readiness rejects a missing route", async (t) => {
+  const {target, run} = await tracingFixture(t);
+  const file = path.join(target, "AGENTS.md");
+  await writeFile(file, "Project policy\n");
+  assert.equal(run("install", "--agents=skip").status, 0);
+  const result = run("check", "--readiness");
+  assert.equal(result.status, 1);
+  assert.match(result.stderr, /must route to development-lifecycle/);
+  assert.equal(await readFile(file, "utf8"), "Project policy\n");
+});
+
+test("documented configuration examples are not active project configuration", async (t) => {
+  const {target, run} = await tracingFixture(t);
+  await writeFile(path.join(target, "AGENTS.md"), "Example: Qingtian 插件 development-step-tracing\n```text\n- Qingtian 插件 development-step-tracing：关闭\n```\n");
+  assert.equal(run("install").status, 0);
+  const ready = run("check", "--readiness");
+  assert.equal(ready.status, 0, ready.stderr);
+  assert.match(ready.stdout, /configuration enabled/);
+});
+
+test("conflicting configuration rejects upgrade without modifying managed files", async (t) => {
+  const {source, target, run} = await tracingFixture(t);
+  assert.equal(run("install").status, 0);
+  const agentsPath = path.join(target, "AGENTS.md");
+  await writeFile(agentsPath, (await readFile(agentsPath, "utf8")) + "- Qingtian 插件 development-step-tracing：关闭\n");
+  await writeFile(path.join(source, "payload", ".agents/skills/demo/SKILL.md"), "new version\n");
+  const rejected = run("upgrade");
+  assert.equal(rejected.status, 1);
+  assert.match(rejected.stderr, /Invalid development-step-tracing configuration/);
+  assert.equal(await readFile(path.join(target, ".agents/skills/demo/SKILL.md"), "utf8"), "demo v1\n");
+});
