@@ -57,7 +57,7 @@ try {
   await page.locator('#search').fill('公开包正文检索唯一词');
   await page.waitForFunction(()=>document.querySelectorAll('.artifact-row').length===1);
   await page.locator('.artifact-row').click();
-  await page.waitForFunction(()=>document.querySelector('#reader-title').textContent==='包内实际方案');
+  await page.waitForFunction(()=>document.querySelector('#reader-title').textContent==='a.md');
   assert.match(await page.locator('#reader-body').innerText(),/公开包正文检索唯一词/);
   await page.keyboard.press('Escape');
   await page.getByRole('button',{name:'浅色主题',exact:true}).click();

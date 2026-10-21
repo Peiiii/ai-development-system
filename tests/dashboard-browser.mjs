@@ -90,7 +90,7 @@ try {
   );
   await page.locator(".artifact-row").click();
   await page.waitForFunction(
-    () => document.querySelector("#reader-title").textContent === "实现方案",
+    () => document.querySelector("#reader-title").textContent === "design.md",
   );
   await page.locator("#source-tab").click();
   assert.match(
@@ -106,12 +106,12 @@ try {
   await page.locator(".artifact-row").filter({ hasText: "README.md" }).click();
   await page.locator("#reader-body a").filter({ hasText: "实现方案" }).click();
   await page.waitForFunction(
-    () => document.querySelector("#reader-title").textContent === "实现方案",
+    () => document.querySelector("#reader-title").textContent === "design.md",
   );
   assert.equal(await page.locator("#reader-back").isVisible(), true);
   await page.locator("#reader-back").click();
   await page.waitForFunction(
-    () => document.querySelector("#reader-title").textContent === "产品甲",
+    () => document.querySelector("#reader-title").textContent === "README.md",
   );
   await page.keyboard.press("Escape");
   await page.locator("#reader").waitFor({state:"hidden"});

@@ -19,7 +19,7 @@ try{
  await page.goto(dashboard.url);await page.locator('#preview-status').filter({hasText:'实时预览'}).waitFor();
  await page.waitForFunction(()=>document.querySelector('#preview-status').dataset.state==='connected');
  await page.locator('#search').fill('预览唯一词');await page.waitForFunction(()=>document.querySelectorAll('.artifact-row').length===1);
- await page.locator('.artifact-row').click();await page.waitForFunction(()=>document.querySelector('#reader-title').textContent==='实时预览验收');
+ await page.locator('.artifact-row').click();await page.waitForFunction(()=>document.querySelector('#reader-title').textContent==='README.md');
  await page.evaluate(()=>document.querySelector('#reader-scroll').scrollTop=500);
  let navigations=0;page.on('framenavigated',frame=>{if(frame===page.mainFrame())navigations++;});
  await fs.appendFile(path.join(assets,'styles.css'),'\n:root { --preview-test: ready; }\n');
@@ -28,7 +28,7 @@ try{
  const reloaded=page.waitForEvent('framenavigated',{predicate:frame=>frame===page.mainFrame()});
  await fs.appendFile(path.join(assets,'app.js'),'\n// live preview reload verification\n');
  await reloaded;
- await page.waitForFunction(()=>document.querySelector('#reader')?.open && document.querySelector('#reader-title').textContent==='实时预览验收');
+ await page.waitForFunction(()=>document.querySelector('#reader')?.open && document.querySelector('#reader-title').textContent==='README.md');
  await page.waitForFunction(()=>document.querySelector('#preview-status')?.dataset.state==='connected');
  await page.waitForFunction(()=>document.querySelector('#reader-scroll').scrollTop>=490);
  assert.ok(navigations>=1);assert.equal(await page.locator('#search').inputValue(),'预览唯一词');

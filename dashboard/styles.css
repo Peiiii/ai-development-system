@@ -172,7 +172,7 @@ h1 { margin: 0; font-size: clamp(28px,3vw,42px); letter-spacing: -1.6px; font-we
 .reader-top > #reader-category { flex:none; font-size:11px; }
 .reader-meta { padding: 2px 32px 4px; max-height: 32dvh; overflow: auto; }
 .reader-meta h2 { font-size: 22px; line-height: 1.4; font-weight: 600; margin: 0; letter-spacing: -.3px; overflow-wrap: anywhere; }
-#reader-path { color: var(--muted); font: 12px/1.8 ui-monospace, monospace; overflow-wrap: anywhere; }
+#reader-path { margin-top:4px; color:var(--muted); font:11px/18px ui-monospace,monospace; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .reader-state { color: var(--muted); font-size: 12px; line-height: 1.7; margin-top: 8px; }
 #reader-details { margin-top:4px; color:var(--muted); font-size:12px; line-height:22px; }
 #reader-details summary { cursor:pointer; width:fit-content; }

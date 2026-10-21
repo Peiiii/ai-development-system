@@ -22,7 +22,7 @@ try {
   await page.goto(service.url);
   const trigger=page.locator('.artifact-row').filter({hasText:'README.md'});
   await trigger.click();
-  await page.waitForFunction(()=>document.querySelector('#reader-title').textContent==='组件阅读验收');
+  await page.waitForFunction(()=>document.querySelector('#reader-title').textContent==='README.md');
   const panel=page.locator('#reader');
   await panel.getByRole('button',{name:'关闭原文阅读'}).focus();
   await page.waitForFunction(()=>document.querySelector('#reader').getAnimations().every(a=>a.playState!=='running'));

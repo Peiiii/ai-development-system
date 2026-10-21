@@ -71,6 +71,7 @@ async function api(url) {
   if (!response.ok) throw new Error(data.error || "读取失败");
   return data;
 }
+const fileName = doc => doc.path.split("/").at(-1);
 function date(value, withTime = false) {
   return new Intl.DateTimeFormat("zh-CN", {
     month: "2-digit",
@@ -253,8 +254,8 @@ function renderArtifacts() {
     );
     content.append(
       meta,
-      el("h3", "", doc.title),
-      el("p", "", doc.excerpt),
+      el("h3", "", fileName(doc)),
+      el("p", "", doc.title === fileName(doc) ? doc.excerpt : `${doc.title} · ${doc.excerpt}`),
       el("span", "artifact-path", doc.path),
     );
     const trailing = el("div", "artifact-trailing");
@@ -502,7 +503,7 @@ async function openDocument(id, anchor = "", isBack = false) {
     currentDocument = doc;
     const project = snapshot.projects.find((p) => p.id === doc.projectId);
     $("#reader-location").textContent = project.name;
-    $("#reader-title").textContent = doc.title;
+    $("#reader-title").textContent = fileName(doc);
     const skill = (snapshot.skills || []).find(skill=>skill.id === doc.skillId);
     $("#reader-category").textContent = skill ? (doc.id===skill.id ? "Skill 入口" : "Skill 附属文档") : categories[doc.category];
     $("#reader-details").open = false;
@@ -523,19 +524,14 @@ async function openDocument(id, anchor = "", isBack = false) {
       select.addEventListener("change",()=>openDocument(select.value));
       related.append(label,select);
     }
-    $("#reader-path").textContent =
-      `${doc.path} · 更新 ${date(doc.updatedAt, true)}`;
+    $("#reader-path").textContent = doc.path;
+    $("#reader-path").title = `${project.path}/${doc.path}`;
+    $("#reader-updated").textContent = `更新于 ${date(doc.updatedAt, true)}`;
     $("#reader-state").replaceChildren(
       skill ? createBadge(sourceLabels[skill.source]) : stateBadge(doc),
       el("span", "", skill ? `${skill.name} · 项目文件快照` : doc.statusEvidence || "当前状态未明确记录，需核实原文。"),
     );
     $("#reader-body").innerHTML = doc.html;
-    const firstHeading = $("#reader-body").firstElementChild;
-    if (
-      firstHeading?.tagName === "H1" &&
-      firstHeading.textContent.trim() === doc.title
-    )
-      firstHeading.remove();
     $("#reader-source").textContent = doc.text;
     $("#reader-back").hidden = readerHistory.length === 0;
     $("#reader-scroll").scrollTop = 0;
