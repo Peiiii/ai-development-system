@@ -67,6 +67,11 @@ try {
   assert.equal(await page.locator("#project-section").isVisible(), false);
   assert.equal(await page.locator("#focus-heading").innerText(), "当前推进");
   assert.equal(await page.locator("#focus-list .focus-item").count(), 1);
+  await page.locator('[data-resource-type="knowledge"]').click();
+  await page.locator('#focus-all').click();
+  assert.equal(await page.locator('[data-resource-type="artifacts"]').getAttribute('aria-selected'),'true');
+  assert.equal(await page.locator('.artifact-row').count(),1);
+  await page.getByRole('button',{name:'全部',exact:true}).click();
   const cardTitle=await page.locator('#focus-list .focus-item strong').innerText();
   assert.equal(cardTitle,'产品甲交付标题');
   assert.equal(await page.locator('#focus-list .focus-path').innerText(),'docs/work/task/current-state.md');

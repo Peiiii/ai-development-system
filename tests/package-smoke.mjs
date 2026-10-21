@@ -40,6 +40,8 @@ try {
   await fs.writeFile(path.join(target,'README.md'),'# 实际安装包产物\n[方案](docs/designs/a.md)\n');
   await fs.mkdir(path.join(target,'docs/designs'),{recursive:true});
   await fs.writeFile(path.join(target,'docs/designs/a.md'),'# 包内实际方案\n公开包正文检索唯一词\n');
+  await fs.mkdir(path.join(target,"wiki"),{recursive:true});
+  await fs.writeFile(path.join(target,"wiki/facts.md"),"# 项目知识\n安装包知识专属词");
   service = spawn(process.execPath,[cli,'dashboard','--no-open','--root',target,'--port','0'],{env,cwd:target,stdio:['ignore','pipe','pipe']});
   const url = await new Promise((resolve,reject)=>{
     let output='';const timer=setTimeout(()=>reject(new Error('安装包大盘启动超时')),20000);
@@ -73,8 +75,15 @@ try {
   await page.locator('.skill-row').first().click();
   await page.locator('#reader-related select').first().waitFor();
   assert.doesNotMatch(await page.locator('#reader-body').innerText(),/description:/);
+  assert.doesNotMatch(await page.locator('#reader-title').innerText(),/SKILL\.md|payload\//);
+  await page.keyboard.press('Escape');await page.locator('#reader').waitFor({state:'hidden'});
+  await page.locator('[data-resource-type="knowledge"]').click();
+  await page.waitForFunction(()=>document.querySelectorAll('.artifact-row').length===1);
+  await page.locator('.artifact-row').click();
+  await page.waitForFunction(()=>document.querySelector('#reader-title').textContent==='项目知识');
+  assert.match(await page.locator('#reader-body').innerText(),/安装包知识专属词/);
   assert.deepEqual(errors,[]);
-  const report={passed:true,version,packageSource,checkedAt:new Date().toISOString(),checks:['isolated npm install','dry-run no registration','install/check/upgrade','project rules retained','installed dashboard Skill and AGENTS route','packaged CLI current-project launch','browser body search','packaged document read','packaged theme switch and persistence','packaged 15 managed Skill entrances and drawer'],errors};
+  const report={passed:true,version,packageSource,checkedAt:new Date().toISOString(),checks:['isolated npm install','dry-run no registration','install/check/upgrade','project rules retained','installed dashboard Skill and AGENTS route','packaged CLI current-project launch','browser body search','packaged document read','packaged theme switch and persistence','packaged 15 named managed Skill entrances and drawer','packaged separate project knowledge module'],errors};
   await fs.mkdir('.local/qingtian-dashboard/package',{recursive:true});
   await fs.writeFile('.local/qingtian-dashboard/package/report.json',JSON.stringify(report,null,2));
   console.log(JSON.stringify(report,null,2));

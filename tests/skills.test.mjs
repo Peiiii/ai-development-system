@@ -11,6 +11,9 @@ test('Skills are scoped bundles with readable references, distinct sources and s
  t.after(()=>fs.rm(base,{recursive:true,force:true}));
  const write=async(p,s)=>{await fs.mkdir(path.dirname(path.join(root,p)),{recursive:true});await fs.writeFile(path.join(root,p),s);};
  await write('.agents/ai-development-system.lock.json',JSON.stringify({schemaVersion:1,sourceDigest:'fixture',files:{'.agents/skills/shared/SKILL.md':'hash'}}));
+ await write('wiki/facts.md','# 知识\n知识独有词');
+ await write('docs/knowledge/method.md','# 知识方法');
+ await write('.agents/wiki/knowledge/domain.md','# 领域知识');
  await write('README.md','# 项目资料\n产物唯一词');
  await write('.agents/skills/shared/SKILL.md','---\nname: "shared-method"\ndescription: >\n  Shared method\n  with references.\n---\n# Shared method\n[参考](references/check.md)');
  await write('.agents/skills/shared/references/check.md','# 检查\n参考唯一词');
@@ -23,6 +26,8 @@ test('Skills are scoped bundles with readable references, distinct sources and s
  assert.equal(snapshot.skills.length,4);
  assert.equal(snapshot.projects[0].documentCount,1);
  assert.equal(snapshot.projects[0].skillCount,4);
+ assert.equal(snapshot.projects[0].knowledgeCount,3);
+ assert.equal(snapshot.documents.filter(doc=>doc.resourceType === "knowledge").length,3);
  const shared=snapshot.skills.find(s=>s.name==='shared-method');
  assert.equal(shared.description,'Shared method with references.');assert.equal(shared.source,'managed');assert.equal(shared.documentIds.length,2);
  assert.equal(snapshot.skills.find(s=>s.name==='source').source,'source');
@@ -32,6 +37,8 @@ test('Skills are scoped bundles with readable references, distinct sources and s
  const headers={Authorization:`Bearer ${server.token}`};
  const search=await fetch(server.origin+'/api/search?q=参考唯一词&type=skills',{headers}).then(r=>r.json());assert.equal(search.ids.length,1);
  const artifacts=await fetch(server.origin+'/api/search?q=参考唯一词&type=artifacts',{headers}).then(r=>r.json());assert.equal(artifacts.ids.length,0);
+ const knowledge=await fetch(server.origin+'/api/search?q=知识独有词&type=knowledge',{headers}).then(r=>r.json());assert.equal(knowledge.ids.length,1);
+ const mixed=await fetch(server.origin+'/api/search?q=知识独有词&type=artifacts',{headers}).then(r=>r.json());assert.equal(mixed.ids.length,0);
  const doc=await fetch(server.origin+'/api/document?id='+shared.id,{headers}).then(r=>r.json());
  assert.doesNotMatch(doc.html,/name:|description:/);assert.match(doc.html,/#document=/);assert.match(doc.text,/name:/);
 });
