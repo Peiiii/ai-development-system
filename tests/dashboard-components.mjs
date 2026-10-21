@@ -29,11 +29,12 @@ try {
   const rect=await panel.boundingBox();
   assert.ok(Math.abs(rect.x+rect.width-1440)<2 && rect.y===0 && rect.height===1000,'document reader must be a full-height right drawer');
   assert.ok(rect.x>200,'desktop drawer retains the workspace context');
-  assert.equal(await panel.getAttribute('aria-describedby'),'reader-path');
+  assert.equal(await panel.getAttribute('aria-describedby'),'reader-state');
   const compactHeader=await panel.locator('[data-slot="sheet-header"]').boundingBox();
   assert.ok(compactHeader.height<180,'compact reader header leaves the main area for content');
-  await page.getByText('文档信息',{exact:true}).click();assert.equal(await page.locator('#reader-path').isVisible(),true);
-  await page.getByText('文档信息',{exact:true}).click();
+  assert.equal(await page.locator('#reader-title').isVisible(),true);
+  assert.match(await page.locator('#reader-state').innerText(),/更新：/);
+  assert.equal(await page.locator('#reader-state [role="listitem"]').count(),2);
   assert.equal(await page.evaluate(()=>getComputedStyle(document.documentElement).overflowY),'hidden');
   for(let i=0;i<12;i++) {
     await page.keyboard.press('Tab');

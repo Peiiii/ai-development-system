@@ -135,7 +135,7 @@ h1 { margin: 0; font-size: clamp(28px,3vw,42px); letter-spacing: -1.6px; font-we
 .artifact-meta { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; color: var(--muted); font-size: 11px; line-height: 1.5; }
 .document-type { font-size: 11px; color: var(--accent); font-weight: 500; }
 .artifact-meta time { margin-left: auto; }
-.artifact-row h3 { margin: 7px 0; font-size: 15px; font-weight: 550; line-height: 1.6; overflow-wrap: anywhere; }
+.artifact-row h3 { margin: 7px 0; font-family:ui-monospace,SFMono-Regular,monospace; font-size: 13px; font-weight: 550; line-height: 1.6; overflow-wrap: anywhere; }
 .artifact-row p { margin: 0 0 8px; color: var(--muted); font-size: 12px; line-height: 1.7; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .artifact-path { display: block; font: 10px/1.5 ui-monospace, monospace; color: var(--muted); overflow-wrap: anywhere; }
 .artifact-trailing { display: flex; flex-direction: column; align-items: flex-end; gap: 16px; padding-top: 2px; }
@@ -169,15 +169,11 @@ h1 { margin: 0; font-size: clamp(28px,3vw,42px); letter-spacing: -1.6px; font-we
 .reader-top { background: var(--panel); padding: 6px 32px; display: flex; align-items: center; gap: 12px; color: var(--muted); font-size: 12px; }
 .reader-top > span { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 #reader-close { font-size: 18px; }
-.reader-top > #reader-category { flex:none; font-size:11px; }
 .reader-meta { padding: 2px 32px 4px; max-height: 32dvh; overflow: auto; }
-.reader-meta h2 { font-size: 22px; line-height: 1.4; font-weight: 600; margin: 0; letter-spacing: -.3px; overflow-wrap: anywhere; }
-#reader-path { margin-top:4px; color:var(--muted); font:11px/18px ui-monospace,monospace; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-.reader-state { color: var(--muted); font-size: 12px; line-height: 1.7; margin-top: 8px; }
-#reader-details { margin-top:4px; color:var(--muted); font-size:12px; line-height:22px; }
-#reader-details summary { cursor:pointer; width:fit-content; }
-#reader-details[open] summary { margin-bottom:6px; }
-.reader-state .state-badge { margin-right: 10px; }
+.reader-meta h2 { font:600 16px/1.5 ui-monospace,SFMono-Regular,monospace; font-weight: 600; margin: 0; letter-spacing: -.3px; overflow-wrap: anywhere; }
+.reader-state { display:flex; flex-wrap:wrap; gap:6px; margin-top:7px; margin-bottom:3px; }
+.reader-state .metadata-tag { gap:0; font-size:11px; font-weight:400; padding:2px 7px; line-height:17px; }
+.reader-state .metadata-value { font-weight:500; }
 .reader-tabs { display: flex; gap: 8px; margin: 0 32px; }
 .reader-tabs button { color: var(--muted); font-size: 13px; padding: 8px 4px; margin-right: 12px; border-bottom: 2px solid transparent; }
 .reader-tabs button.active { color: var(--accent); border-bottom-color: var(--accent); }
@@ -274,7 +270,7 @@ h1 { margin: 0; font-size: clamp(28px,3vw,42px); letter-spacing: -1.6px; font-we
   .attention-focus, .project-section { margin-bottom: 28px; }
   .artifact-row { gap: 10px; padding: 18px 0; }
   .artifact-icon { width: 28px; height: 34px; font-size: 14px; }
-  .artifact-row h3 { font-size: 14px; }
+  .artifact-row h3 { font-size: 12px; }
   .artifact-meta { gap: 7px; font-size: 10px; }
   .artifact-meta time { margin-left: 0; }
   .artifact-path { font-size: 9px; }
@@ -286,8 +282,7 @@ h1 { margin: 0; font-size: clamp(28px,3vw,42px); letter-spacing: -1.6px; font-we
   .attention-panel { padding: 18px; }
   .reader-top { padding: 6px 22px; }
   .reader-meta { padding: 2px 22px 4px; }
-  .reader-meta h2 { font-size: 20px; }
-  #reader-path { font-size: 11px; }
+  .reader-meta h2 { font-size: 14px; }
   .reader-tabs { margin: 0 22px; gap: 4px; }
   .reader-tabs button { font-size: 12px; margin-right: 8px; }
   .prose { padding: 10px 22px 28px; font-size: 15px; }
@@ -308,7 +303,7 @@ h1 { margin: 0; font-size: clamp(28px,3vw,42px); letter-spacing: -1.6px; font-we
 .skill-row { min-width:0; display:flex; flex-direction:column; text-align:left; padding:24px; border:1px solid var(--line); border-radius:10px; background:var(--panel); color:var(--text); cursor:pointer; }
 .skill-row:hover { border-color:var(--accent); }
 .skill-meta { display:flex; gap:10px; align-items:center; font-size:11px; color:var(--muted); }
-.skill-row h3 { margin:18px 0 8px; font-size:18px; overflow-wrap:anywhere; }
+.skill-row h3 { margin:18px 0 8px; font:600 13px/1.6 ui-monospace,SFMono-Regular,monospace; overflow-wrap:anywhere; }
 .skill-description { font-size:13px; line-height:1.7; color:var(--muted); margin:0 0 16px; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; }
 .skill-row .artifact-path { margin-top:auto; overflow-wrap:anywhere; }
 .skill-footer { display:flex; justify-content:space-between; gap:8px; font-size:11px; color:var(--muted); border-top:1px solid var(--line); width:100%; padding-top:14px; margin-top:16px; }

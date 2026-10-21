@@ -71,7 +71,7 @@ async function api(url) {
   if (!response.ok) throw new Error(data.error || "读取失败");
   return data;
 }
-const fileName = doc => doc.path.split("/").at(-1);
+const documentTitle = doc => doc.path;
 function date(value, withTime = false) {
   return new Intl.DateTimeFormat("zh-CN", {
     month: "2-digit",
@@ -92,11 +92,20 @@ function message(text) {
   $("#message").textContent = text;
   $("#message").hidden = !text;
 }
+function statusVariant(status) {
+  return ["blocked", "pending"].includes(status) ? "danger"
+    : ["in-progress", "watching", "enabled"].includes(status) ? "info"
+    : status === "completed" ? "success" : "neutral";
+}
 function stateBadge(doc) {
-  const variant = ["blocked", "pending"].includes(doc.status) ? "danger"
-    : ["in-progress", "watching", "enabled"].includes(doc.status) ? "info"
-    : doc.status === "completed" ? "success" : "neutral";
-  return createBadge(states[doc.status] || "待核实", {variant, className:`state-badge ${doc.status}`});
+  return createBadge(states[doc.status] || "待核实", {variant:statusVariant(doc.status), className:`state-badge ${doc.status}`});
+}
+function metadataTag(key, value, variant = "neutral", evidence = "") {
+  const tag = createBadge("", {variant,className:"metadata-tag"});
+  tag.setAttribute("role", "listitem");
+  tag.append(el("span","metadata-label",`${key}：`),el("span","metadata-value",value));
+  if (evidence) tag.title = evidence;
+  return tag;
 }
 function projectDocuments(projectId) {
   return snapshot.documents.filter((doc) => doc.projectId === projectId && doc.resourceType !== "skills");
@@ -211,7 +220,7 @@ function renderSkills() {
     const item = el("button","skill-row");
     const meta = el("div","skill-meta");
     meta.append(createBadge(sourceLabels[skill.source]), el("span","",snapshot.projects.find(p=>p.id===skill.projectId).name));
-    item.append(meta, el("h3","",skill.name), el("p","skill-description",skill.description), el("span","artifact-path",skill.path));
+    item.append(meta, el("h3","",documentTitle(skill)), el("p","skill-description",`${skill.name} · ${skill.description}`));
     const footer = el("div","skill-footer");
     footer.append(el("span","",`${skill.documentIds.length - 1} 份附属 Markdown`), el("span","",`更新 ${date(skill.updatedAt)} · 阅读 →`));
     item.append(footer);
@@ -254,9 +263,8 @@ function renderArtifacts() {
     );
     content.append(
       meta,
-      el("h3", "", fileName(doc)),
-      el("p", "", doc.title === fileName(doc) ? doc.excerpt : `${doc.title} · ${doc.excerpt}`),
-      el("span", "artifact-path", doc.path),
+      el("h3", "", documentTitle(doc)),
+      el("p", "", `${doc.subject || doc.title} · ${doc.excerpt}`),
     );
     const trailing = el("div", "artifact-trailing");
     if (["work", "tracks", "recurring", "thoughts"].includes(doc.category))
@@ -291,7 +299,7 @@ function renderAttention() {
     const project = snapshot.projects.find((p) => p.id === doc.projectId);
     item.append(
       el("span", "attention-project", project.name),
-      el("strong", "", doc.title),
+      el("strong", "", documentTitle(doc)),
       stateBadge(doc),
       el(
         "p",
@@ -325,7 +333,8 @@ function renderAttention() {
     const project = snapshot.projects.find((p) => p.id === doc.projectId);
     const item = el("button", "focus-item");
     const top = el("div", "focus-item-top");
-    top.append(el("strong", "", selectedProject ? doc.subject || doc.title : project.name), stateBadge(doc));
+    top.append(el("strong", "", documentTitle(doc)), stateBadge(doc));
+    if (!selectedProject) item.append(el("span","attention-project",project.name));
     item.append(
       top,
       el(
@@ -503,10 +512,9 @@ async function openDocument(id, anchor = "", isBack = false) {
     currentDocument = doc;
     const project = snapshot.projects.find((p) => p.id === doc.projectId);
     $("#reader-location").textContent = project.name;
-    $("#reader-title").textContent = fileName(doc);
+    $("#reader-title").textContent = documentTitle(doc);
     const skill = (snapshot.skills || []).find(skill=>skill.id === doc.skillId);
-    $("#reader-category").textContent = skill ? (doc.id===skill.id ? "Skill 入口" : "Skill 附属文档") : categories[doc.category];
-    $("#reader-details").open = false;
+    const kind = skill ? (doc.id===skill.id ? "Skill 入口" : "Skill 附属文档") : categories[doc.category];
     const related = $("#reader-related");
     related.replaceChildren(); related.hidden = !skill || skill.documentIds.length <= 1;
     if (skill && skill.documentIds.length > 1) {
@@ -524,13 +532,12 @@ async function openDocument(id, anchor = "", isBack = false) {
       select.addEventListener("change",()=>openDocument(select.value));
       related.append(label,select);
     }
-    $("#reader-path").textContent = doc.path;
-    $("#reader-path").title = `${project.path}/${doc.path}`;
-    $("#reader-updated").textContent = `更新于 ${date(doc.updatedAt, true)}`;
-    $("#reader-state").replaceChildren(
-      skill ? createBadge(sourceLabels[skill.source]) : stateBadge(doc),
-      el("span", "", skill ? `${skill.name} · 项目文件快照` : doc.statusEvidence || "当前状态未明确记录，需核实原文。"),
-    );
+    $("#reader-title").title = `${project.path}/${doc.path}`;
+    $("#reader-location").title = project.path;
+    const metadata = $("#reader-state");
+    metadata.replaceChildren(metadataTag("更新",date(doc.updatedAt,true)),metadataTag("类型",kind));
+    if (skill) metadata.append(metadataTag("来源",sourceLabels[skill.source]));
+    else if (doc.status !== "unknown") metadata.append(metadataTag("状态",states[doc.status] || doc.status,statusVariant(doc.status),doc.statusEvidence));
     $("#reader-body").innerHTML = doc.html;
     $("#reader-source").textContent = doc.text;
     $("#reader-back").hidden = readerHistory.length === 0;
