@@ -7,7 +7,7 @@
 - [方案与计划](../plans/2026-10-21-review-fixes.md)，含方案 Review 与追加范围。
 - contract-id: qingtian-review-fixes-20261021；scope-revision: 5；scope-confirmation: user-confirmed（本会话追加抽屉与本地实时预览、Skills 只读浏览与本机默认免 token）。
 - parent-goal: 用户能打开当前项目大盘，原三处缺陷及实际鉴权恢复问题关闭，文档统一侧边阅读且基础组件可复用，适用发布和主线同步完成。
-- flow: bugfix（原缺陷）及 standard（抽屉/组件）；risk: L4；retrospective_state: pending。
+- flow: bugfix（原缺陷）及 standard（抽屉/组件）；risk: L4；retrospective_state: completed。
 - 原有 `docs/work/2026-10-09-qingtian-visual-upgrade/current-state.md` 未提交修改不属于本任务。期间其它会话提交 `3c4be70` 的愿景资料保留，本任务不修改其正文。
 
 ## 验收账本
@@ -24,7 +24,7 @@
 | RF08 | true | 显式开启实时预览，CSS 即时更新，JS/HTML 刷新后保留阅读上下文；普通服务不监听 | passed | SSE 鉴权/显式开启/文件变化/清理测试及四组浏览器预览验收；本机 preview=true 的 API 200 与真实界面已核 |
 | RF09 | true | 实时预览独立版本分发、本机更新与主线同步 | passed | 0.1.6 npm/官网公开文件及包 hash 均已核验，本机更新与 6da726b 主线同步 |
 | RF10 | true | 本机默认普通 URL，token 按需开启，原来源与只读边界保留 | passed | 31 项 Node、两种模式浏览器及免 token SSE 回归；实际普通地址 API 200、authRequired=false |
-| RF11 | true | 0.1.8 包、官网、本机与主线同步 | not-run | 最终发布链执行中 |
+| RF11 | true | 0.1.8 包、官网、本机与主线同步 | passed | npm/官网公开包与受测包字节一致；本机 CLI 和启动 Skill 已同步；ae4621c 已推送 |
 
 ## 实现与 Review
 
@@ -50,7 +50,7 @@ npm 已接受 0.1.5，初次 registry 版本查询返回 E404，等待期间继�
 
 22:37 用户确认首先需要查看、搜索与阅读 Skill 及其附属文档。设计与验收见[资源类型方案](../designs/2026-10-21-project-resources.design.md)。22:50 当前仓库真实页面显示 15 个入口，已保存实际截图 `.local/qingtian-dashboard/skills/actual-project.png`。
 
-RS01–RS04 已通过：默认产物与独立计数、来源筛选、参考正文搜索、同包抽屉导航、跨项目/刷新类型恢复、空态、手机无溢出以及原有鉴权/主题/预览回归。30 项 Node，15+8+6+4+6 组浏览器检查通过，无 pageerror。主代理实现 Review 检查单一安全读取、来源语义、最近目录包归属、搜索竞态与产物状态隔离；额外阻止穿过软链接父目录遍历。真实窄屏截图另发现选中按钮 hover 与组件样式冲突导致对比不足，已增加选中态优先级并补回归。无未关闭 finding，无独立代理评审。RS05 的真实项目入口已核，0.1.7 包验证与分发继续执行，不将源码通过冒充发布完成。
+RS01–RS04 已通过：默认产物与独立计数、来源筛选、参考正文搜索、同包抽屉导航、跨项目/刷新类型恢复、空态、手机无溢出以及原有鉴权/主题/预览回归。30 项 Node，15+8+6+4+6 组浏览器检查通过，无 pageerror。主代理实现 Review 检查单一安全读取、来源语义、最近目录包归属、搜索竞态与产物状态隔离；额外阻止穿过软链接父目录遍历。真实窄屏截图另发现选中按钮 hover 与组件样式冲突导致对比不足，已增加选中态优先级并补回归。无未关闭 finding，无独立代理评审。RS05 的真实项目入口已核；最终 0.1.8 安装包、公开分发、本机与主线同步完成，见下文。
 
 0.1.6 发布证据：官网部署 6e5825bc-a046-4748-9b72-c0645cfa6de1；npm tgz SHA256 `681aec71e1960f7f709489953c88c740ca65f578db8b50c39ccb226832d16cf4`，源归档 `621f2f0b3d1999525bb65cd8285bc83aa7e2fd46cbce95784b29a7b738a25f9e`。公开回读证据 `.local/qingtian-dashboard/release/public-0.1.6.json`。
 
@@ -62,6 +62,14 @@ RS01–RS04 已通过：默认产物与独立计数、来源筛选、参考正�
 
 0.1.7 Skills 包已被 npm 接受，精确提交 af99005 的 tgz 隔离安装与十项 smoke 通过。用户追加免 token 后，官网与本机直接交付 0.1.8，避免继续推广已被追加需求取代的默认鉴权。0.1.7 不覆盖，也不声称其官网部署完成。
 
+## 最终发布证据
+
+0.1.8 精确源码提交 ae4621c，独立快照构建；31 项 Node、57 受管文件、15+8+6+4+6 组浏览器验收、实际包十项 smoke 和 0.1.6→0.1.8 六项升级/可选鉴权检查通过。证据分别位于 `.local/qingtian-dashboard/{browser,theme,components,preview,skills}/` 与 `release/source-0.1.8/.local/qingtian-dashboard/package/report.json`、`release/upgrade-0.1.8.json`。
+
+官网部署 84b38701-b283-4d21-9b62-3ca3e5b76db7；公开 SKILL、两份校验文件、源码归档、npm tgz、dashboard Skill 均 HTTP 200 且与受测快照字节一致。npm 接受发布后短暂 404，23:00 前官方 metadata/tgz 200 并校验一致，没有重复 publish。npm tgz SHA256 `b196e0982a432693d7f811dc5f53c21edc0bca170113333a975c91ff40a3e837`，源归档 SHA256 `45e720734053bb243c07cbd716345ab60b3dd900af452a3bcfbc808608f45ee3`；完整回读证据 `release/public-0.1.8.json`。
+
+本机 qingtian=0.1.8；全局 dashboard Skill 与原版本逐字比较一致后同步新正文，旧副本留在本地恢复目录。当前服务免 token、实时预览，普通根地址数据 200，15 个本仓库入口可见；token 不写入日志。其它项目没有批量升级。并发愿景提交（含 9610207、1dcd2cd）及原 WIP 均保留；发布快照不会混入当时未提交改动。
+
 ## 复盘
 
-待适用验证和发布完成后更新。原问题均回已有 owner，组件体系由本次用户明确授权建立；不为模型效果证据缺口追加常驻规则，也不声称这些修复已证明自主交付净收益。
+全部必需验收与本轮交付已闭合。原问题均回已有 owner；共享 Markdown 示例边界由两调用方复用，文档读取/资源索引维持单一路径，抽屉和资源选中态的真实画面问题已转成边界回归。默认 token 的使用阻力按用户明确反馈修到产品默认行为和唯一启动 Skill，没有添加新的流程或确认门。组件体系由用户明确授权建立；不为模型效果证据缺口追加常驻规则，也不声称这些修复已证明自主交付净收益。
