@@ -23,6 +23,15 @@ try{
  assert.equal(await page.locator('[data-resource-type="artifacts"]').getAttribute('aria-pressed'),'true');
  assert.equal(await page.locator('.artifact-row').count(),1);assert.equal(await page.locator('#metric-documents').innerText(),'1');
  await page.locator('[data-resource-type="skills"]').click();
+ for (const theme of ['浅色主题','深色主题']) {
+   await page.getByRole('button',{name:theme,exact:true}).click();
+   await page.locator('[data-resource-type="skills"]').hover();
+   await page.waitForFunction(()=>{
+     const style=getComputedStyle(document.querySelector('[data-resource-type="skills"]'));
+     const lum=value=>value.match(/[\d.]+/g).slice(0,3).map(Number).map(n=>{const c=n/255;return c<=.04045?c/12.92:((c+.055)/1.055)**2.4;}).reduce((sum,c,i)=>sum+c*[.2126,.7152,.0722][i],0);
+     const fg=lum(style.color),bg=lum(style.backgroundColor);return (Math.max(fg,bg)+.05)/(Math.min(fg,bg)+.05)>=4.5;
+   });
+ }
  assert.equal(await page.locator('.skill-row').count(),2);assert.equal(await page.locator('#metric-projects').innerText(),'2');
  assert.equal(await page.locator('#attention-focus').isVisible(),false);
  await page.getByRole('button',{name:'框架源码',exact:true}).click();assert.equal(await page.locator('.skill-row').count(),1);
