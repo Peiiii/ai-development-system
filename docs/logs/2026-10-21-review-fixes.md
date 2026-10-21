@@ -5,9 +5,9 @@
 2026-10-21 用户要求 Review 最新体系；发现入口 readiness 误判、记录解析遗漏、tracing 关闭说明冲突。用户随后要求打开大盘并解决这些问题，实际打开又复现完整 token 链接无法恢复已加载的错误页。用户追加：文档阅读全部改为抽屉，并优先参考 shadcn/ui 的封装方法和源码，沉淀可复用组件。
 
 - [方案与计划](../plans/2026-10-21-review-fixes.md)，含方案 Review 与追加范围。
-- contract-id: qingtian-review-fixes-20261021；scope-revision: 10；scope-confirmation: user-confirmed（本会话追加抽屉与本地实时预览、Skills 只读浏览与本机默认免 token）。
+- contract-id: qingtian-review-fixes-20261021；scope-revision: 11；scope-confirmation: user-confirmed（本会话追加抽屉与本地实时预览、Skills 只读浏览与本机默认免 token）。
 - parent-goal: 用户能打开当前项目大盘，原三处缺陷及实际鉴权恢复问题关闭，文档统一侧边阅读且基础组件可复用，适用发布和主线同步完成。
-- flow: bugfix（原缺陷）及 standard（抽屉/组件）；risk: L4；retrospective_state: completed。
+- flow: bugfix（原缺陷）及 standard（抽屉/组件）；risk: L4；retrospective_state: pending。
 - 原有 `docs/work/2026-10-09-qingtian-visual-upgrade/current-state.md` 未提交修改不属于本任务。期间其它会话提交 `3c4be70` 的愿景资料保留，本任务不修改其正文。
 
 ## 验收账本
@@ -88,6 +88,10 @@ RS01–RS04 已通过：默认产物与独立计数、来源筛选、参考正�
 
 官网部署 051bfac6-1ce2-4b20-9831-ef85382e2f13；公开 SKILL、两份 checksum、源归档、npm tgz、dashboard Skill 均 200，与受测快照逐字节一致。tgz SHA256 `e2bbcf85f3ae1d9ad8aef64bdfee2f985786fd8473be0cab039a06eba1d70957`；源归档 SHA256 `383b944be9177aa2da3194998f954cc845cfc042406e80db00c7c84e8af25b9f`。本机 CLI=0.1.10，现有免 token 实时预览已核；npm 接受发布后匿名 JSON 回读一度仍为旧版本，23:37 通过实际 npm view --prefer-online 核得 version/latest=0.1.10，registry tgz 200 且与受测包逐字节一致；回读证据在 `.local/qingtian-dashboard/release/public-0.1.10.json`，不重复 publish。
 
+## 当前推进摘要追加优化
+
+23:40 用户明确要求当前推进卡片恢复此前易读的任务名称展示。23:43 预览已更新并通过定向回归，预计 23:50 完成分发。摘要卡片使用 taskTitle：subject、正文题名、路径依次回退；两行标题与单行小字号路径，完整文字有悬停提示。普通文档列表、其它资料入口仍用完整路径。为延续用户的入口/抽屉一致要求，推进入口传递相同任务标题至抽屉；关联返回与实时预览保存该上下文，同页锚点不改变当前标题，旧纯 id 历史可恢复。实际任务卡片与抽屉均已看图，截图 `components/task-summary-{card,reader}.png`；无独立评审。0.1.11 发布验证继续执行。
+
 ## 复盘
 
-全部必需验收与最终 0.1.10 交付已闭合。最终发布核验使用实际 npm 客户端优先联网读取及公开包字节比对，避免把陈旧 JSON 缓存当作实际安装入口不可用。标题先收敛到用户明确选择的相对路径，再由单一映射覆盖卡片与抽屉，配合点击后严格相等的真实回归，关闭此前取值分叉。原问题均回已有 owner；共享 Markdown 示例边界由两调用方复用，文档读取/资源索引维持单一路径，抽屉和资源选中态的真实画面问题已转成边界回归。默认 token 的使用阻力按用户明确反馈修到产品默认行为和唯一启动 Skill，没有添加新的流程或确认门。组件体系由用户明确授权建立；不为模型效果证据缺口追加常驻规则，也不声称这些修复已证明自主交付净收益。
+0.1.10 必需验收与交付已闭合；0.1.11 当前推进追加范围正在交付。最终发布核验使用实际 npm 客户端优先联网读取及公开包字节比对，避免把陈旧 JSON 缓存当作实际安装入口不可用。标题先收敛到用户明确选择的相对路径，再由单一映射覆盖卡片与抽屉，配合点击后严格相等的真实回归，关闭此前取值分叉。原问题均回已有 owner；共享 Markdown 示例边界由两调用方复用，文档读取/资源索引维持单一路径，抽屉和资源选中态的真实画面问题已转成边界回归。默认 token 的使用阻力按用户明确反馈修到产品默认行为和唯一启动 Skill，没有添加新的流程或确认门。组件体系由用户明确授权建立；不为模型效果证据缺口追加常驻规则，也不声称这些修复已证明自主交付净收益。

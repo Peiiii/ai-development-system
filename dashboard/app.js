@@ -72,6 +72,7 @@ async function api(url) {
   return data;
 }
 const documentTitle = doc => doc.path;
+const taskTitle = doc => doc.subject || doc.title || doc.path;
 function date(value, withTime = false) {
   return new Intl.DateTimeFormat("zh-CN", {
     month: "2-digit",
@@ -333,10 +334,15 @@ function renderAttention() {
     const project = snapshot.projects.find((p) => p.id === doc.projectId);
     const item = el("button", "focus-item");
     const top = el("div", "focus-item-top");
-    top.append(el("strong", "", documentTitle(doc)), stateBadge(doc));
+    const title = el("strong", "", taskTitle(doc));
+    title.title = taskTitle(doc);
+    top.append(title, stateBadge(doc));
     if (!selectedProject) item.append(el("span","attention-project",project.name));
+    const pathHint = el("span", "focus-path", doc.path);
+    pathHint.title = doc.path;
     item.append(
       top,
+      pathHint,
       el(
         "p",
         "",
@@ -344,7 +350,7 @@ function renderAttention() {
       ),
       el("span", "attention-source", "查看依据 →"),
     );
-    item.addEventListener("click", () => openDocument(doc.id));
+    item.addEventListener("click", () => openDocument(doc.id, "", false, taskTitle(doc)));
     focus.append(item);
   }
   if (selectedProject && !work.length)
@@ -491,15 +497,16 @@ async function search() {
     if (sequence === searchSequence) message(`搜索失败：${error.message}`);
   }
 }
-async function openDocument(id, anchor = "", isBack = false) {
+async function openDocument(id, anchor = "", isBack = false, taskHeading = null) {
   const sequence = ++documentSequence;
   if (!reader.isOpen) {
     readerHistory = [];
     currentDocument = null;
     reader.open();
   }
+  if (taskHeading == null && currentDocument?.id === id) taskHeading = currentDocument.taskHeading;
   if (!isBack && currentDocument && currentDocument.id !== id)
-    readerHistory.push(currentDocument.id);
+    readerHistory.push({id:currentDocument.id, taskHeading:currentDocument.taskHeading});
   $("#reader-body").textContent = "正在读取原文…";
   $("#reader-message").hidden = true;
   $("#reader-source").hidden = true;
@@ -509,10 +516,14 @@ async function openDocument(id, anchor = "", isBack = false) {
   try {
     const doc = await api(`/api/document?id=${encodeURIComponent(id)}`);
     if (sequence !== documentSequence || !reader.isOpen) return;
-    currentDocument = doc;
+    currentDocument = {...doc, taskHeading};
     const project = snapshot.projects.find((p) => p.id === doc.projectId);
     $("#reader-location").textContent = project.name;
-    $("#reader-title").textContent = documentTitle(doc);
+    $("#reader-title").textContent = taskHeading || documentTitle(doc);
+    $("#reader").dataset.titleMode = taskHeading ? "task" : "path";
+    $("#reader-context-path").hidden = !taskHeading;
+    $("#reader-context-path").textContent = doc.path;
+    $("#reader-context-path").title = `${project.path}/${doc.path}`;
     const skill = (snapshot.skills || []).find(skill=>skill.id === doc.skillId);
     const kind = skill ? (doc.id===skill.id ? "Skill 入口" : "Skill 附属文档") : categories[doc.category];
     const related = $("#reader-related");
@@ -614,8 +625,8 @@ $("#reader").addEventListener("close", () => {
   readerHistory = [];
 });
 $("#reader-back").addEventListener("click", () => {
-  const id = readerHistory.pop();
-  if (id) openDocument(id, "", true);
+  const entry = readerHistory.pop();
+  if (entry) openDocument(entry.id, "", true, entry.taskHeading);
 });
 $("#reader-body").addEventListener("click", (event) => {
   const link = event.target.closest("a");
@@ -690,8 +701,9 @@ async function startPreview() {
     if (saved.search) await search();
     else render();
     if (saved.documentId && snapshot.documents.some(doc=>doc.id===saved.documentId)) {
-      await openDocument(saved.documentId);
-      readerHistory = (saved.history || []).filter(id=>snapshot.documents.some(doc=>doc.id===id));
+      await openDocument(saved.documentId, "", false, saved.taskHeading || null);
+      readerHistory = (saved.history || []).map(entry=>typeof entry === "string" ? {id:entry,taskHeading:null} : entry)
+        .filter(entry=>snapshot.documents.some(doc=>doc.id===entry.id));
       $("#reader-back").hidden = readerHistory.length === 0;
       if (saved.source) $("#source-tab").click();
       $("#reader-scroll").scrollTop = saved.readerScroll || 0;
@@ -702,7 +714,7 @@ async function startPreview() {
     token,
     getState: () => ({projectId:selectedProject, category:selectedCategory, attentionOnly, resourceType:selectedResourceType, skillSource:selectedSource,
       search:$("#search").value, documentId:reader.isOpen ? currentDocument?.id : null,
-      history:readerHistory, source:!$("#reader-source").hidden,
+      taskHeading:currentDocument?.taskHeading, history:readerHistory, source:!$("#reader-source").hidden,
       readerScroll:$("#reader-scroll").scrollTop, scrollY:window.scrollY}),
     onStatus(state, text) {
       const indicator = $("#preview-status");

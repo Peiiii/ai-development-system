@@ -34,7 +34,7 @@ for (const name of ["产品甲", "产品乙"]) {
   await write(
     root,
     "docs/work/task/current-state.md",
-    `# 当前任务\n- 任务：${name}交付标题\n- 整体状态：${name === "产品甲" ? "blocked" : "in-progress"}\n- 下一步：核对真实结果\n- 未闭合：${name}验收缺口\n`,
+    `# 当前任务\n- 任务：${name}交付标题\n- 整体状态：${name === "产品甲" ? "blocked" : "in-progress"}\n- 下一步：核对真实结果\n- 未闭合：${name}验收缺口\n[项目说明](../../../README.md)\n`,
   );
 }
 const dashboard = await startDashboard({
@@ -68,13 +68,25 @@ try {
   assert.equal(await page.locator("#focus-heading").innerText(), "当前推进");
   assert.equal(await page.locator("#focus-list .focus-item").count(), 1);
   const cardTitle=await page.locator('#focus-list .focus-item strong').innerText();
-  assert.equal(cardTitle,'docs/work/task/current-state.md');
+  assert.equal(cardTitle,'产品甲交付标题');
+  assert.equal(await page.locator('#focus-list .focus-path').innerText(),'docs/work/task/current-state.md');
   await page.locator('#focus-list .focus-item').click();
   await page.waitForFunction(title=>document.querySelector('#reader-title').textContent===title,cardTitle);
   assert.match(await page.locator('#reader-state').textContent(),/状态：阻塞/);
   assert.equal(await page.locator('#reader-state [data-variant="danger"]').count(),1);
   assert.equal(await page.locator('#reader-title').isVisible(),true);
+  assert.equal(await page.locator('#reader-context-path').isVisible(),true);
+  await page.locator('#reader-body a').filter({hasText:'项目说明'}).click();
+  await page.waitForFunction(()=>document.querySelector('#reader-title').textContent==='README.md');
+  await page.locator('#reader-back').click();
+  await page.waitForFunction(()=>document.querySelector('#reader-title').textContent==='产品甲交付标题');
+
   await page.keyboard.press('Escape');await page.locator('#reader').waitFor({state:'hidden'});
+  await page.locator('.artifact-row').filter({hasText:'docs/work/task/current-state.md'}).click();
+  await page.waitForFunction(()=>document.querySelector('#reader-title').textContent==='docs/work/task/current-state.md');
+  assert.equal(await page.locator('#reader-context-path').isVisible(),false);
+  await page.keyboard.press('Escape');await page.locator('#reader').waitFor({state:'hidden'});
+
 
   assert.equal(await page.locator("#metric-scope-label").innerText(), "推进入口");
   assert.equal(await page.locator("#metric-documents").innerText(), "3");

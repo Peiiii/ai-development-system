@@ -27,13 +27,13 @@ npm install -g @nextclaw/qingtian
 qingtian dashboard
 ```
 
-官网也提供可直接安装的版本包：`npm install -g https://ai-dev.nextclaw.io/download/qingtian-0.1.10.tgz`，校验文件为 `download/qingtian.sha256`。源码开发可执行 `npm ci` 后运行 `npm run dev`，打开命令输出的完整地址即可实时预览。大盘右上角提供浅色、深色、跟随系统主题；选择会记住，并延续至本机其它启动端口。
+官网也提供可直接安装的版本包：`npm install -g https://ai-dev.nextclaw.io/download/qingtian-0.1.11.tgz`，校验文件为 `download/qingtian.sha256`。源码开发可执行 `npm ci` 后运行 `npm run dev`，打开命令输出的完整地址即可实时预览。大盘右上角提供浅色、深色、跟随系统主题；选择会记住，并延续至本机其它启动端口。
 
 命令自动打开浏览器，优先进入当前项目，首屏查看当前推进、下一步、待关注事项与分类产物；从项目子目录启动也识别所属项目。其它接入项目可在侧栏切换，选择“项目总览”才汇总跨项目信息。刷新或页面重载保留所选项目；点开原文可沿已收录的 Markdown 链接追溯。没有当前状态记录时显示明确空态，不以更新时间推断进度或后台执行。
 
 下方资料列表通过“项目产物 / Skills”下划线分页切换，默认项目产物；项目统计与推进区保持项目范围。Skills 支持按名称、描述、路径与附属 Markdown 搜索，以 SKILL.md 入口分组，并区分项目自有、体系托管和框架源码；抽屉内可切换同包文档。读取项目的 `.agents/skills`、`.agents/wiki/skills`、`.claude/skills`、`.codex/skills`，以及本体系的 `payload/` 对应目录。这里只提供查看与阅读，文件存在不代表宿主已加载。
 
-文档统一在右侧抽屉阅读，手机上满屏；列表、推进卡片与抽屉统一显示相对项目的完整路径作为标题，保留目录和日期；正文题名作为摘要与原文保留，悬停或复制可取得完整绝对路径；更新时间、类型、来源或状态直接显示为紧凑键值标签，状态使用语义颜色，同包文档通过单行下拉切换；支持 Esc、关闭按钮或遮罩关闭，保留原文、关联文档返回及主题。大盘的 [Sheet、Tabs、Button、Badge 源码与使用约定](dashboard/components/README.md)参考 shadcn/ui 的组合方式，复用现有主题变量；原生 dialog 承接模态与焦点行为。本机默认直接打开普通地址即可；需要会话鉴权时执行 `qingtian dashboard --require-token`，再使用输出的完整 token 链接。
+文档统一在右侧抽屉阅读，手机上满屏；文档列表和常规抽屉保留完整相对路径标题；“当前推进”卡片突出任务名称、辅以小字号路径，打开抽屉沿用同一任务标题；正文题名作为摘要与原文保留，悬停或复制可取得完整绝对路径；更新时间、类型、来源或状态直接显示为紧凑键值标签，状态使用语义颜色，同包文档通过单行下拉切换；支持 Esc、关闭按钮或遮罩关闭，保留原文、关联文档返回及主题。大盘的 [Sheet、Tabs、Button、Badge 源码与使用约定](dashboard/components/README.md)参考 shadcn/ui 的组合方式，复用现有主题变量；原生 dialog 承接模态与焦点行为。本机默认直接打开普通地址即可；需要会话鉴权时执行 `qingtian dashboard --require-token`，再使用输出的完整 token 链接。
 
 开发大盘时，`npm run dev` 监听本仓库 `dashboard/`：CSS 加载完成后即时替换，JS/HTML 修改自动刷新，保留当前项目、分类、搜索、打开的文档/源码视图和阅读位置。浏览器显示“实时预览”表示已连接；后端模块修改仍须重启。`npm run dashboard` 保持普通只读模式；全局 CLI 的 `qingtian dashboard --watch` 监听该 CLI 安装目录中的前端文件，修改本仓库源码应使用 `npm run dev`。
 
