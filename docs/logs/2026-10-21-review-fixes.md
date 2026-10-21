@@ -7,7 +7,7 @@
 - [方案与计划](../plans/2026-10-21-review-fixes.md)，含方案 Review 与追加范围。
 - contract-id: qingtian-review-fixes-20261021；scope-revision: 10；scope-confirmation: user-confirmed（本会话追加抽屉与本地实时预览、Skills 只读浏览与本机默认免 token）。
 - parent-goal: 用户能打开当前项目大盘，原三处缺陷及实际鉴权恢复问题关闭，文档统一侧边阅读且基础组件可复用，适用发布和主线同步完成。
-- flow: bugfix（原缺陷）及 standard（抽屉/组件）；risk: L4；retrospective_state: pending。
+- flow: bugfix（原缺陷）及 standard（抽屉/组件）；risk: L4；retrospective_state: completed。
 - 原有 `docs/work/2026-10-09-qingtian-visual-upgrade/current-state.md` 未提交修改不属于本任务。期间其它会话提交 `3c4be70` 的愿景资料保留，本任务不修改其正文。
 
 ## 验收账本
@@ -25,6 +25,8 @@
 | RF09 | true | 实时预览独立版本分发、本机更新与主线同步 | passed | 0.1.6 npm/官网公开文件及包 hash 均已核验，本机更新与 6da726b 主线同步 |
 | RF10 | true | 本机默认普通 URL，token 按需开启，原来源与只读边界保留 | passed | 31 项 Node、两种模式浏览器及免 token SSE 回归；实际普通地址 API 200、authRequired=false |
 | RF11 | true | 0.1.8 包、官网、本机与主线同步 | passed | npm/官网公开包与受测包字节一致；本机 CLI 和启动 Skill 已同步；ae4621c 已推送 |
+| RF12 | true | 列表内下划线分页、紧凑页头、内外路径标题一致、元数据直接显示为语义标签 | passed | 39 组浏览器验收包含卡片与抽屉标题严格一致、状态语义及同包/返回；实际路径标题画面已看 |
+| RF13 | true | 最终 0.1.10 发布、本机与主线同步 | passed | 官网和 npm tgz 与受测包逐字节一致；npm latest=0.1.10；本机 CLI=0.1.10；3dbea46 已推送 |
 
 ## 实现与 Review
 
@@ -80,6 +82,12 @@ RS01–RS04 已通过：默认产物与独立计数、来源筛选、参考正�
 
 0.1.9 已由 npm 接受并部署官网（1b74c798-5bda-4fb2-ac11-5671320305d9），但其标题与折叠元数据在用户进一步反馈后被取代。最终交付进入 0.1.10，不覆盖已发布版本；23:29 更新预计 23:35 完成。默认本机免 token 与实时预览保留。
 
+## 0.1.10 最终交付核验
+
+精确代码提交 3dbea46，独立快照构建；57 受管文件检查、39 组浏览器检查和实际 tgz 十项安装/CLI/浏览器 smoke 通过。主代理实现 Review 核对单一 documentTitle(path) 的五类真实调用方、元数据/任务状态边界、Tabs 键盘语义、单行资料导航、焦点和预览恢复；无未关闭 finding，无独立代理评审。已看最终桌面/手机截图与用户实际状态文档，最新实际截图为 `.local/qingtian-dashboard/components/latest-path-tags.png`。
+
+官网部署 051bfac6-1ce2-4b20-9831-ef85382e2f13；公开 SKILL、两份 checksum、源归档、npm tgz、dashboard Skill 均 200，与受测快照逐字节一致。tgz SHA256 `e2bbcf85f3ae1d9ad8aef64bdfee2f985786fd8473be0cab039a06eba1d70957`；源归档 SHA256 `383b944be9177aa2da3194998f954cc845cfc042406e80db00c7c84e8af25b9f`。本机 CLI=0.1.10，现有免 token 实时预览已核；npm 接受发布后匿名 JSON 回读一度仍为旧版本，23:37 通过实际 npm view --prefer-online 核得 version/latest=0.1.10，registry tgz 200 且与受测包逐字节一致；回读证据在 `.local/qingtian-dashboard/release/public-0.1.10.json`，不重复 publish。
+
 ## 复盘
 
-0.1.8 必需验收与交付已闭合；最终 0.1.10 追加修正交付中。原问题均回已有 owner；共享 Markdown 示例边界由两调用方复用，文档读取/资源索引维持单一路径，抽屉和资源选中态的真实画面问题已转成边界回归。默认 token 的使用阻力按用户明确反馈修到产品默认行为和唯一启动 Skill，没有添加新的流程或确认门。组件体系由用户明确授权建立；不为模型效果证据缺口追加常驻规则，也不声称这些修复已证明自主交付净收益。
+全部必需验收与最终 0.1.10 交付已闭合。最终发布核验使用实际 npm 客户端优先联网读取及公开包字节比对，避免把陈旧 JSON 缓存当作实际安装入口不可用。标题先收敛到用户明确选择的相对路径，再由单一映射覆盖卡片与抽屉，配合点击后严格相等的真实回归，关闭此前取值分叉。原问题均回已有 owner；共享 Markdown 示例边界由两调用方复用，文档读取/资源索引维持单一路径，抽屉和资源选中态的真实画面问题已转成边界回归。默认 token 的使用阻力按用户明确反馈修到产品默认行为和唯一启动 Skill，没有添加新的流程或确认门。组件体系由用户明确授权建立；不为模型效果证据缺口追加常驻规则，也不声称这些修复已证明自主交付净收益。
