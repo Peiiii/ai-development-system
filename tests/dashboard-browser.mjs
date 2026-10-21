@@ -39,6 +39,7 @@ for (const name of ["产品甲", "产品乙"]) {
 }
 const dashboard = await startDashboard({
   roots: [base],
+  requireToken: true,
   configDir: path.join(base, "config"),
   currentDirectory: path.join(base, "产品甲", "docs"),
 });

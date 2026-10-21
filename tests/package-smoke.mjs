@@ -43,10 +43,11 @@ try {
   service = spawn(process.execPath,[cli,'dashboard','--no-open','--root',target,'--port','0'],{env,cwd:target,stdio:['ignore','pipe','pipe']});
   const url = await new Promise((resolve,reject)=>{
     let output='';const timer=setTimeout(()=>reject(new Error('安装包大盘启动超时')),20000);
-    service.stdout.on('data',chunk=>{output+=chunk.toString();const match=output.match(/http:\/\/127\.0\.0\.1:\d+\/#token=[a-f0-9]+/);if(match){clearTimeout(timer);resolve(match[0]);}});
+    service.stdout.on('data',chunk=>{output+=chunk.toString();const match=output.match(/http:\/\/127\.0\.0\.1:\d+\/(?:#token=[a-f0-9]+)?/);if(match){clearTimeout(timer);resolve(match[0]);}});
     service.once('error',error=>{clearTimeout(timer);reject(error);});
     service.once('exit',code=>{clearTimeout(timer);reject(new Error(`大盘提前退出 ${code}: ${output}`));});
   });
+  assert.equal(new URL(url).hash, "");
   browser = await chromium.launch({headless:true});
   const page=await browser.newPage({viewport:{width:1280,height:900}});
   const errors=[];page.on('pageerror',error=>errors.push(error.message));

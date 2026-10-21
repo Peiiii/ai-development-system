@@ -5,7 +5,7 @@
 2026-10-21 用户要求 Review 最新体系；发现入口 readiness 误判、记录解析遗漏、tracing 关闭说明冲突。用户随后要求打开大盘并解决这些问题，实际打开又复现完整 token 链接无法恢复已加载的错误页。用户追加：文档阅读全部改为抽屉，并优先参考 shadcn/ui 的封装方法和源码，沉淀可复用组件。
 
 - [方案与计划](../plans/2026-10-21-review-fixes.md)，含方案 Review 与追加范围。
-- contract-id: qingtian-review-fixes-20261021；scope-revision: 4；scope-confirmation: user-confirmed（本会话追加抽屉与本地实时预览及 Skills 只读浏览）。
+- contract-id: qingtian-review-fixes-20261021；scope-revision: 5；scope-confirmation: user-confirmed（本会话追加抽屉与本地实时预览、Skills 只读浏览与本机默认免 token）。
 - parent-goal: 用户能打开当前项目大盘，原三处缺陷及实际鉴权恢复问题关闭，文档统一侧边阅读且基础组件可复用，适用发布和主线同步完成。
 - flow: bugfix（原缺陷）及 standard（抽屉/组件）；risk: L4；retrospective_state: pending。
 - 原有 `docs/work/2026-10-09-qingtian-visual-upgrade/current-state.md` 未提交修改不属于本任务。期间其它会话提交 `3c4be70` 的愿景资料保留，本任务不修改其正文。
@@ -23,6 +23,8 @@
 | RF07 | true | 原修复和抽屉的实际包安装、官网/npm、本机可用入口和 origin/main 同步 | passed | 0.1.5 已发布，公开包与受测包字节一致，本机 CLI 已更新，4f32c94 已同步主线 |
 | RF08 | true | 显式开启实时预览，CSS 即时更新，JS/HTML 刷新后保留阅读上下文；普通服务不监听 | passed | SSE 鉴权/显式开启/文件变化/清理测试及四组浏览器预览验收；本机 preview=true 的 API 200 与真实界面已核 |
 | RF09 | true | 实时预览独立版本分发、本机更新与主线同步 | passed | 0.1.6 npm/官网公开文件及包 hash 均已核验，本机更新与 6da726b 主线同步 |
+| RF10 | true | 本机默认普通 URL，token 按需开启，原来源与只读边界保留 | passed | 31 项 Node、两种模式浏览器及免 token SSE 回归；实际普通地址 API 200、authRequired=false |
+| RF11 | true | 0.1.8 包、官网、本机与主线同步 | not-run | 最终发布链执行中 |
 
 ## 实现与 Review
 
@@ -51,6 +53,14 @@ npm 已接受 0.1.5，初次 registry 版本查询返回 E404，等待期间继�
 RS01–RS04 已通过：默认产物与独立计数、来源筛选、参考正文搜索、同包抽屉导航、跨项目/刷新类型恢复、空态、手机无溢出以及原有鉴权/主题/预览回归。30 项 Node，15+8+6+4+6 组浏览器检查通过，无 pageerror。主代理实现 Review 检查单一安全读取、来源语义、最近目录包归属、搜索竞态与产物状态隔离；额外阻止穿过软链接父目录遍历。真实窄屏截图另发现选中按钮 hover 与组件样式冲突导致对比不足，已增加选中态优先级并补回归。无未关闭 finding，无独立代理评审。RS05 的真实项目入口已核，0.1.7 包验证与分发继续执行，不将源码通过冒充发布完成。
 
 0.1.6 发布证据：官网部署 6e5825bc-a046-4748-9b72-c0645cfa6de1；npm tgz SHA256 `681aec71e1960f7f709489953c88c740ca65f578db8b50c39ccb226832d16cf4`，源归档 `621f2f0b3d1999525bb65cd8285bc83aa7e2fd46cbce95784b29a7b738a25f9e`。公开回读证据 `.local/qingtian-dashboard/release/public-0.1.6.json`。
+
+## 默认本机直接访问
+
+用户指出本地 token 造成打开不便，明确要求默认关闭、按需启用。默认 URL 改为普通根地址，`--require-token` 保留原 token/Bearer 模式；依旧仅绑定 127.0.0.1，Host/Origin/Fetch Metadata 拒绝跨来源读取，不增加远程监听。前端会清理免鉴权服务残留的旧 token，搜索、原文与 SSE 共用同一模式。共享 dashboard Skill 同步默认行为。
+
+31 项 Node、15+8+6+4+6 组浏览器验收通过。新增默认模式覆盖 API/search/read/SSE，伪 Host、跨 Origin/站点及 POST 拒绝；旧鉴权恢复保留显式模式测试。Node fetch 会忽略伪 Host，最初测试因此失败，改用原生 HTTP request 发真实 Host 后通过。22:55 实际服务 API 未带凭据 200，currentProjectId 指向本仓库，15 个 Skill、实时预览已核；普通地址已返回用户。
+
+0.1.7 Skills 包已被 npm 接受，精确提交 af99005 的 tgz 隔离安装与十项 smoke 通过。用户追加免 token 后，官网与本机直接交付 0.1.8，避免继续推广已被追加需求取代的默认鉴权。0.1.7 不覆盖，也不声称其官网部署完成。
 
 ## 复盘
 

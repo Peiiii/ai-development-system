@@ -2,13 +2,13 @@
 
 擎天（Qingtian，原名 DevWeave）是从 NextClaw 的 AI 驱动开发体系抽离出的可复用版本；AI Development System 是其类别描述。面向 Codex，保留 `AGENTS.md`、顶层 `development-*` Skill、按需加载的 Wiki 方法和项目自己的专项规则，并以 `qingtian` 命令提供跨项目大盘。
 
-长期主线是**持续扩大人能够放心委托给 AI 的工作范围**：让人能够把越来越复杂、越来越开放、持续时间越来越长的开发目标交给 AI，由体系自主推进，直到交付满意的真实结果，并减少人亲自拆解、催促、检查和纠偏的负担。依托 Codex、Claude Code 等现成编码 Agent，在其之上沉淀完整委托、工程交付与实践改进的能力；优先复用宿主，不重造通用编码 Agent。当前实现与未来愿景分别说明，完整论述见[愿景主线与定位边界](wiki/engineering-background.md#愿景主线持续扩大人能够放心委托给-ai-的工作范围)。
+长期主线是**持续扩大人能够放心委托给 AI 的工作范围**：让人能够把越来越复杂、越来越开放、持续时间越来越长的开发目标交给 AI，由体系自主推进，直到交付满意的真实结果，并减少人亲自拆解、催促、检查和纠偏的负担。依托 Codex、Claude Code 等现成编码 Agent，在其之上沉淀完整委托、工程交付与实践改进的能力；优先复用宿主，不重造通用编码 Agent。当前实现与未来愿景分别说明，完整论述见[愿景主线与定位边界](wiki/vision.md#愿景主线持续扩大人能够放心委托给-ai-的工作范围)。
 
-在上述主线上，补充面向非专业用户的易用与自治理愿景：无需学习内部机制即可表达目标、使用结果，体系通过自治理逐步承担自身维护、异常恢复和方法改进的负担。可委托范围扩大与使用门槛、维护负担降低共同推进；目标与检验方式见[易用与自治理](wiki/engineering-background.md#易用与自治理非专业用户无需学习和维护内部机制)。
+在上述主线上，补充面向非专业用户的易用与自治理愿景：无需学习内部机制即可表达目标、使用结果，体系通过自治理逐步承担自身维护、异常恢复和方法改进的负担。可委托范围扩大与使用门槛、维护负担降低共同推进；目标与检验方式见[易用与自治理](wiki/vision.md#易用与自治理非专业用户无需学习和维护内部机制)。
 
-当前愿景概括为**堪当重任、自主交付、普适易用、自我治理、持续进化**，每项对应的完整解释见[五个关键词及解释](wiki/engineering-background.md#愿景概括五个关键词及解释)。
+当前愿景概括为**堪当重任、自主交付、普适易用、自我治理、持续进化**，每项对应的完整解释见[五个关键词及解释](wiki/vision.md#愿景概括五个关键词及解释)。
 
-背景判断是：模型与 Harness 能力增强，让 Agent 能承担的工作单位扩大，由此需要跨人、跨会话、跨环境的开发接续，并通过验证闭环推进完整交付。因果结构与介绍开场见[体系背景](wiki/engineering-background.md)。
+背景判断是：模型与 Harness 能力增强，让 Agent 能承担的工作单位扩大，由此需要跨人、跨会话、跨环境的开发接续，并通过验证闭环推进完整交付。因果结构与介绍开场见[愿景的发展依据](wiki/vision.md#发展依据工作单位扩大与验证闭环)。
 
 体系的两个重点是**完整工程交付**，以及**覆盖工程迭代周期常规场景的多类型、多层级 Agent 工作流**。现有工作流包括四种基础任务路径，以及组合这些路径、维护整体成果的大型交付工作流。定义与讲述方式见[Agent 工作流定位](wiki/system-architecture.md#agent-工作流定位与介绍表达)。
 
@@ -25,13 +25,13 @@ npm install -g @nextclaw/qingtian
 qingtian dashboard
 ```
 
-官网也提供可直接安装的版本包：`npm install -g https://ai-dev.nextclaw.io/download/qingtian-0.1.7.tgz`，校验文件为 `download/qingtian.sha256`。源码开发可执行 `npm ci` 后运行 `npm run dev`，打开命令输出的完整地址即可实时预览。大盘右上角提供浅色、深色、跟随系统主题；选择会记住，并延续至本机其它启动端口。
+官网也提供可直接安装的版本包：`npm install -g https://ai-dev.nextclaw.io/download/qingtian-0.1.8.tgz`，校验文件为 `download/qingtian.sha256`。源码开发可执行 `npm ci` 后运行 `npm run dev`，打开命令输出的完整地址即可实时预览。大盘右上角提供浅色、深色、跟随系统主题；选择会记住，并延续至本机其它启动端口。
 
 命令自动打开浏览器，优先进入当前项目，首屏查看当前推进、下一步、待关注事项与分类产物；从项目子目录启动也识别所属项目。其它接入项目可在侧栏切换，选择“项目总览”才汇总跨项目信息。刷新或页面重载保留所选项目；点开原文可沿已收录的 Markdown 链接追溯。没有当前状态记录时显示明确空态，不以更新时间推断进度或后台执行。
 
 大盘按“项目产物 / Skills”切换资源类型，默认项目产物。Skills 支持按名称、描述、路径与附属 Markdown 搜索，以 SKILL.md 入口分组，并区分项目自有、体系托管和框架源码；抽屉内可切换同包文档。读取项目的 `.agents/skills`、`.agents/wiki/skills`、`.claude/skills`、`.codex/skills`，以及本体系的 `payload/` 对应目录。这里只提供查看与阅读，文件存在不代表宿主已加载。
 
-文档统一在右侧抽屉阅读，手机上满屏；支持 Esc、关闭按钮或遮罩关闭，保留原文、关联文档返回及主题。大盘的 [Sheet、Button、Badge 源码与使用约定](dashboard/components/README.md)参考 shadcn/ui 的组合方式，复用现有主题变量；原生 dialog 承接模态与焦点行为。打开命令输出的完整地址才能鉴权；在已打开的错误页面重新打开完整链接也能恢复。
+文档统一在右侧抽屉阅读，手机上满屏；支持 Esc、关闭按钮或遮罩关闭，保留原文、关联文档返回及主题。大盘的 [Sheet、Button、Badge 源码与使用约定](dashboard/components/README.md)参考 shadcn/ui 的组合方式，复用现有主题变量；原生 dialog 承接模态与焦点行为。本机默认直接打开普通地址即可；需要会话鉴权时执行 `qingtian dashboard --require-token`，再使用输出的完整 token 链接。
 
 开发大盘时，`npm run dev` 监听本仓库 `dashboard/`：CSS 加载完成后即时替换，JS/HTML 修改自动刷新，保留当前项目、分类、搜索、打开的文档/源码视图和阅读位置。浏览器显示“实时预览”表示已连接；后端模块修改仍须重启。`npm run dashboard` 保持普通只读模式；全局 CLI 的 `qingtian dashboard --watch` 监听该 CLI 安装目录中的前端文件，修改本仓库源码应使用 `npm run dev`。
 
@@ -49,7 +49,7 @@ qingtian check --target /path/to/project --readiness
 qingtian upgrade --target /path/to/project --dry-run
 ```
 
-成功的接入/升级会登记项目，dry-run 不登记。登记保存在 `~/.qingtian/projects.json`，可用 `QINGTIAN_HOME` 指定其它目录。扫描不会写入目标项目，异常和扫描上限在大盘中可见。服务仅监听本机，完整打开地址包含临时会话凭据；API 只读，Markdown 净化后显示。
+成功的接入/升级会登记项目，dry-run 不登记。登记保存在 `~/.qingtian/projects.json`，可用 `QINGTIAN_HOME` 指定其它目录。扫描不会写入目标项目，异常和扫描上限在大盘中可见。服务仅监听本机，默认本机访问无需 token，可用 `--require-token` 开启；API 只读，Markdown 净化后显示。
 
 接入或升级共享体系后，可以直接对 AI 说“帮我打开擎天大盘”或“打开 AI 开发体系的跨项目大盘”。共享 AGENTS 入口会加载随体系安装的 `qingtian-dashboard` Skill，由 AI 检查/必要时安装 CLI、启动并验证数据可读，返回实际地址。旧版接入项目需要先升级体系，单独安装 CLI 不会修改项目规则。
 

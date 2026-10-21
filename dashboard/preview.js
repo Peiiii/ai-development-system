@@ -46,7 +46,7 @@ export async function connectPreview({token, getState, onStatus}) {
   }
   while (true) {
     try {
-      const response = await fetch("/api/preview", {headers:{Authorization:`Bearer ${token}`}});
+      const response = await fetch("/api/preview", {headers:token ? {Authorization:`Bearer ${token}`} : {}});
       if (!response.ok || !response.body) throw new Error("预览连接不可用");
       const reader = response.body.getReader();
       const decoder = new TextDecoder();

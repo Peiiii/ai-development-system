@@ -3,6 +3,7 @@ import test from "node:test";
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import os from "node:os";
+import {request} from "node:http";
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import {
@@ -216,6 +217,7 @@ test("dashboard protects localhost documents, searches full bodies, rewrites loc
   const dashboard = await startDashboard({
     roots: [base],
     configDir: path.join(base, "config"),
+    requireToken: true,
   });
   t.after(() => dashboard.close());
   const auth = { Authorization: `Bearer ${dashboard.token}` };
@@ -349,4 +351,24 @@ test("new CLI dry-run never registers; install/check/upgrade and legacy entry re
   assert.equal(run("qingtian.mjs", "upgrade", "--target", target).status, 1);
   assert.equal(run("qingtian.mjs", "dashboard", "--port", "99999").status, 1);
   assert.equal(run("qingtian.mjs", "dashboard", "--root").status, 1);
+});
+
+test('local dashboard defaults to a plain URL and rejects cross-origin access without requiring a token', async t=>{
+  const {base,project,write}=await fixture(t);const root=await project('local');
+  await write(root,'README.md','# 本机直接访问\n本地正文');
+  const server=await startDashboard({roots:[root],currentDirectory:root,configDir:path.join(base,'config'),livePreview:true});
+  t.after(()=>server.close());
+  assert.equal(server.url,server.origin+'/');assert.equal(server.token,null);
+  assert.equal(server.server.address().address,'127.0.0.1');
+  const snapshot=await fetch(server.origin+'/api/snapshot').then(r=>r.json());
+  assert.equal(snapshot.authRequired,false);assert.ok(snapshot.currentProjectId);
+  assert.equal((await fetch(server.origin+'/api/search?q=本地正文')).status,200);
+  assert.equal((await fetch(server.origin+'/api/document?id='+snapshot.documents[0].id)).status,200);
+  for(const headers of [{Origin:'https://example.com'},{'Sec-Fetch-Site':'cross-site'},{'Sec-Fetch-Site':'same-site'}])
+    assert.equal((await fetch(server.origin+'/api/snapshot',{headers})).status,403,JSON.stringify(headers));
+  const spoofedHost=await new Promise((resolve,reject)=>{const req=request(server.origin+'/api/snapshot',{headers:{Host:'evil.example'}},response=>{response.resume();resolve(response.statusCode);});req.on('error',reject);req.end();});
+  assert.equal(spoofedHost,403);
+  const response=await fetch(server.origin+'/api/preview',{signal:AbortSignal.timeout(2000)});
+  assert.equal(response.status,200);await response.body.cancel();
+  assert.equal((await fetch(server.origin+'/api/snapshot',{method:'POST'})).status,405);
 });

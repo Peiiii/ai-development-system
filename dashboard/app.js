@@ -31,7 +31,7 @@ const states = {
   draft: "草案",
 };
 const hash = new URLSearchParams(location.hash.slice(1));
-const token = hash.get("token") || sessionStorage.getItem("qingtian-token");
+let token = hash.get("token") || sessionStorage.getItem("qingtian-token");
 if (token) sessionStorage.setItem("qingtian-token", token);
 history.replaceState(null, "", location.pathname);
 let snapshot = null;
@@ -49,7 +49,7 @@ let readerHistory = [];
 let documentSequence = 0;
 let showAllProjects = false;
 let viewInitialized = false;
-const viewKey = `qingtian-view:${token || ""}`;
+let viewKey = `qingtian-view:${token || location.origin}`;
 
 function currentWork(docs) {
   return docs.filter((doc) => doc.resourceType !== "skills" && doc.category === "work" &&
@@ -64,7 +64,7 @@ function el(tag, className, text) {
 }
 async function api(url) {
   const response = await fetch(url, {
-    headers: { Authorization: `Bearer ${token || ""}` },
+    headers: token ? { Authorization: `Bearer ${token}` } : {},
   });
   const data = await response.json();
   if (!response.ok) throw new Error(data.error || "读取失败");
@@ -453,6 +453,11 @@ async function refresh(initial = false) {
     snapshot = await api(
       initial === true ? "/api/snapshot" : "/api/snapshot?refresh=1",
     );
+    if (!snapshot.authRequired) {
+      token = null;
+      sessionStorage.removeItem("qingtian-token");
+      viewKey = `qingtian-view:${location.origin}`;
+    }
     if (!viewInitialized) {
       let saved;
       try { saved = JSON.parse(sessionStorage.getItem(viewKey)); } catch {}

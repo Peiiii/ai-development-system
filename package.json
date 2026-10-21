@@ -16,7 +16,7 @@
   "devDependencies": {
     "playwright": "1.63.0"
   },
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "擎天：可安装的 AI 驱动开发体系与跨项目产物大盘",
   "bin": {
     "qingtian": "bin/qingtian.mjs"

@@ -13,7 +13,7 @@ test("preview stream requires auth and explicit watch mode, reports changes and 
   assert.equal((await fetch(plain.origin+"/api/preview",{headers:{Authorization:`Bearer ${plain.token}`}})).status,404);
   await plain.close();
   const assets = path.join(directory,"assets");await fs.mkdir(assets);await fs.writeFile(path.join(assets,"styles.css"),"body {}\n");
-  const watched = await startDashboard({roots:[],configDir:path.join(directory,"config"),livePreview:true,assetsDirectory:assets});
+  const watched = await startDashboard({roots:[],configDir:path.join(directory,"config"),livePreview:true,requireToken:true,assetsDirectory:assets});
   t.after(() => watched.server.listening ? watched.close() : undefined);
   assert.equal((await fetch(watched.origin+"/api/preview")).status,401);
   const response=await fetch(watched.origin+"/api/preview",{headers:{Authorization:`Bearer ${watched.token}`},signal:AbortSignal.timeout(5000)});
