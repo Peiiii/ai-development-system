@@ -105,7 +105,7 @@ async function main(argv) {
     livePreview,
   });
   console.log(
-    `擎天大盘已启动 · ${dashboard.snapshot.projects.length} 个项目 · ${dashboard.snapshot.documents.length} 份产物\n${dashboard.url}\nCtrl+C 停止服务。完整地址包含本次会话凭据，请仅在自己的浏览器使用。`,
+    `擎天大盘已启动 · ${dashboard.snapshot.projects.length} 个项目 · ${dashboard.snapshot.projects.reduce((sum, project) => sum + project.documentCount, 0)} 份产物 · ${dashboard.snapshot.skills.length} 个 Skill\n${dashboard.url}\nCtrl+C 停止服务。完整地址包含本次会话凭据，请仅在自己的浏览器使用。`,
   );
   if (livePreview) console.log("实时预览已开启：修改前端后自动更新；Ctrl+C 停止监听。");
   if (open) openBrowser(dashboard.url);

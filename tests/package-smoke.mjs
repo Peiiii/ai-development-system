@@ -65,8 +65,15 @@ try {
   await page.reload();
   await page.waitForFunction(()=>document.querySelector('#page-title').textContent.includes('product'));
   assert.equal(await page.locator('html').getAttribute('data-theme'),'light');
+  await page.locator('[data-resource-type="skills"]').click();
+  await page.waitForFunction(()=>document.querySelectorAll('.skill-row').length===15);
+  assert.equal(await page.locator('#metric-projects').innerText(),'15');
+  assert.match(await page.locator('.skill-row').first().innerText(),/体系托管/);
+  await page.locator('.skill-row').first().click();
+  await page.locator('#reader-related button').first().waitFor();
+  assert.doesNotMatch(await page.locator('#reader-body').innerText(),/description:/);
   assert.deepEqual(errors,[]);
-  const report={passed:true,version,packageSource,checkedAt:new Date().toISOString(),checks:['isolated npm install','dry-run no registration','install/check/upgrade','project rules retained','installed dashboard Skill and AGENTS route','packaged CLI current-project launch','browser body search','packaged document read','packaged theme switch and persistence'],errors};
+  const report={passed:true,version,packageSource,checkedAt:new Date().toISOString(),checks:['isolated npm install','dry-run no registration','install/check/upgrade','project rules retained','installed dashboard Skill and AGENTS route','packaged CLI current-project launch','browser body search','packaged document read','packaged theme switch and persistence','packaged 15 managed Skill entrances and drawer'],errors};
   await fs.mkdir('.local/qingtian-dashboard/package',{recursive:true});
   await fs.writeFile('.local/qingtian-dashboard/package/report.json',JSON.stringify(report,null,2));
   console.log(JSON.stringify(report,null,2));

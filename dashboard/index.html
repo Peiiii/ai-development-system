@@ -69,6 +69,10 @@
             </div>
             <span class="scan-time" id="scan-time">正在读取项目</span>
           </div>
+          <div class="resource-switch" role="group" aria-label="项目资源类型">
+            <button type="button" data-slot="button" data-variant="ghost" data-size="default" data-resource-type="artifacts" aria-pressed="true">项目产物</button>
+            <button type="button" data-slot="button" data-variant="ghost" data-size="default" data-resource-type="skills" aria-pressed="false">Skills</button>
+          </div>
           <div id="message" class="message" role="status" hidden></div>
           <section class="metrics" aria-label="总览统计">
             <div>
@@ -76,12 +80,12 @@
               ><small id="metric-scope-note">可追溯的工作空间</small>
             </div>
             <div>
-              <span>待关注事项</span><strong id="metric-attention">—</strong
-              ><small>明确记录的阻塞与待办</small>
+              <span id="metric-attention-label">待关注事项</span><strong id="metric-attention">—</strong
+              ><small id="metric-attention-note">明确记录的阻塞与待办</small>
             </div>
             <div>
-              <span>沉淀产物</span><strong id="metric-documents">—</strong
-              ><small>设计、计划、知识与交付</small>
+              <span id="metric-documents-label">沉淀产物</span><strong id="metric-documents">—</strong
+              ><small id="metric-documents-note">设计、计划、知识与交付</small>
             </div>
             <div>
               <span>近 7 天更新</span><strong id="metric-recent">—</strong
@@ -175,6 +179,7 @@
       </header>
       <div id="reader-scroll" data-slot="sheet-body">
       <div id="reader-message" class="message" role="status" hidden></div>
+      <nav id="reader-related" class="reader-related" aria-label="Skill 同包文档" hidden></nav>
       <article id="reader-body" class="prose"></article>
       <pre id="reader-source" hidden></pre>
       </div>

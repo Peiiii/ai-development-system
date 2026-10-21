@@ -1,0 +1,37 @@
+import assert from 'node:assert/strict';
+import test from 'node:test';
+import {promises as fs} from 'node:fs';
+import path from 'node:path';
+import os from 'node:os';
+import {indexProjects} from '../lib/artifacts.mjs';
+import {startDashboard} from '../lib/dashboard.mjs';
+
+test('Skills are scoped bundles with readable references, distinct sources and separate artifact counts',async t=>{
+ const temp=await fs.mkdtemp(path.join(os.tmpdir(),'qingtian-skills-'));const base=await fs.realpath(temp);const root=path.join(base,'project');
+ t.after(()=>fs.rm(base,{recursive:true,force:true}));
+ const write=async(p,s)=>{await fs.mkdir(path.dirname(path.join(root,p)),{recursive:true});await fs.writeFile(path.join(root,p),s);};
+ await write('.agents/ai-development-system.lock.json',JSON.stringify({schemaVersion:1,sourceDigest:'fixture',files:{'.agents/skills/shared/SKILL.md':'hash'}}));
+ await write('README.md','# 项目资料\n产物唯一词');
+ await write('.agents/skills/shared/SKILL.md','---\nname: "shared-method"\ndescription: >\n  Shared method\n  with references.\n---\n# Shared method\n[参考](references/check.md)');
+ await write('.agents/skills/shared/references/check.md','# 检查\n参考唯一词');
+ await write('.agents/wiki/skills/process/quality/SKILL.md','---\nname: quality\ndescription: Quality method\n---\n# 质量');
+ await write('.claude/skills/custom/SKILL.md','---\nname: custom\ndescription: "Use when: custom work"\n---\n# 项目方法');
+ await write('payload/.agents/skills/source/SKILL.md','---\nname: source\ndescription: Source method\n---\n# 体系源');
+ await fs.writeFile(path.join(base,'private.md'),'# 外部不可读');
+ await fs.symlink(path.join(base,'private.md'),path.join(root,'.agents/skills/shared/references/outside.md'));
+ const snapshot=await indexProjects([root]);
+ assert.equal(snapshot.skills.length,4);
+ assert.equal(snapshot.projects[0].documentCount,1);
+ assert.equal(snapshot.projects[0].skillCount,4);
+ const shared=snapshot.skills.find(s=>s.name==='shared-method');
+ assert.equal(shared.description,'Shared method with references.');assert.equal(shared.source,'managed');assert.equal(shared.documentIds.length,2);
+ assert.equal(snapshot.skills.find(s=>s.name==='source').source,'source');
+ assert.equal(snapshot.skills.find(s=>s.name==='custom').source,'project');
+ assert.match(snapshot.projects[0].warnings.join(' '),/软链接/);
+ const server=await startDashboard({roots:[root],currentDirectory:root,configDir:path.join(base,'config')});t.after(()=>server.close());
+ const headers={Authorization:`Bearer ${server.token}`};
+ const search=await fetch(server.origin+'/api/search?q=参考唯一词&type=skills',{headers}).then(r=>r.json());assert.equal(search.ids.length,1);
+ const artifacts=await fetch(server.origin+'/api/search?q=参考唯一词&type=artifacts',{headers}).then(r=>r.json());assert.equal(artifacts.ids.length,0);
+ const doc=await fetch(server.origin+'/api/document?id='+shared.id,{headers}).then(r=>r.json());
+ assert.doesNotMatch(doc.html,/name:|description:/);assert.match(doc.html,/#document=/);assert.match(doc.text,/name:/);
+});

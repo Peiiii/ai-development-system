@@ -5,7 +5,7 @@
 2026-10-21 用户要求 Review 最新体系；发现入口 readiness 误判、记录解析遗漏、tracing 关闭说明冲突。用户随后要求打开大盘并解决这些问题，实际打开又复现完整 token 链接无法恢复已加载的错误页。用户追加：文档阅读全部改为抽屉，并优先参考 shadcn/ui 的封装方法和源码，沉淀可复用组件。
 
 - [方案与计划](../plans/2026-10-21-review-fixes.md)，含方案 Review 与追加范围。
-- contract-id: qingtian-review-fixes-20261021；scope-revision: 3；scope-confirmation: user-confirmed（本会话追加抽屉与本地实时预览）。
+- contract-id: qingtian-review-fixes-20261021；scope-revision: 4；scope-confirmation: user-confirmed（本会话追加抽屉与本地实时预览及 Skills 只读浏览）。
 - parent-goal: 用户能打开当前项目大盘，原三处缺陷及实际鉴权恢复问题关闭，文档统一侧边阅读且基础组件可复用，适用发布和主线同步完成。
 - flow: bugfix（原缺陷）及 standard（抽屉/组件）；risk: L4；retrospective_state: pending。
 - 原有 `docs/work/2026-10-09-qingtian-visual-upgrade/current-state.md` 未提交修改不属于本任务。期间其它会话提交 `3c4be70` 的愿景资料保留，本任务不修改其正文。
@@ -22,7 +22,7 @@
 | RF06 | true | Sheet/Button/Badge 有可复用源码、API、样式 owner 与真实消费者 | passed | 组件 README、生产引用及独立第二 Sheet 实例回归 |
 | RF07 | true | 原修复和抽屉的实际包安装、官网/npm、本机可用入口和 origin/main 同步 | passed | 0.1.5 已发布，公开包与受测包字节一致，本机 CLI 已更新，4f32c94 已同步主线 |
 | RF08 | true | 显式开启实时预览，CSS 即时更新，JS/HTML 刷新后保留阅读上下文；普通服务不监听 | passed | SSE 鉴权/显式开启/文件变化/清理测试及四组浏览器预览验收；本机 preview=true 的 API 200 与真实界面已核 |
-| RF09 | true | 实时预览独立版本分发、本机更新与主线同步 | not-run | 0.1.6 准备发布，不能覆盖已发布的 0.1.5 |
+| RF09 | true | 实时预览独立版本分发、本机更新与主线同步 | passed | 0.1.6 npm/官网公开文件及包 hash 均已核验，本机更新与 6da726b 主线同步 |
 
 ## 实现与 Review
 
@@ -43,6 +43,14 @@ npm 已接受 0.1.5，初次 registry 版本查询返回 E404，等待期间继�
 22:21 用户要求修改前端时本地快速看到变化，新增 RF08–RF09。`npm run dev` / CLI --watch 仅显式开启 SSE 和前端 watcher，沿原 Bearer 校验，不开放写 API；CSS 替换与 JS/HTML reload 分开，preview 模块只调用业务状态快照，重连比较 revision，避免漏掉断线期间的变化。页面源文件及 JS 修改会触发预览，文档/后端不在监听范围。29 项 Node 与 15+8+6+4 组浏览器检查通过；核心预览验收只改临时前端副本，没有修改真实源码来制造演示。当前用户入口已切到实时预览并真实显示“实时预览”；会话 token 不写入日志。
 
 0.1.6 继续沿精确提交快照构建、包验证和既有发布链执行。回退为旧安装包与 Git revision；普通 dashboard 无 watcher。后端修改需重启，不将前端自动刷新描述为完整后端 HMR。
+
+## Skills 追加范围与验收
+
+22:37 用户确认首先需要查看、搜索与阅读 Skill 及其附属文档。设计与验收见[资源类型方案](../designs/2026-10-21-project-resources.design.md)。22:52 当前仓库真实页面显示 15 个入口，已保存实际截图 `.local/qingtian-dashboard/skills/actual-project.png`。
+
+RS01–RS04 已通过：默认产物与独立计数、来源筛选、参考正文搜索、同包抽屉导航、跨项目/刷新类型恢复、空态、手机无溢出以及原有鉴权/主题/预览回归。30 项 Node，15+8+6+4+6 组浏览器检查通过，无 pageerror。主代理实现 Review 检查单一安全读取、来源语义、最近目录包归属、搜索竞态与产物状态隔离；额外阻止穿过软链接父目录遍历。无未关闭 finding，无独立代理评审。RS05 的真实项目入口已核，0.1.7 包验证与分发继续执行，不将源码通过冒充发布完成。
+
+0.1.6 发布证据：官网部署 6e5825bc-a046-4748-9b72-c0645cfa6de1；npm tgz SHA256 `681aec71e1960f7f709489953c88c740ca65f578db8b50c39ccb226832d16cf4`，源归档 `621f2f0b3d1999525bb65cd8285bc83aa7e2fd46cbce95784b29a7b738a25f9e`。公开回读证据 `.local/qingtian-dashboard/release/public-0.1.6.json`。
 
 ## 复盘
 
