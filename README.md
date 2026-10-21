@@ -187,6 +187,8 @@ npm run bench:remote
 - `npm run check`：核对 manifest、Skill frontmatter、相对链接和项目身份泄漏。
 - `npm test`：验证安装、升级、冲突保护和项目规则保留。
 - `npm run build:site`：生成官网、原始 `SKILL.md` 与经过 SHA-256 标识的安装包到 `dist/`。
+- 首页愿景、五点解释与核心挑战在构建时直接读取 Wiki 原文；更新对应文档后需构建、部署并公开回读，提交仓库本身不会更新线上页面。
+- 仅更新官网内容时，保留 `dist/` 中已核验的发布归档与 `SKILL.md`，运行 `node scripts/build-site.mjs --content-only`，再执行 Wrangler 部署；该模式先核对归档与入口摘要，页面和 Wiki 更新时保持现有分发文件字节不变。
 - 构建同时把本仓库 `wiki/` 发布为官网上的原始 Markdown，供人和 AI 阅读。
 - `wrangler deploy --dry-run`：验证 Cloudflare Worker 与静态资源配置。
 - `npm run deploy:site`：构建并部署官网到 `ai-dev.nextclaw.io`。需要已登录的 Wrangler 4 和对应 Cloudflare zone 权限。

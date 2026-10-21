@@ -1,4 +1,5 @@
 import { readWorkflowAtlas } from "./workflow-atlas.mjs";
+import { SiteContent } from "./site-content.mjs";
 import { createHash } from "node:crypto";
 import { execFileSync } from "node:child_process";
 import { promises as fs } from "node:fs";
@@ -11,12 +12,29 @@ const output = path.join(root, "dist");
 const download = path.join(output, "download");
 const archive = path.join(download, "ai-development-system.tar.gz");
 const packageInfo = JSON.parse(await fs.readFile(path.join(root, 'package.json'), 'utf8'));
+const contentOnly = process.argv.slice(2).includes('--content-only');
+if (process.argv.slice(2).some(argument => argument !== '--content-only')) throw new Error('Usage: build-site.mjs [--content-only]');
+const siteContent = await new SiteContent(root).render();
+const preserved = new Map();
+if (contentOnly) {
+  for (const name of ['SKILL.md', 'download/ai-development-system.tar.gz', 'download/ai-development-system.sha256', `download/qingtian-${packageInfo.version}.tgz`, 'download/qingtian.sha256']) {
+    preserved.set(name, await fs.readFile(path.join(output, name)));
+  }
+  for (const [checksum, filename] of [['download/ai-development-system.sha256', 'download/ai-development-system.tar.gz'], ['download/qingtian.sha256', `download/qingtian-${packageInfo.version}.tgz`]]) {
+    const [expectedHash, expectedFile] = preserved.get(checksum).toString().trim().split(/\s+/);
+    if (expectedFile !== path.basename(filename) || createHash('sha256').update(preserved.get(filename)).digest('hex') !== expectedHash) throw new Error(`Invalid published archive: ${filename}`);
+  }
+  const sourceHash = createHash('sha256').update(preserved.get('download/ai-development-system.tar.gz')).digest('hex');
+  if (!preserved.get('SKILL.md').toString().includes(sourceHash)) throw new Error('Published SKILL entry does not match source archive');
+}
 
 await fs.rm(output, { recursive: true, force: true });
 await fs.mkdir(download, { recursive: true });
 for (const filename of ["index.html", "styles.css", "main.js", "favicon.svg", "robots.txt"]) {
   const content = await fs.readFile(path.join(site, filename), 'utf8');
-  await fs.writeFile(path.join(output, filename), content.replaceAll('{{QINGTIAN_VERSION}}', packageInfo.version));
+  let rendered = content.replaceAll('{{QINGTIAN_VERSION}}', packageInfo.version);
+  for (const [key, value] of Object.entries(siteContent)) rendered = rendered.replaceAll(`{{${key}}}`, value);
+  await fs.writeFile(path.join(output, filename), rendered);
 }
 await fs.writeFile(path.join(output, "workflow-atlas.json"), JSON.stringify(await readWorkflowAtlas(root)));
 await fs.cp(path.join(root, "wiki"), path.join(output, "wiki"), { recursive: true });
@@ -24,6 +42,12 @@ await fs.cp(path.join(root, "wiki"), path.join(output, "wiki"), { recursive: tru
 await fs.cp(path.join(root, "payload", ".agents", "workflows"), path.join(output, "workflows"), { recursive: true });
 await fs.cp(path.join(root, "payload", ".agents", "skills"), path.join(output, "skills"), { recursive: true });
 await fs.cp(path.join(root, "payload", ".agents", "wiki"), path.join(output, "wiki"), { recursive: true });
+
+if (contentOnly) {
+  for (const [filename, bytes] of preserved) await fs.writeFile(path.join(output, filename), bytes);
+  console.log(`Built website content from Wiki; preserved published ${packageInfo.version} archives and SKILL entry byte-for-byte`);
+  process.exit(0);
+}
 
 execFileSync("tar", [
   "-czf", archive,

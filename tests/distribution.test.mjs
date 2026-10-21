@@ -77,4 +77,19 @@ test("published skill checksum identifies a bundle that installs into a fresh pr
     assert.deepEqual(await readFile(path.join(target, relative)),
       await readFile(path.join(root, "payload", relative)), `distributed content: ${relative}`);
   }
+
+  const publishedFiles = ["SKILL.md", "download/ai-development-system.tar.gz", "download/ai-development-system.sha256", `download/qingtian-${JSON.parse(await readFile(path.join(root, "package.json"), "utf8")).version}.tgz`, "download/qingtian.sha256"];
+  const before = new Map(await Promise.all(publishedFiles.map(async file => [file, await readFile(path.join(root, "dist", file))])));
+  run(process.execPath, ["scripts/build-site.mjs", "--content-only"]);
+  for (const [file, bytes] of before) assert.deepEqual(await readFile(path.join(root, "dist", file)), bytes, `content-only build preserves ${file}`);
+  assert.deepEqual(await readFile(path.join(root, "dist/wiki/vision.md")), await readFile(path.join(root, "wiki/vision.md")));
+  const checksum = path.join(root, "dist/download/qingtian.sha256");
+  const originalChecksum = await readFile(checksum);
+  try {
+    await writeFile(checksum, "invalid published checksum\n");
+    const rejected = spawnSync(process.execPath, ["scripts/build-site.mjs", "--content-only"], { cwd: root, encoding: "utf8" });
+    assert.notEqual(rejected.status, 0);
+    assert.match(rejected.stderr, /Invalid published archive/);
+    assert.deepEqual(await readFile(path.join(root, "dist/SKILL.md")), before.get("SKILL.md"));
+  } finally { await writeFile(checksum, originalChecksum); }
 });
