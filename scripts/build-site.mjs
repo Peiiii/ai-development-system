@@ -30,7 +30,7 @@ if (contentOnly) {
 
 await fs.rm(output, { recursive: true, force: true });
 await fs.mkdir(download, { recursive: true });
-for (const filename of ["index.html", "styles.css", "main.js", "favicon.svg", "robots.txt"]) {
+for (const filename of ["index.html", "styles.css", "main.js", "problem-explorer.js", "favicon.svg", "robots.txt"]) {
   const content = await fs.readFile(path.join(site, filename), 'utf8');
   let rendered = content.replaceAll('{{QINGTIAN_VERSION}}', packageInfo.version);
   for (const [key, value] of Object.entries(siteContent)) rendered = rendered.replaceAll(`{{${key}}}`, value);

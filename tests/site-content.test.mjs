@@ -9,7 +9,7 @@ async function fixture(t) {
   const root = await mkdtemp(path.join(os.tmpdir(), 'qingtian-site-content-'));
   t.after(() => rm(root, { recursive: true, force: true }));
   await mkdir(path.join(root, 'wiki'));
-  for (const file of ['vision.md', 'core-challenges.md']) await writeFile(path.join(root, 'wiki', file), await readFile(new URL(`../wiki/${file}`, import.meta.url)));
+  for (const file of ['vision.md', 'core-challenges.md', 'developer-pain-points.md']) await writeFile(path.join(root, 'wiki', file), await readFile(new URL(`../wiki/${file}`, import.meta.url)));
   return root;
 }
 
@@ -42,4 +42,37 @@ test('challenge details keep their public source links and exclude executable ma
   assert.ok(!result.QINGTIAN_CHALLENGES.includes('onerror'));
   assert.ok(result.QINGTIAN_CHALLENGES.includes('/wiki/skills/process/project-knowledge-governance/references/stagnation-reassessment.md'));
   assert.equal((result.QINGTIAN_CHALLENGES.match(/<details /g) || []).length, 5);
+});
+
+test('all 23 problem cards and support boundaries follow the Wiki source', async t => {
+  const root = await fixture(t);
+  const content = new SiteContent(root);
+  const before = await content.render();
+  const file = path.join(root, 'wiki/developer-pain-points.md');
+  await writeFile(file, (await readFile(file, 'utf8')).replaceAll('只有想法，不知道该补充哪些需求', '只有想法，希望体系主动帮我补齐需求'));
+  const after = await content.render();
+  assert.match(after.QINGTIAN_PROBLEMS, /只有想法，希望体系主动帮我补齐需求/);
+  assert.notEqual(before.QINGTIAN_PROBLEMS_DIGEST, after.QINGTIAN_PROBLEMS_DIGEST);
+  assert.equal((after.QINGTIAN_PROBLEMS.match(/data-problem-id=/g) || []).length, 23);
+  assert.equal((after.QINGTIAN_PROBLEMS.match(/data-problem-tab=/g) || []).length, 7);
+  assert.match(after.QINGTIAN_PROBLEMS, /完整闭环仍待验证/);
+});
+
+test('problem analysis missing a tree item fails generation', async t => {
+  const root = await fixture(t);
+  const file = path.join(root, 'wiki/developer-pain-points.md');
+  await writeFile(file, (await readFile(file, 'utf8')).replace(/^\| P18 .*\n/m, ''));
+  await assert.rejects(new SiteContent(root).render(), /Incomplete website problem/);
+});
+
+test('problem details strip executable markup and reject unknown capability states', async t => {
+  const root = await fixture(t);
+  const file = path.join(root, 'wiki/developer-pain-points.md');
+  const source = await readFile(file, 'utf8');
+  await writeFile(file, source.replace('用户能说出', '<img src=x onerror="alert(1)">用户能说出'));
+  const result = await new SiteContent(root).render();
+  assert.ok(!result.QINGTIAN_PROBLEMS.includes('<img'));
+  assert.ok(!result.QINGTIAN_PROBLEMS.includes('onerror'));
+  await writeFile(file, source.replace('**部分支撑**：任务理解与目标澄清', '**全部解决**：任务理解与目标澄清'));
+  await assert.rejects(new SiteContent(root).render(), /Invalid website problem analysis/);
 });

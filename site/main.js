@@ -1,4 +1,8 @@
 const prompt = "请读取 https://ai-dev.nextclaw.io/SKILL.md，按照其中的步骤，把 擎天 接入当前项目。先检查现有规则和工作区改动，预览安装差异，完成后运行检查并告诉我改了什么。";
+import { ProblemExplorer } from './problem-explorer.js';
+
+for (const root of document.querySelectorAll('[data-problem-explorer]')) new ProblemExplorer(root);
+
 const toast = document.querySelector("#copy-toast");
 let toastTimer;
 

@@ -3,6 +3,7 @@ import path from 'node:path';
 import { createHash } from 'node:crypto';
 import { marked } from 'marked';
 import sanitizeHtml from 'sanitize-html';
+import { ProblemContent } from './problem-content.mjs';
 
 function section(tokens, title) {
   const start = tokens.findIndex(token => token.type === 'heading' && token.text === title);
@@ -20,7 +21,7 @@ export class SiteContent {
   constructor(root) { this.root = root; }
 
   render = async () => {
-    const [vision, challenges] = await Promise.all(['vision.md', 'core-challenges.md'].map(file => readFile(path.join(this.root, 'wiki', file), 'utf8')));
+    const [vision, challenges, problems] = await Promise.all(['vision.md', 'core-challenges.md', 'developer-pain-points.md'].map(file => readFile(path.join(this.root, 'wiki', file), 'utf8')));
     const visionTokens = marked.lexer(vision);
     const opening = section(visionTokens, '一句话愿景').filter(token => token.type === 'blockquote');
     const goals = section(visionTokens, '愿景概括：五个关键词及解释').find(token => token.type === 'list' && token.ordered)?.items;
@@ -59,6 +60,8 @@ export class SiteContent {
       QINGTIAN_CONTENT_DIGEST: createHash('sha256').update(vision).update('\0').update(challenges).digest('hex'),
       QINGTIAN_VISION: `<blockquote class="vision-statement">${inline(opening[0].text)}</blockquote><div class="vision-supplement"><span class="section-kicker">普适易用 / 体系自治理</span><p>${inline(opening[1].text)}</p></div><ol class="vision-goals" aria-label="五个愿景关键词及解释">${goalHtml}</ol><aside class="positioning-note"><h3>依托现成编码 Agent，建设更上一层。</h3><p>${inline(boundary.text)}</p><div class="source-links"><a class="source-link" href="/wiki/vision.md">阅读愿景与定位全文 ↗</a><a class="source-link" href="/wiki/current-state.md">查看当前实现与能力边界 ↗</a></div></aside>`,
       QINGTIAN_CHALLENGES: challengeHtml,
+      QINGTIAN_PROBLEMS: new ProblemContent(problems).render(),
+      QINGTIAN_PROBLEMS_DIGEST: createHash('sha256').update(problems).digest('hex'),
     };
   };
 }
