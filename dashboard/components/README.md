@@ -54,6 +54,19 @@ const state = createBadge("已完成", {variant:"success", className:"state-badg
 
 Button：`ghost | outline | accent`；size 为 `default | icon`，图标按钮须传 `label`。Badge：`neutral | info | danger | success`。文本通过 textContent 写入，业务状态映射留在业务 owner；不要让组件知道项目、合同或文档 ID。
 
+## Tabs
+
+参考 [shadcn/ui Tabs](https://ui.shadcn.com/docs/components/radix/tabs) 的 List / Trigger / Content 分工和 [Ant Design 普通 Tabs](https://ant.design/components/tabs/) 的线形导航。`data-slot="tabs-list" data-variant="line"` 配合 `tabs-trigger` / `tabs-content` 提供横向基线及选中下划线，使用现有主题；无需 React。
+
+```js
+import { createTabs } from "/components/tabs.js";
+const tabs = createTabs(list, panel, {onValueChange(value) { /* 业务渲染当前内容 */ }});
+tabs.select("skills"); // 仅同步选中态，不回调；适合还原业务状态
+// 永久移除前调用 tabs.destroy()
+```
+
+list 中的按钮需有独立 id、`data-slot="tabs-trigger"` 和 `data-value`；共享 panel 需有独立 id。组件拥有 tablist/tab/tabpanel 语义、aria-selected/controls/labelledby、单一 Tab 焦点与左右/Home/End 键切换；业务拥有内容加载、搜索及范围。当前真实消费者为列表区域的“项目产物 / Skills”，不会切换页面级项目统计或推进区。
+
 ## 样式与扩展
 
 `components.css` 维护 primitive 的 slots、variants 和交互态；`styles.css` 维护项目布局和阅读器业务排版。颜色复用 `--panel`、`--text`、`--muted`、`--line`、`--accent` 等现有语义 tokens；不在组件复制一套主题值。

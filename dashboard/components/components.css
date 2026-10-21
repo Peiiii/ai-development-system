@@ -44,3 +44,15 @@ html:has([data-slot="sheet-content"][open]) { overflow: hidden; }
 @media (prefers-reduced-motion: reduce) {
   [data-slot="sheet-content"], [data-slot="sheet-content"]::backdrop { animation: none !important; transition: none !important; }
 }
+
+/* Line Tabs: section-level navigation, separate from compact filter buttons. */
+[data-slot="tabs-list"][data-variant="line"] { display:flex; align-items:stretch; gap:28px; border-bottom:1px solid var(--line); }
+[data-slot="tabs-trigger"] { position:relative; flex-shrink:0; padding:0 0 16px; border:0; border-radius:0; background:transparent; color:var(--muted); font-size:16px; font-weight:600; line-height:24px; white-space:nowrap; }
+[data-slot="tabs-trigger"]:hover { color:var(--text); }
+[data-slot="tabs-trigger"]:active { transform:none; }
+[data-slot="tabs-trigger"][data-state="active"] { color:var(--text); }
+[data-slot="tabs-trigger"]::after { content:""; position:absolute; height:2px; left:0; right:0; bottom:-1px; background:var(--accent); opacity:0; transition:opacity .16s; }
+[data-slot="tabs-trigger"][data-state="active"]::after { opacity:1; }
+[data-slot="tabs-trigger"]:focus-visible { outline-offset:5px; border-radius:2px; }
+[data-slot="tabs-content"]:focus-visible { outline-offset:7px; }
+@media(max-width:640px) { [data-slot="tabs-list"][data-variant="line"] { gap:24px; } [data-slot="tabs-trigger"] { font-size:15px; padding-bottom:14px; } }

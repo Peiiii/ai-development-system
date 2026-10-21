@@ -52,3 +52,5 @@
 0.1.7 将资源类型扩展为默认“项目产物”与“Skills”。Skill 按 SKILL.md 入口分组，全文搜索包括附属 Markdown；抽屉提供同包文档导航。项目自有、安装清单托管与 payload 框架源码分别标识；本仓库实际索引 15 个入口。仍为项目范围内只读投影，不扫描个人全局 Skill 库，不判断宿主已加载，不提供编辑/安装 UI。
 
 0.1.8 默认本机免 token，普通 URL 直接打开；`qingtian dashboard --require-token` 才开启会话凭据。API 与实时预览一致，仍只绑定 127.0.0.1，保留 Host、Origin 与 Fetch Metadata 来源边界；共享启动 Skill 已对齐。
+
+0.1.9 按用户纠正将“项目产物 / Skills”切换移回下方资料列表标题行，使用横向基线与选中下划线；项目统计、推进和关注不随列表类型改变。新增源码自有 Tabs primitive，统一角色、关联面板、焦点与左右/Home/End 键导航。

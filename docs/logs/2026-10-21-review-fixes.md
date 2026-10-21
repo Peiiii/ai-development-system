@@ -5,9 +5,9 @@
 2026-10-21 用户要求 Review 最新体系；发现入口 readiness 误判、记录解析遗漏、tracing 关闭说明冲突。用户随后要求打开大盘并解决这些问题，实际打开又复现完整 token 链接无法恢复已加载的错误页。用户追加：文档阅读全部改为抽屉，并优先参考 shadcn/ui 的封装方法和源码，沉淀可复用组件。
 
 - [方案与计划](../plans/2026-10-21-review-fixes.md)，含方案 Review 与追加范围。
-- contract-id: qingtian-review-fixes-20261021；scope-revision: 5；scope-confirmation: user-confirmed（本会话追加抽屉与本地实时预览、Skills 只读浏览与本机默认免 token）。
+- contract-id: qingtian-review-fixes-20261021；scope-revision: 6；scope-confirmation: user-confirmed（本会话追加抽屉与本地实时预览、Skills 只读浏览与本机默认免 token）。
 - parent-goal: 用户能打开当前项目大盘，原三处缺陷及实际鉴权恢复问题关闭，文档统一侧边阅读且基础组件可复用，适用发布和主线同步完成。
-- flow: bugfix（原缺陷）及 standard（抽屉/组件）；risk: L4；retrospective_state: completed。
+- flow: bugfix（原缺陷）及 standard（抽屉/组件）；risk: L4；retrospective_state: pending。
 - 原有 `docs/work/2026-10-09-qingtian-visual-upgrade/current-state.md` 未提交修改不属于本任务。期间其它会话提交 `3c4be70` 的愿景资料保留，本任务不修改其正文。
 
 ## 验收账本
@@ -70,6 +70,10 @@ RS01–RS04 已通过：默认产物与独立计数、来源筛选、参考正�
 
 本机 qingtian=0.1.8；全局 dashboard Skill 与原版本逐字比较一致后同步新正文，旧副本留在本地恢复目录。当前服务免 token、实时预览，普通根地址数据 200，15 个本仓库入口可见；token 不写入日志。其它项目没有批量升级。并发愿景提交（含 9610207、1dcd2cd）及原 WIP 均保留；发布快照不会混入当时未提交改动。
 
+## 列表分页层级与样式纠正
+
+23:04 用户明确指出 Skills 应放在下方“项目产物”右侧，不是页面顶部的类型切换，并要求横线分隔与选中下划线。23:05 开始修正；预计 23:15 完成。删除顶部 compact switch，移到列表标题行；局部切换不再改项目统计、推进区和关注区。线形样式参考官方 shadcn Tabs 的组合分工及 Ant Design 普通 Tabs，轻量原生 Tabs 统一 aria、焦点和键盘；没有引入框架依赖。源码 API 和设计已同步。主代理查看桌面/手机实际截图；无独立评审。原文阅读、搜索、项目切换、刷新和方向/Home/End 键回归通过。最终 0.1.9 分发继续核验，不能将 0.1.8 的发布证据代作新版本证据。
+
 ## 复盘
 
-全部必需验收与本轮交付已闭合。原问题均回已有 owner；共享 Markdown 示例边界由两调用方复用，文档读取/资源索引维持单一路径，抽屉和资源选中态的真实画面问题已转成边界回归。默认 token 的使用阻力按用户明确反馈修到产品默认行为和唯一启动 Skill，没有添加新的流程或确认门。组件体系由用户明确授权建立；不为模型效果证据缺口追加常驻规则，也不声称这些修复已证明自主交付净收益。
+0.1.8 必需验收与交付已闭合；0.1.9 追加修正交付中。原问题均回已有 owner；共享 Markdown 示例边界由两调用方复用，文档读取/资源索引维持单一路径，抽屉和资源选中态的真实画面问题已转成边界回归。默认 token 的使用阻力按用户明确反馈修到产品默认行为和唯一启动 Skill，没有添加新的流程或确认门。组件体系由用户明确授权建立；不为模型效果证据缺口追加常驻规则，也不声称这些修复已证明自主交付净收益。

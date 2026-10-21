@@ -69,10 +69,6 @@
             </div>
             <span class="scan-time" id="scan-time">正在读取项目</span>
           </div>
-          <div class="resource-switch" role="group" aria-label="项目资源类型">
-            <button type="button" data-slot="button" data-variant="ghost" data-size="default" data-resource-type="artifacts" aria-pressed="true">项目产物</button>
-            <button type="button" data-slot="button" data-variant="ghost" data-size="default" data-resource-type="skills" aria-pressed="false">Skills</button>
-          </div>
           <div id="message" class="message" role="status" hidden></div>
           <section class="metrics" aria-label="总览统计">
             <div>
@@ -110,10 +106,14 @@
           </section>
           <div class="content-columns">
             <section class="artifacts-section">
-              <div class="section-title">
-                <h2 id="artifact-heading">最近产物</h2>
+              <div class="resource-heading">
+                <div id="resource-tabs" data-slot="tabs-list" data-variant="line" role="tablist" aria-label="项目资料">
+                  <button id="artifact-heading" type="button" data-slot="tabs-trigger" data-value="artifacts" data-resource-type="artifacts" role="tab" aria-selected="true" aria-controls="resource-panel">项目产物</button>
+                  <button id="skills-tab" type="button" data-slot="tabs-trigger" data-value="skills" data-resource-type="skills" role="tab" aria-selected="false" aria-controls="resource-panel" tabindex="-1">Skills</button>
+                </div>
                 <span id="document-count">—</span>
               </div>
+              <div id="resource-panel" data-slot="tabs-content" role="tabpanel" aria-labelledby="artifact-heading" tabindex="0">
               <div class="search-wrap">
                 <span aria-hidden="true">⌕</span
                 ><input
@@ -128,6 +128,7 @@
                 <div class="empty">正在读取项目产物…</div>
               </div>
               <button class="load-more" id="load-more" hidden>显示更多</button>
+              </div>
             </section>
             <aside class="attention-panel">
               <div class="section-title">

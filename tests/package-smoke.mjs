@@ -68,7 +68,7 @@ try {
   assert.equal(await page.locator('html').getAttribute('data-theme'),'light');
   await page.locator('[data-resource-type="skills"]').click();
   await page.waitForFunction(()=>document.querySelectorAll('.skill-row').length===15);
-  assert.equal(await page.locator('#metric-projects').innerText(),'15');
+  assert.equal(await page.locator('#document-count').innerText(),'15 个 Skill');
   assert.match(await page.locator('.skill-row').first().innerText(),/体系托管/);
   await page.locator('.skill-row').first().click();
   await page.locator('#reader-related button').first().waitFor();

@@ -1,5 +1,6 @@
 import { createSheet } from "./components/sheet.js";
 import { createButton } from "./components/button.js";
+import { createTabs } from "./components/tabs.js";
 import { createBadge } from "./components/badge.js";
 import { connectPreview, takePreviewState } from "./preview.js";
 
@@ -277,8 +278,6 @@ function renderArtifacts() {
   $("#load-more").hidden = docs.length <= pageSize;
 }
 function renderAttention() {
-  $(".attention-panel").hidden = selectedResourceType === "skills";
-  if (selectedResourceType === "skills") { $("#attention-focus").hidden = true; return; }
   const list = $("#attention-list");
   list.replaceChildren();
   const docs = snapshot.documents.filter(
@@ -367,13 +366,9 @@ function render() {
     !selectedProject && !attentionOnly,
   );
   $("#attention-nav").classList.toggle("selected", attentionOnly);
-  $("#project-section").hidden = Boolean(selectedProject || attentionOnly || selectedResourceType === "skills");
+  $("#project-section").hidden = Boolean(selectedProject || attentionOnly);
   $("#attention-focus").classList.toggle("project-focus", Boolean(selectedProject));
-  $("#artifact-heading").textContent = selectedResourceType === "skills" ? "项目 Skills" : attentionOnly
-    ? "待关注记录"
-    : project
-      ? "项目产物"
-      : "最近产物";
+  $("#artifact-heading").textContent = attentionOnly ? "待关注记录" : "项目产物";
   const scoped = snapshot.documents.filter(
     (doc) => doc.resourceType !== "skills" && (!selectedProject || doc.projectId === selectedProject),
   );
@@ -388,23 +383,9 @@ function render() {
     (doc) => Date.now() - new Date(doc.updatedAt).getTime() <= 7 * 86400000,
   ).length;
   const isSkills = selectedResourceType === "skills";
-  $(".content-columns").classList.toggle("skills-view", isSkills);
-  $("#metric-attention-label").textContent = isSkills ? "体系托管" : "待关注事项";
-  $("#metric-attention-note").textContent = isSkills ? "入口记录于项目安装清单" : "明确记录的阻塞与待办";
-  $("#metric-documents-label").textContent = isSkills ? "附属 Markdown" : "沉淀产物";
-  $("#metric-documents-note").textContent = isSkills ? "归属于 Skill 的阅读资料" : "设计、计划、知识与交付";
-  if (isSkills) {
-    const skills = scopedSkills();
-    $("#metric-scope-label").textContent = "Skill 入口";
-    $("#metric-scope-note").textContent = "按 SKILL.md 入口计数";
-    $("#metric-projects").textContent = skills.length;
-    $("#metric-attention").textContent = skills.filter(skill=>skill.source === "managed").length;
-    $("#metric-documents").textContent = skills.reduce((total,skill)=>total+skill.documentIds.length-1,0);
-    $("#metric-recent").textContent = skills.filter(skill=>Date.now()-new Date(skill.updatedAt).getTime() <= 7*86400000).length;
-  }
   $("#search").setAttribute("aria-label", isSkills ? "搜索 Skills 与附属文档" : "搜索产物");
   $("#search").placeholder = isSkills ? "搜索 Skill 名称、描述、路径或附属文档…" : "搜索标题、路径或正文…";
-  document.querySelectorAll("[data-resource-type]").forEach(button=>button.setAttribute("aria-pressed",String(button.dataset.resourceType===selectedResourceType)));
+  resourceTabs.select(selectedResourceType);
   $("#project-total").textContent = snapshot.projects.length;
   $("#attention-total").textContent = scoped.filter(needsAttention).length;
   $("#scan-time").textContent = `读取于 ${date(snapshot.scannedAt, true)}`;
@@ -597,12 +578,12 @@ $("#focus-all").addEventListener("click", () => {
   render();
   $("#artifact-heading").scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth" });
 });
-document.querySelectorAll("[data-resource-type]").forEach(button=>button.addEventListener("click",()=>{
-  selectedResourceType = button.dataset.resourceType;
+const resourceTabs = createTabs($("#resource-tabs"), $("#resource-panel"), {onValueChange(value) {
+  selectedResourceType = value;
   attentionOnly = false; pageSize = 30; selectedSource = "all";
   clearTimeout(searchTimer); ++searchSequence; searchIds = null;
   if ($("#search").value.trim()) search(); else render();
-}));
+}});
 $("#refresh").addEventListener("click", refresh);
 $("#load-more").addEventListener("click", () => {
   pageSize += 30;
