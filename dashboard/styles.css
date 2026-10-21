@@ -97,10 +97,6 @@ h1 { margin: 0; font-size: clamp(28px,3vw,42px); letter-spacing: -1.6px; font-we
 .focus-item-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
 .focus-item-top strong { font-size: 14px; font-weight: 550; overflow-wrap: anywhere; }
 .focus-item p { font-size: 13px; color: var(--muted); margin: 12px 0 16px; line-height: 1.7; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-.state-badge { display: inline-flex; align-items: center; white-space: nowrap; flex-shrink: 0; padding: 3px 7px; border-radius: 5px; background: var(--raised); color: var(--muted); font-size: 11px; font-weight: 500; line-height: 1.4; }
-.state-badge.blocked, .state-badge.pending { color: var(--danger); background: var(--danger-soft); }
-.state-badge.in-progress, .state-badge.watching, .state-badge.enabled { color: var(--info); background: var(--info-soft); }
-.state-badge.completed { color: var(--accent); background: var(--accent-soft); }
 .project-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 14px; }
 .project-card { min-width: 0; text-align: left; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 20px; }
 .project-card:hover { background: var(--hover); border-color: var(--accent); transform: translateY(-2px); }
@@ -164,20 +160,15 @@ h1 { margin: 0; font-size: clamp(28px,3vw,42px); letter-spacing: -1.6px; font-we
 .root-path { font-family: ui-monospace, monospace; }
 .warning { color: var(--danger); }
 .message { padding: 14px 18px; border: 1px solid var(--danger); color: var(--danger); border-radius: 8px; margin-bottom: 24px; background: var(--danger-soft); font-size: 13px; }
-dialog { color: var(--text); background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 0; width: min(880px,calc(100vw - 64px)); height: min(880px,calc(100dvh - 64px)); max-height: calc(100dvh - 64px); max-width: calc(100vw - 64px); box-shadow: var(--shadow); overflow-y: auto; scrollbar-width: thin; }
-dialog[open] { animation: reader-in .22s ease-out; }
-dialog::backdrop { background: #050b08a6; backdrop-filter: blur(5px); }
-.reader-top { position: sticky; top: 0; z-index: 2; background: var(--panel); padding: 14px 24px; border-bottom: 1px solid var(--line); display: flex; align-items: center; gap: 12px; color: var(--muted); font-size: 12px; }
+.reader-top { background: var(--panel); padding: 14px 24px; border-bottom: 1px solid var(--line); display: flex; align-items: center; gap: 12px; color: var(--muted); font-size: 12px; }
 .reader-top > span { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.reader-top button { border-radius: 5px; padding: 5px; }
-.reader-top button:hover { background: var(--hover); color: var(--text); }
 #reader-close { font-size: 18px; }
-.reader-meta { padding: 34px 40px 22px; }
+.reader-meta { padding: 24px 32px 18px; max-height: 42dvh; overflow: auto; }
 .reader-meta h2 { font-size: 29px; line-height: 1.4; font-weight: 600; margin: 12px 0; letter-spacing: -.6px; overflow-wrap: anywhere; }
 #reader-path { color: var(--muted); font: 12px/1.8 ui-monospace, monospace; overflow-wrap: anywhere; }
 .reader-state { color: var(--muted); font-size: 13px; line-height: 1.8; margin-top: 18px; }
 .reader-state .state-badge { margin-right: 10px; }
-.reader-tabs { display: flex; gap: 8px; margin: 0 40px; border-bottom: 1px solid var(--line); }
+.reader-tabs { display: flex; gap: 8px; margin: 0 32px; }
 .reader-tabs button { color: var(--muted); font-size: 13px; padding: 12px 4px; margin-right: 12px; border-bottom: 2px solid transparent; }
 .reader-tabs button.active { color: var(--accent); border-bottom-color: var(--accent); }
 #copy-path { margin-left: auto; margin-right: 0; }
@@ -206,7 +197,6 @@ dialog::backdrop { background: #050b08a6; backdrop-filter: blur(5px); }
 .workspace.ready .attention-focus, .workspace.ready .project-section { animation: appear .4s .1s ease-out both; }
 .workspace.ready .content-columns { animation: appear .4s .15s ease-out both; }
 @keyframes appear { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
-@keyframes reader-in { from { opacity: 0; transform: translateY(12px) scale(.99); } to { opacity: 1; transform: none; } }
 @keyframes spin { to { transform: rotate(360deg); } }
 @media (min-width: 1600px) { .workspace { padding-top: 48px; } .content-columns { grid-template-columns: minmax(0,1fr) 300px; gap: 36px; } }
 @media (max-width: 1200px) {
@@ -283,7 +273,6 @@ dialog::backdrop { background: #050b08a6; backdrop-filter: blur(5px); }
   .filters { gap: 3px; }
   .filters button { font-size: 11px; padding: 5px 9px; }
   .attention-panel { padding: 18px; }
-  dialog { width: calc(100vw - 16px); max-width: calc(100vw - 16px); height: calc(100dvh - 24px); max-height: calc(100dvh - 24px); border-radius: 12px; }
   .reader-top { padding: 12px 18px; }
   .reader-meta { padding: 26px 22px 18px; }
   .reader-meta h2 { font-size: 24px; }

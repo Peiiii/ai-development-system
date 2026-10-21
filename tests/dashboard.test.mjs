@@ -156,6 +156,27 @@ test("state requires explicit current evidence, and partial delivery cannot eras
   assert.deepEqual(attention, ["- open-required: QT-07"]);
 });
 
+test("current records support explicit inline status and heading-based next actions without reading examples", () => {
+  const parse = (text) => parseArtifact({root:"/tmp/project", relative:"docs/work/task/current-state.md", text, updatedAt:"2026-10-21T00:00:00Z"});
+  const record = parse("# 当前执行状态\n## 身份与入口\n- 交付：大型交付模式接入；状态：已完成；最近核对：2026-09-25。\n## 下一步\n\n- 检查原合同。\n- 核对运行实例。\n### 前提\n凭据有效。\n## 历史\n旧下一步不可执行。\n");
+  assert.equal(record.status, "completed");
+  assert.match(record.statusEvidence, /状态：已完成/);
+  assert.match(record.nextStep, /检查原合同.*核对运行实例.*凭据有效/);
+  assert.doesNotMatch(record.nextStep, /旧下一步/);
+  assert.equal(parse("# 当前\n- 交付：局部已完成；状态：已完成；整体状态：阻塞\n").status, "blocked");
+  assert.equal(parse("# 当前\n- 状态：已停止\n- 未闭合：旧工作\n").status, "stopped");
+  for (const text of [
+    "# 历史\n曾经状态：已完成，之后发生变化。\n此前整体 completed，后来状态未知。\n",
+    "# 当前\n- 历史：旧版本；状态：已完成；整体 completed\n",
+    "# 示例\n```markdown\n- 状态：已完成\n- 下一步：示例动作\n```\n",
+    "# 注释\n<!--\n- 状态：已完成\n- 下一步：注释动作\n-->\n",
+  ]) {
+    const result=parse(text);
+    assert.equal(result.status, "unknown");
+    assert.equal(result.nextStep, null);
+  }
+});
+
 test("index reports malformed lock, oversized Markdown, and symlinks; document budget is explicit", async (t) => {
   const { base, project, write } = await fixture(t);
   const directory = await project("a");

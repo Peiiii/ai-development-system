@@ -53,6 +53,12 @@ try {
     viewport: { width: 1280, height: 900 },
   });
   page.on("pageerror", (error) => errors.push(error.message));
+  await page.goto(dashboard.origin);
+  await page.waitForFunction(() => document.querySelector("#message").textContent.includes("完整地址"));
+  // Following the complete link from an already open error page changes only the hash.
+  await page.goto(dashboard.url);
+  await page.waitForFunction(() => document.querySelector("#page-title").textContent.includes("产品甲"), null, {timeout:5000});
+  assert.equal(await page.locator("#message").isVisible(), false);
   await page.goto(dashboard.url);
   await page.waitForFunction(
     () => document.querySelector("#page-title").textContent.includes("产品甲"),
@@ -91,6 +97,7 @@ try {
     /产品甲的独有正文关键词/,
   );
   await page.locator("#reader-close").click();
+  await page.locator("#reader").waitFor({state:"hidden"});
   await page.locator("#search").fill("");
   await page.waitForFunction(
     () => document.querySelectorAll(".artifact-row").length === 3,
@@ -106,6 +113,7 @@ try {
     () => document.querySelector("#reader-title").textContent === "产品甲",
   );
   await page.keyboard.press("Escape");
+  await page.locator("#reader").waitFor({state:"hidden"});
   assert.equal(await page.locator("#reader").isVisible(), false);
   await write(
     path.join(base, "产品甲"),
@@ -150,6 +158,7 @@ try {
     true,
   );
   await page.locator("#reader-close").click();
+  await page.locator("#reader").waitFor({state:"hidden"});
   const empty = await browser.newPage({
     viewport: { width: 390, height: 844 },
   });
@@ -175,6 +184,7 @@ try {
       "fresh file refresh",
       "attention filter",
       "reload authentication",
+      "complete-link authentication recovers an already open error page",
       "desktop/mobile overflow",
       "mobile reader",
       "empty first use",

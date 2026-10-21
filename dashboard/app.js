@@ -1,4 +1,9 @@
+import { createSheet } from "./components/sheet.js";
+import { createButton } from "./components/button.js";
+import { createBadge } from "./components/badge.js";
+
 const $ = (selector) => document.querySelector(selector);
+const reader = createSheet($("#reader"), {size:"wide"});
 const categories = {
   all: "全部",
   work: "推进",
@@ -17,6 +22,7 @@ const states = {
   completed: "已完成",
   "in-progress": "推进中",
   paused: "已暂停",
+  stopped: "已停止",
   unknown: "待核实",
   pending: "待验收",
   watching: "关注中",
@@ -74,7 +80,7 @@ function needsAttention(doc) {
     (doc.category === "work" &&
       /(?:current-state|working-notes)\.md$/.test(doc.path) &&
       doc.attention.length > 0 &&
-      !["completed", "paused"].includes(doc.status))
+      !["completed", "paused", "stopped"].includes(doc.status))
   );
 }
 function message(text) {
@@ -82,11 +88,10 @@ function message(text) {
   $("#message").hidden = !text;
 }
 function stateBadge(doc) {
-  return el(
-    "span",
-    `state-badge ${doc.status}`,
-    states[doc.status] || "待核实",
-  );
+  const variant = ["blocked", "pending"].includes(doc.status) ? "danger"
+    : ["in-progress", "watching", "enabled"].includes(doc.status) ? "info"
+    : doc.status === "completed" ? "success" : "neutral";
+  return createBadge(states[doc.status] || "待核实", {variant, className:`state-badge ${doc.status}`});
 }
 function projectDocuments(projectId) {
   return snapshot.documents.filter((doc) => doc.projectId === projectId);
@@ -277,7 +282,7 @@ function renderAttention() {
   $("#focus-all").hidden = !work.length;
   const focus = $("#focus-list");
   focus.replaceChildren();
-  const priority = { blocked: 0, "in-progress": 1, pending: 2, unknown: 3, paused: 4, completed: 5 };
+  const priority = { blocked: 0, "in-progress": 1, pending: 2, unknown: 3, paused: 4, stopped: 5, completed: 6 };
   for (const doc of [...work]
     .sort(
       (a, b) => (priority[a.status] ?? 3) - (priority[b.status] ?? 3),
@@ -359,11 +364,7 @@ function render() {
   filters.replaceChildren();
   for (const [key, label] of Object.entries(categories)) {
     if (key !== "all" && !scoped.some((doc) => doc.category === key)) continue;
-    const button = el(
-      "button",
-      selectedCategory === key ? "active" : "",
-      label,
-    );
+    const button = createButton({text:label, className:selectedCategory === key ? "active" : ""});
     button.setAttribute("aria-pressed", String(selectedCategory === key));
     button.addEventListener("click", () => {
       selectedCategory = key;
@@ -440,11 +441,10 @@ async function search() {
 }
 async function openDocument(id, anchor = "", isBack = false) {
   const sequence = ++documentSequence;
-  const dialog = $("#reader");
-  if (!dialog.open) {
+  if (!reader.isOpen) {
     readerHistory = [];
     currentDocument = null;
-    dialog.showModal();
+    reader.open();
   }
   if (!isBack && currentDocument && currentDocument.id !== id)
     readerHistory.push(currentDocument.id);
@@ -456,7 +456,7 @@ async function openDocument(id, anchor = "", isBack = false) {
   $("#source-tab").classList.remove("active");
   try {
     const doc = await api(`/api/document?id=${encodeURIComponent(id)}`);
-    if (sequence !== documentSequence || !dialog.open) return;
+    if (sequence !== documentSequence || !reader.isOpen) return;
     currentDocument = doc;
     const project = snapshot.projects.find((p) => p.id === doc.projectId);
     $("#reader-location").textContent = project.name;
@@ -477,7 +477,7 @@ async function openDocument(id, anchor = "", isBack = false) {
       firstHeading.remove();
     $("#reader-source").textContent = doc.text;
     $("#reader-back").hidden = readerHistory.length === 0;
-    dialog.scrollTop = 0;
+    $("#reader-scroll").scrollTop = 0;
     if (anchor) {
       let decoded = anchor;
       try {
@@ -534,8 +534,8 @@ $("#search").addEventListener("input", () => {
   ++searchSequence;
   searchTimer = setTimeout(search, 180);
 });
-$("#reader-close").addEventListener("click", () => $("#reader").close());
 $("#reader").addEventListener("close", () => {
+  if (reader.isOpen) return;
   ++documentSequence;
   currentDocument = null;
   readerHistory = [];
@@ -598,5 +598,10 @@ document.addEventListener("keydown", (event) => {
     event.preventDefault();
     $("#search").focus();
   }
+});
+window.addEventListener("hashchange", () => {
+  // A complete CLI link may be opened in a tab that is already showing an auth error.
+  // Reload once so startup consumes the new token and clears it from the address.
+  if (new URLSearchParams(location.hash.slice(1)).has("token")) location.reload();
 });
 refresh(true);

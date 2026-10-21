@@ -2,12 +2,13 @@
 <html lang="zh-CN">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
     <meta name="theme-color" content="#141716" />
     <title>擎天 · 项目大盘</title>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <script src="/theme.js"></script>
     <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" href="/components/components.css" />
     <script type="module" src="/app.js"></script>
   </head>
   <body>
@@ -151,27 +152,31 @@
         </div>
       </main>
     </div>
-    <dialog id="reader" aria-labelledby="reader-title">
+    <dialog id="reader" aria-labelledby="reader-title" aria-describedby="reader-path">
+      <header data-slot="sheet-header">
       <div class="reader-top">
-        <button id="reader-back" hidden aria-label="返回上一份文档">
+        <button id="reader-back" type="button" data-slot="button" data-variant="ghost" data-size="default" hidden aria-label="返回上一份文档">
           ← 返回</button
         ><span id="reader-location"></span
-        ><button id="reader-close" aria-label="关闭原文阅读">✕</button>
+        ><button id="reader-close" type="button" data-slot="button" data-variant="ghost" data-size="icon" data-sheet-close autofocus aria-label="关闭原文阅读">✕</button>
       </div>
       <div class="reader-meta">
         <span id="reader-category" class="document-type"></span>
-        <h2 id="reader-title"></h2>
-        <div id="reader-path"></div>
+        <h2 id="reader-title" data-slot="sheet-title">正在读取文档…</h2>
+        <div id="reader-path" data-slot="sheet-description"></div>
         <div class="reader-state" id="reader-state"></div>
       </div>
-      <div class="reader-tabs">
-        <button class="active" id="formatted-tab">阅读</button
-        ><button id="source-tab">Markdown 原文</button
-        ><button id="copy-path">复制路径</button>
+      <div class="reader-tabs" role="group" aria-label="文档视图与操作">
+        <button type="button" class="active" id="formatted-tab">阅读</button
+        ><button type="button" id="source-tab">Markdown 原文</button
+        ><button type="button" id="copy-path">复制路径</button>
       </div>
+      </header>
+      <div id="reader-scroll" data-slot="sheet-body">
       <div id="reader-message" class="message" role="status" hidden></div>
       <article id="reader-body" class="prose"></article>
       <pre id="reader-source" hidden></pre>
+      </div>
     </dialog>
   </body>
 </html>

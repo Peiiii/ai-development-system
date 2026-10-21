@@ -6,6 +6,7 @@ import { promises as fs } from "node:fs";
 import { realpathSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { proseLines } from "../lib/markdown.mjs";
 
 const sourceRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const lockName = ".agents/ai-development-system.lock.json";
@@ -13,6 +14,7 @@ const startMarker = "<!-- ai-development-system:start -->";
 const endMarker = "<!-- ai-development-system:end -->";
 const tracingPath = ".agents/wiki/skills/process/development-step-tracing/SKILL.md";
 const tracingLine = "- Qingtian 插件 development-step-tracing：开启";
+const lifecyclePath = ".agents/skills/development-lifecycle/SKILL.md";
 
 function hash(value) {
   return createHash("sha256").update(value).digest("hex");
@@ -106,16 +108,8 @@ function managedBlock(text) {
 function tracingConfiguration(text) {
   const block = managedBlock(text);
   const projectText = block ? text.slice(0, block.start) + text.slice(block.end) : text;
-  let fence = null;
-  const lines = projectText.split(/\r?\n/).filter((line) => {
-    const marker = line.match(/^\s*(`{3,}|~{3,})/);
-    if (marker) {
-      if (!fence) fence = marker[1][0];
-      else if (fence === marker[1][0]) fence = null;
-      return false;
-    }
-    return !fence && /^\s*-\s*Qingtian 插件 development-step-tracing(?:[：:]|$)/.test(line);
-  });
+  const lines = proseLines(projectText).filter((line) =>
+    /^\s*-\s*Qingtian 插件 development-step-tracing(?:[：:]|$)/.test(line));
   if (!lines.length) return null;
   if (lines.length !== 1 || !/^- Qingtian 插件 development-step-tracing：(?:开启|关闭)$/.test(lines[0])) {
     fail("Invalid development-step-tracing configuration: use one project-owned 开启/关闭 line");
@@ -136,9 +130,10 @@ async function initializeTracing(target, source, changes, agentsMode) {
 async function checkReadiness(target, lock) {
   const bytes = await readOptional(await targetPath(target, "AGENTS.md"));
   const text = bytes?.toString("utf8") ?? "";
-  if (!text.includes(".agents/skills/development-lifecycle/SKILL.md")) {
+  if (!proseLines(text).some((line) => line.includes(lifecyclePath))) {
     fail("Integration incomplete: root AGENTS.md must route to development-lifecycle");
   }
+  if (!(lifecyclePath in lock.files)) fail("Integration incomplete: Lifecycle managed file missing; upgrade the installed rules");
   if (!(tracingPath in lock.files)) fail("Integration incomplete: upgrade to install development-step-tracing");
   const configuration = tracingConfiguration(text);
   if (!configuration) fail("Integration incomplete: project-owned tracing configuration missing; upgrade or explicitly configure it");

@@ -23,9 +23,11 @@ npm install -g @nextclaw/qingtian
 qingtian dashboard
 ```
 
-官网也提供可直接安装的版本包：`npm install -g https://ai-dev.nextclaw.io/download/qingtian-0.1.4.tgz`，校验文件为 `download/qingtian.sha256`。源码开发可执行 `npm ci` 后运行 `npm run dashboard`。大盘右上角提供浅色、深色、跟随系统主题；选择会记住，并延续至本机其它启动端口。
+官网也提供可直接安装的版本包：`npm install -g https://ai-dev.nextclaw.io/download/qingtian-0.1.5.tgz`，校验文件为 `download/qingtian.sha256`。源码开发可执行 `npm ci` 后运行 `npm run dashboard`。大盘右上角提供浅色、深色、跟随系统主题；选择会记住，并延续至本机其它启动端口。
 
 命令自动打开浏览器，优先进入当前项目，首屏查看当前推进、下一步、待关注事项与分类产物；从项目子目录启动也识别所属项目。其它接入项目可在侧栏切换，选择“项目总览”才汇总跨项目信息。刷新或页面重载保留所选项目；点开原文可沿已收录的 Markdown 链接追溯。没有当前状态记录时显示明确空态，不以更新时间推断进度或后台执行。
+
+文档统一在右侧抽屉阅读，手机上满屏；支持 Esc、关闭按钮或遮罩关闭，保留原文、关联文档返回及主题。大盘的 [Sheet、Button、Badge 源码与使用约定](dashboard/components/README.md)参考 shadcn/ui 的组合方式，复用现有主题变量；原生 dialog 承接模态与焦点行为。打开命令输出的完整地址才能鉴权；在已打开的错误页面重新打开完整链接也能恢复。
 
 项目以既有 `.agents/ai-development-system.lock.json` 识别（本体系源仓库也可识别）。默认优先扫描当前项目，再发现 `~/Projects` 中的接入项目，汇总 README、docs、wiki 和项目知识目录中的 Markdown。登记项目始终加入，`--root` 仅覆盖自动扫描的位置；不同目录中的副本分别展示，路径可核对。扫描达到上限也保留明确指定的接入项目。当前目录未接入或不在指定范围内时进入总览选择项目。Ctrl+C 停止服务。
 

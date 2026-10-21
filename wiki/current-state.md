@@ -1,11 +1,11 @@
 # 当前实现事实
 
-更新日期：2026-10-09。事实来源为本仓库的 `manifest.json`、`payload/`、`bin/ai-development-system.mjs`、`scripts/build-site.mjs`、`wrangler.jsonc` 与自动化测试。
+更新日期：2026-10-21。事实来源为本仓库的 `manifest.json`、`payload/`、`bin/ai-development-system.mjs`、`scripts/build-site.mjs`、`wrangler.jsonc` 与自动化测试。
 
 ## 已具备
 
 - 擎天 是对外名称；AI Development System 是类别描述。`ai-dev.nextclaw.io`、Git 仓库名、安装器路径和锁文件名暂作为稳定技术标识保留。
-- `manifest.json` 当前列出 56 个受管文件，包括 lifecycle、七个阶段 Skill、按需专项 Skill、references 与显式 workflow 目录。实际数量以 manifest 为准。
+- `manifest.json` 当前列出 57 个受管文件，包括 lifecycle、七个阶段 Skill、按需专项 Skill、references 与显式 workflow 目录。实际数量以 manifest 为准。
 - 安装器支持 `install`、`check`、`upgrade` 与 dry-run；目标项目的受管文件摘要和共享根规则段落记录在 `.agents/ai-development-system.lock.json`。
 - 默认安装在目标项目 `AGENTS.md` 添加受管共享入口。现有完整入口的项目可以选择 `--agents=skip`，但要自行保持 lifecycle 路由。
 - 官网位于 `https://ai-dev.nextclaw.io/`，原始入口为 `/SKILL.md`。Cloudflare 同域提供安装归档；构建时把归档 SHA-256 写入入口。源 Git 仓库保持私有，公开的是安装所需快照和本文档。
@@ -40,3 +40,9 @@
 ## 大盘视觉与主题（2026-10-09）
 
 0.1.3 提供石墨黑/荧光绿与暖白/墨绿的完整大盘，右上角可选浅色、深色、跟随系统。主题在样式载入前应用，选择可跨本机启动端口延续；系统模式响应外观变化。当前项目优先、只读快照与原文依据保留；手机可横向切换项目。浏览器与实际版本包验证通过，公开分发状态见[视觉升级交付记录](../docs/logs/2026-10-09-qingtian-visual-upgrade/README.md)。
+
+## 接入检查、文档抽屉与组件（2026-10-21）
+
+0.1.5 源码修复 readiness 将代码示例路径当入口的问题，状态读取兼容分号分隔的身份行与标题式下一步，并忽略代码/注释中的示例；显式关闭 tracing 的说明与升级行为对齐。已打开的鉴权错误页重新打开完整链接可恢复。
+
+文档阅读统一使用右侧满高 Sheet，手机满屏；Esc、关闭按钮、遮罩关闭、背景滚动隔离、焦点恢复和 reduced-motion 已验证，关联阅读与 Markdown 原文保留。`dashboard/components/` 提供 Sheet、Button、Badge 及语义 slots/variants、主题样式与使用约定，参考 shadcn/ui 的源码组合方式，原生 dialog 承接模态基础能力，没有增加 React 运行依赖。文件接入和浏览器验证不证明模型长期遵循效果；实际发布与同步结果见[本轮交付记录](../docs/logs/2026-10-21-review-fixes.md)。
