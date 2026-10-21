@@ -5,7 +5,7 @@
 2026-10-21 用户要求 Review 最新体系；发现入口 readiness 误判、记录解析遗漏、tracing 关闭说明冲突。用户随后要求打开大盘并解决这些问题，实际打开又复现完整 token 链接无法恢复已加载的错误页。用户追加：文档阅读全部改为抽屉，并优先参考 shadcn/ui 的封装方法和源码，沉淀可复用组件。
 
 - [方案与计划](../plans/2026-10-21-review-fixes.md)，含方案 Review 与追加范围。
-- contract-id: qingtian-review-fixes-20261021；scope-revision: 2；scope-confirmation: user-confirmed（本会话追加）。
+- contract-id: qingtian-review-fixes-20261021；scope-revision: 3；scope-confirmation: user-confirmed（本会话追加抽屉与本地实时预览）。
 - parent-goal: 用户能打开当前项目大盘，原三处缺陷及实际鉴权恢复问题关闭，文档统一侧边阅读且基础组件可复用，适用发布和主线同步完成。
 - flow: bugfix（原缺陷）及 standard（抽屉/组件）；risk: L4；retrospective_state: pending。
 - 原有 `docs/work/2026-10-09-qingtian-visual-upgrade/current-state.md` 未提交修改不属于本任务。期间其它会话提交 `3c4be70` 的愿景资料保留，本任务不修改其正文。
@@ -20,7 +20,9 @@
 | RF04 | true | 已打开的鉴权错误页可通过完整链接直接恢复 | passed | 浏览器修前超时、修后通过，Bearer 门保留 |
 | RF05 | true | 所有文档入口使用右侧抽屉，键盘/关闭/滚动/手机/主题/原文与关联返回可用 | passed | 15 项既有浏览器检查、8 项主题检查、6 组组件边界检查通过；已看真实项目抽屉 |
 | RF06 | true | Sheet/Button/Badge 有可复用源码、API、样式 owner 与真实消费者 | passed | 组件 README、生产引用及独立第二 Sheet 实例回归 |
-| RF07 | true | 实际包安装、官网/npm、本机可用入口和 origin/main 同步 | not-run | 版本准备为 0.1.5；等待最终包验证与发布 |
+| RF07 | true | 原修复和抽屉的实际包安装、官网/npm、本机可用入口和 origin/main 同步 | passed | 0.1.5 已发布，公开包与受测包字节一致，本机 CLI 已更新，4f32c94 已同步主线 |
+| RF08 | true | 显式开启实时预览，CSS 即时更新，JS/HTML 刷新后保留阅读上下文；普通服务不监听 | passed | SSE 鉴权/显式开启/文件变化/清理测试及四组浏览器预览验收；本机 preview=true 的 API 200 与真实界面已核 |
+| RF09 | true | 实时预览独立版本分发、本机更新与主线同步 | not-run | 0.1.6 准备发布，不能覆盖已发布的 0.1.5 |
 
 ## 实现与 Review
 
@@ -34,7 +36,13 @@
 
 ## 发布与恢复
 
-尚未发布。沿现有 npm tgz、官网 build/deploy 与公开回读执行；外部完成点以实际工具结果更新，不把构建成功记作发布。回退为旧安装包与 Git revision；既有项目配置保持，未批量升级其它仓库。
+0.1.5 从精确提交 4f32c94 构建；28 项 Node、包内真实浏览器 9 项、Wrangler dry-run 通过。真实 0.1.4→0.1.5 升级六项通过：旧 registry 包、dry-run 零写入、candidate tgz 升级、readiness disabled、项目约定保留、重复升级幂等。证据在 `.local/qingtian-dashboard/release/upgrade-report.json`。
+
+npm 已接受 0.1.5，初次 registry 版本查询返回 E404，等待期间继续官网和本机交付，没有重复 publish；后续官方 registry metadata 与 tgz 200，SHA256 `75b91ac213030082e5a8e81697f21b91f931ce349580ca3c16c2f6d7e3934633` 与受测包一致。官网部署 `0b9598e7-860a-449f-ba0c-ca631db46f7d`；SKILL、两份 sha256 和 tgz 均 200 且与发布快照一致。旧源归档 SHA256 为 `1286ad8292faa5a390c6ab2c3991eb1573b7100f6badb9e1f3cfea04474031fb`。本机 qingtian --version=0.1.5；源码修复已普通推送 origin/main，fetch 后 0/0。未批量升级其它仓库。
+
+22:21 用户要求修改前端时本地快速看到变化，新增 RF08–RF09。`npm run dev` / CLI --watch 仅显式开启 SSE 和前端 watcher，沿原 Bearer 校验，不开放写 API；CSS 替换与 JS/HTML reload 分开，preview 模块只调用业务状态快照，重连比较 revision，避免漏掉断线期间的变化。页面源文件及 JS 修改会触发预览，文档/后端不在监听范围。29 项 Node 与 15+8+6+4 组浏览器检查通过；核心预览验收只改临时前端副本，没有修改真实源码来制造演示。当前用户入口已切到实时预览并真实显示“实时预览”；会话 token 不写入日志。
+
+0.1.6 继续沿精确提交快照构建、包验证和既有发布链执行。回退为旧安装包与 Git revision；普通 dashboard 无 watcher。后端修改需重启，不将前端自动刷新描述为完整后端 HMR。
 
 ## 复盘
 

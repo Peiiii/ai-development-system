@@ -10,8 +10,9 @@ const packageInfo = JSON.parse(
 );
 const help = `擎天 Qingtian ${packageInfo.version} · AI 驱动开发体系
 
-  qingtian dashboard [--root <目录>] [--port <端口>] [--no-open]
+  qingtian dashboard [--root <目录>] [--port <端口>] [--no-open] [--watch]
       打开当前项目大盘，可切换其它接入项目；--root 可重复指定。
+      --watch 监听当前 CLI 的前端文件，CSS 即时更新，JS/HTML 自动刷新。
   qingtian projects add <项目目录>
   qingtian projects remove <项目目录>
   qingtian projects list
@@ -80,6 +81,7 @@ async function main(argv) {
   const roots = [];
   let port = 0;
   let open = true;
+  let livePreview = false;
   for (let index = 0; index < args.length; index++) {
     if (
       args[index] === "--root" &&
@@ -91,6 +93,7 @@ async function main(argv) {
       port = Number(args[++index]);
       if (port < 0 || port > 65535) throw new Error("端口须为 0～65535 的整数");
     } else if (args[index] === "--no-open") open = false;
+    else if (args[index] === "--watch") livePreview = true;
     else throw new Error(`未知参数或缺少参数值：${args[index]}`);
   }
   const { startDashboard } = await import("../lib/dashboard.mjs");
@@ -99,10 +102,12 @@ async function main(argv) {
     roots: roots.length ? roots : await defaultRoots(),
     port,
     currentDirectory: process.cwd(),
+    livePreview,
   });
   console.log(
     `擎天大盘已启动 · ${dashboard.snapshot.projects.length} 个项目 · ${dashboard.snapshot.documents.length} 份产物\n${dashboard.url}\nCtrl+C 停止服务。完整地址包含本次会话凭据，请仅在自己的浏览器使用。`,
   );
+  if (livePreview) console.log("实时预览已开启：修改前端后自动更新；Ctrl+C 停止监听。");
   if (open) openBrowser(dashboard.url);
   const stop = async () => {
     await dashboard.close();

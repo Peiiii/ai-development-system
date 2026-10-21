@@ -1,6 +1,7 @@
 import { createSheet } from "./components/sheet.js";
 import { createButton } from "./components/button.js";
 import { createBadge } from "./components/badge.js";
+import { connectPreview, takePreviewState } from "./preview.js";
 
 const $ = (selector) => document.querySelector(selector);
 const reader = createSheet($("#reader"), {size:"wide"});
@@ -604,4 +605,38 @@ window.addEventListener("hashchange", () => {
   // Reload once so startup consumes the new token and clears it from the address.
   if (new URLSearchParams(location.hash.slice(1)).has("token")) location.reload();
 });
-refresh(true);
+async function startPreview() {
+  if (!snapshot?.livePreview) return;
+  const saved = takePreviewState(token);
+  if (saved) {
+    if (snapshot.projects.some(project=>project.id===saved.projectId)) selectedProject = saved.projectId;
+    if (Object.hasOwn(categories, saved.category)) selectedCategory = saved.category;
+    attentionOnly = saved.attentionOnly === true;
+    $("#search").value = saved.search || "";
+    if (saved.search) await search();
+    else render();
+    if (saved.documentId && snapshot.documents.some(doc=>doc.id===saved.documentId)) {
+      await openDocument(saved.documentId);
+      readerHistory = (saved.history || []).filter(id=>snapshot.documents.some(doc=>doc.id===id));
+      $("#reader-back").hidden = readerHistory.length === 0;
+      if (saved.source) $("#source-tab").click();
+      $("#reader-scroll").scrollTop = saved.readerScroll || 0;
+    }
+    window.scrollTo(0, saved.scrollY || 0);
+  }
+  connectPreview({
+    token,
+    getState: () => ({projectId:selectedProject, category:selectedCategory, attentionOnly,
+      search:$("#search").value, documentId:reader.isOpen ? currentDocument?.id : null,
+      history:readerHistory, source:!$("#reader-source").hidden,
+      readerScroll:$("#reader-scroll").scrollTop, scrollY:window.scrollY}),
+    onStatus(state, text) {
+      const indicator = $("#preview-status");
+      indicator.hidden = false;
+      indicator.dataset.state = state;
+      indicator.textContent = text;
+      indicator.title = text;
+    },
+  });
+}
+refresh(true).then(startPreview);

@@ -67,6 +67,12 @@ main { min-width: 0; }
 .refresh:hover { background: var(--raised); border-color: var(--muted); }
 .refresh > span { font-size: 17px; line-height: 1; }
 .refresh.busy > span { animation: spin 1s linear infinite; }
+#preview-status { white-space: nowrap; }
+#preview-status[data-state="error"], #preview-status[data-state="reconnecting"] { color: var(--danger); background: var(--danger-soft); }
+@media (max-width: 900px) {
+  #preview-status { font-size: 0; padding: 0; width: 7px; height: 7px; border-radius: 50%; background: var(--info); }
+  #preview-status[data-state="error"], #preview-status[data-state="reconnecting"] { background: var(--danger); }
+}
 .workspace { padding: 36px 40px 28px; max-width: 1560px; margin: auto; }
 .page-heading { display: flex; justify-content: space-between; gap: 24px; align-items: flex-end; margin-bottom: 30px; }
 .page-heading > div { min-width: 0; }
