@@ -71,7 +71,7 @@ try {
   assert.equal(await page.locator('#document-count').innerText(),'15 个 Skill');
   assert.match(await page.locator('.skill-row').first().innerText(),/体系托管/);
   await page.locator('.skill-row').first().click();
-  await page.locator('#reader-related button').first().waitFor();
+  await page.locator('#reader-related select').first().waitFor();
   assert.doesNotMatch(await page.locator('#reader-body').innerText(),/description:/);
   assert.deepEqual(errors,[]);
   const report={passed:true,version,packageSource,checkedAt:new Date().toISOString(),checks:['isolated npm install','dry-run no registration','install/check/upgrade','project rules retained','installed dashboard Skill and AGENTS route','packaged CLI current-project launch','browser body search','packaged document read','packaged theme switch and persistence','packaged 15 managed Skill entrances and drawer'],errors};

@@ -505,17 +505,23 @@ async function openDocument(id, anchor = "", isBack = false) {
     $("#reader-title").textContent = doc.title;
     const skill = (snapshot.skills || []).find(skill=>skill.id === doc.skillId);
     $("#reader-category").textContent = skill ? (doc.id===skill.id ? "Skill 入口" : "Skill 附属文档") : categories[doc.category];
+    $("#reader-details").open = false;
     const related = $("#reader-related");
-    related.replaceChildren(); related.hidden = !skill;
-    if (skill) {
-      related.append(el("span","", "同包文档"));
+    related.replaceChildren(); related.hidden = !skill || skill.documentIds.length <= 1;
+    if (skill && skill.documentIds.length > 1) {
+      const label = el("label","", "同包文档");
+      label.htmlFor = "reader-related-select";
+      const select = el("select");
+      select.id = "reader-related-select";
       for (const id of skill.documentIds) {
         const file = snapshot.documents.find(item=>item.id===id);
-        const button = createButton({text:id===skill.id ? "SKILL.md" : file.path.slice(skill.path.lastIndexOf("/")+1),variant:"ghost"});
-        button.title = file.path;
-        button.setAttribute("aria-current",String(id===doc.id));
-        button.addEventListener("click",()=>openDocument(id)); related.append(button);
+        const option = el("option","",id===skill.id ? "SKILL.md" : file.path.slice(skill.path.lastIndexOf("/")+1));
+        option.value = id;
+        select.append(option);
       }
+      select.value = doc.id;
+      select.addEventListener("change",()=>openDocument(select.value));
+      related.append(label,select);
     }
     $("#reader-path").textContent =
       `${doc.path} · 更新 ${date(doc.updatedAt, true)}`;

@@ -45,7 +45,13 @@ try{
  await page.locator('#search').fill('附属资料唯一词');await page.waitForFunction(()=>document.querySelectorAll('.skill-row').length===1);
  await page.locator('.skill-row').click();await page.waitForFunction(()=>document.querySelector('#reader-title').textContent==='项目检查');
  assert.doesNotMatch(await page.locator('#reader-body').innerText(),/description:/);
- assert.equal(await page.locator('#reader-related button').count(),2);
+ assert.equal(await page.locator('#reader-related option').count(),2);
+ assert.equal(await page.locator('#reader-details').getAttribute('open'),null);
+ await page.getByText('文档信息',{exact:true}).click();assert.equal(await page.locator('#reader-path').isVisible(),true);
+ await page.getByText('文档信息',{exact:true}).click();
+ const referenceId=await page.locator('#reader-related option').filter({hasText:'references/check.md'}).getAttribute('value');
+ await page.locator('#reader-related-select').selectOption(referenceId);await page.waitForFunction(()=>document.querySelector('#reader-title').textContent==='验证方法');
+ await page.locator('#reader-back').click();await page.waitForFunction(()=>document.querySelector('#reader-title').textContent==='项目检查');
  await page.locator('#reader-body a').filter({hasText:'验证方法'}).click();await page.waitForFunction(()=>document.querySelector('#reader-title').textContent==='验证方法');
  await page.locator('#reader-back').click();await page.waitForFunction(()=>document.querySelector('#reader-title').textContent==='项目检查');
  await page.keyboard.press('Escape');await page.locator('#reader').waitFor({state:'hidden'});

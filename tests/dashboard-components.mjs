@@ -30,6 +30,10 @@ try {
   assert.ok(Math.abs(rect.x+rect.width-1440)<2 && rect.y===0 && rect.height===1000,'document reader must be a full-height right drawer');
   assert.ok(rect.x>200,'desktop drawer retains the workspace context');
   assert.equal(await panel.getAttribute('aria-describedby'),'reader-path');
+  const compactHeader=await panel.locator('[data-slot="sheet-header"]').boundingBox();
+  assert.ok(compactHeader.height<180,'compact reader header leaves the main area for content');
+  await page.getByText('文档信息',{exact:true}).click();assert.equal(await page.locator('#reader-path').isVisible(),true);
+  await page.getByText('文档信息',{exact:true}).click();
   assert.equal(await page.evaluate(()=>getComputedStyle(document.documentElement).overflowY),'hidden');
   for(let i=0;i<12;i++) {
     await page.keyboard.press('Tab');
@@ -62,6 +66,7 @@ try {
   const mobile=await panel.boundingBox();
   assert.ok(Math.abs(mobile.x)<1 && Math.abs(mobile.width-390)<1 && Math.abs(mobile.height-844)<1);
   assert.ok(await panel.evaluate(node=>node.scrollWidth<=node.clientWidth));
+  assert.ok((await panel.locator('[data-slot="sheet-header"]').boundingBox()).height<220);
   await page.screenshot({path:path.join(evidence,'mobile-light.png'),animations:'disabled'});
   await page.locator('#reader-close').click();await panel.waitFor({state:'hidden'});
   checks.push('light theme, source view, mobile full-screen drawer and no horizontal overflow');

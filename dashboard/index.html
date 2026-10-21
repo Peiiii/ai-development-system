@@ -164,13 +164,16 @@
         <button id="reader-back" type="button" data-slot="button" data-variant="ghost" data-size="default" hidden aria-label="返回上一份文档">
           ← 返回</button
         ><span id="reader-location"></span
+        ><span id="reader-category" class="document-type"></span
         ><button id="reader-close" type="button" data-slot="button" data-variant="ghost" data-size="icon" data-sheet-close autofocus aria-label="关闭原文阅读">✕</button>
       </div>
       <div class="reader-meta">
-        <span id="reader-category" class="document-type"></span>
         <h2 id="reader-title" data-slot="sheet-title">正在读取文档…</h2>
-        <div id="reader-path" data-slot="sheet-description"></div>
-        <div class="reader-state" id="reader-state"></div>
+        <details id="reader-details">
+          <summary>文档信息</summary>
+          <div id="reader-path" data-slot="sheet-description"></div>
+          <div class="reader-state" id="reader-state"></div>
+        </details>
       </div>
       <div class="reader-tabs" role="group" aria-label="文档视图与操作">
         <button type="button" class="active" id="formatted-tab">阅读</button
