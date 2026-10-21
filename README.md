@@ -2,6 +2,8 @@
 
 擎天（Qingtian，原名 DevWeave）是从 NextClaw 的 AI 驱动开发体系抽离出的可复用版本；AI Development System 是其类别描述。面向 Codex，保留 `AGENTS.md`、顶层 `development-*` Skill、按需加载的 Wiki 方法和项目自己的专项规则，并以 `qingtian` 命令提供跨项目大盘。
 
+长期主线是**持续扩大人能够放心委托给 AI 的工作范围**：依托 Codex、Claude Code 等现成编码 Agent，在其之上沉淀完整委托、工程交付与实践改进的能力。优先复用宿主，不重造通用编码 Agent；当前实现与未来愿景分别说明。完整论述见[愿景主线与定位边界](wiki/engineering-background.md#愿景主线持续扩大人能够放心委托给-ai-的工作范围)。
+
 背景判断是：模型与 Harness 能力增强，让 Agent 能承担的工作单位扩大，由此需要跨人、跨会话、跨环境的开发接续，并通过验证闭环推进完整交付。因果结构与介绍开场见[体系背景](wiki/engineering-background.md)。
 
 体系的两个重点是**完整工程交付**，以及**覆盖工程迭代周期常规场景的多类型、多层级 Agent 工作流**。现有工作流包括四种基础任务路径，以及组合这些路径、维护整体成果的大型交付工作流。定义与讲述方式见[Agent 工作流定位](wiki/system-architecture.md#agent-工作流定位与介绍表达)。
