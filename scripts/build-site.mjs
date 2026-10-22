@@ -1,5 +1,5 @@
 import { readWorkflowAtlas } from "./workflow-atlas.mjs";
-import { SiteContent } from "./site-content.mjs";
+import { DocumentationSite } from "./documentation-site.mjs";
 import { createHash } from "node:crypto";
 import { execFileSync } from "node:child_process";
 import { promises as fs } from "node:fs";
@@ -14,7 +14,7 @@ const archive = path.join(download, "ai-development-system.tar.gz");
 const packageInfo = JSON.parse(await fs.readFile(path.join(root, 'package.json'), 'utf8'));
 const contentOnly = process.argv.slice(2).includes('--content-only');
 if (process.argv.slice(2).some(argument => argument !== '--content-only')) throw new Error('Usage: build-site.mjs [--content-only]');
-const siteContent = await new SiteContent(root).render();
+const documentation = await new DocumentationSite(root).load();
 const preserved = new Map();
 if (contentOnly) {
   for (const name of ['SKILL.md', 'download/ai-development-system.tar.gz', 'download/ai-development-system.sha256', `download/qingtian-${packageInfo.version}.tgz`, 'download/qingtian.sha256']) {
@@ -30,12 +30,18 @@ if (contentOnly) {
 
 await fs.rm(output, { recursive: true, force: true });
 await fs.mkdir(download, { recursive: true });
-for (const filename of ["index.html", "styles.css", "main.js", "problem-explorer.js", "favicon.svg", "robots.txt"]) {
+for (const filename of ["index.html", "styles.css", "main.js", "favicon.svg", "robots.txt"]) {
   const content = await fs.readFile(path.join(site, filename), 'utf8');
   let rendered = content.replaceAll('{{QINGTIAN_VERSION}}', packageInfo.version);
-  for (const [key, value] of Object.entries(siteContent)) rendered = rendered.replaceAll(`{{${key}}}`, value);
+  if (filename === 'index.html') {
+    const architecture = (await documentation.interactive('architecture')).replace(/<div class="system-note">[\s\S]*?<\/div>/, '');
+    const workflows = (await documentation.interactive('workflows')).replace(/<p class="flow-source">[\s\S]*?<\/p>/g, '');
+    rendered = rendered.replaceAll('{{QINGTIAN_ARCHITECTURE}}', architecture).replaceAll('{{QINGTIAN_WORKFLOWS}}', workflows);
+  }
   await fs.writeFile(path.join(output, filename), rendered);
 }
+await fs.cp(path.join(site, "docs"), path.join(output, "docs"), { recursive: true, filter: file => !file.endsWith(".html") });
+await documentation.build(output);
 await fs.writeFile(path.join(output, "workflow-atlas.json"), JSON.stringify(await readWorkflowAtlas(root)));
 await fs.cp(path.join(root, "wiki"), path.join(output, "wiki"), { recursive: true });
 

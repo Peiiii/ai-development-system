@@ -26,7 +26,7 @@ test("major delivery is discoverable through the installed workflow catalog and 
 });
 
 test("website gives major delivery its own selectable workflow and public source entry", async () => {
-  const html = await read("site/index.html");
+  const html = await read("site/docs/workflows.html");
   assert.match(html, /data-flow-button="major-delivery"/);
   assert.match(html, /data-flow-panel="major-delivery"/);
   assert.match(html, /href="\/workflows\/major-delivery\.md"/);

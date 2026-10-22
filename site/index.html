@@ -7,7 +7,7 @@
     <meta name="description" content="擎天：持续扩大人能够放心委托给 AI 的工作范围。堪当重任、自主交付、普适易用、自我治理、持续进化；依托现成编码 Agent，建设更上一层的开发体系。" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="擎天 — 让 AI 堪当重任" />
-    <meta property="og:description" content="扩大可放心委托的工作范围，降低使用门槛与维护负担。了解擎天的愿景、三层架构与当前核心挑战。" />
+    <meta property="og:description" content="在现成编码 Agent 之上，组织工作流、复用方法、接续项目。了解擎天并开始使用。" />
     <meta property="og:url" content="https://ai-dev.nextclaw.io/" />
     <link rel="canonical" href="https://ai-dev.nextclaw.io/" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -15,191 +15,62 @@
     <script src="/main.js" type="module"></script>
     <title>擎天 · AI Development System</title>
   </head>
-  <body>
+  <body data-home>
     <div class="page-shell">
       <header class="site-header wrap">
-        <a class="brand" href="/" aria-label="擎天 首页">
-          <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
-          <span class="brand-type"><strong>擎天</strong><small>AI Development System · NextClaw</small></span>
-        </a>
-        <nav class="site-nav" aria-label="主导航">
-          <a href="#problems">解决什么问题</a>
-          <a href="#vision">愿景与定位</a>
-          <a href="#challenges">核心挑战</a>
-          <a href="#how-it-works">如何接入</a>
-          <a href="#dashboard">项目大盘</a>
-          <a href="#inside">三层架构</a>
-          <a href="#flow">开发流程</a>
-        </nav>
-        <a class="nav-link" href="/SKILL.md">查看 SKILL.md <span aria-hidden="true">↗</span></a>
+        <a class="brand" href="/" aria-label="擎天 首页"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="brand-type"><strong>擎天</strong><small>AI Development System · NextClaw</small></span></a>
+        <nav class="site-nav" aria-label="主导航"><a href="#value">有什么用</a><a href="#showcase">交互演示</a><a href="#start">开始使用</a></nav>
+        <a class="nav-link" href="/docs/">文档站 <span aria-hidden="true">↗</span></a>
       </header>
-
       <main>
         <section class="hero wrap" aria-labelledby="hero-title">
           <div class="hero-copy">
             <div class="eyebrow"><span class="live-dot"></span> QINGTIAN / AI DEVELOPMENT SYSTEM</div>
             <h1 id="hero-title">让 AI<br /><em>堪当重任。</em></h1>
-            <p class="hero-lead">持续扩大人能够放心委托给 AI 的工作范围，让非专业用户也能使用这些能力。擎天依托现成编码 Agent，组织完整交付，沉淀经过实践检验的方法。</p>
-            <div class="hero-actions">
-              <button class="button button-primary" type="button" data-copy-prompt>复制接入指令 <span aria-hidden="true">↗</span></button>
-              <a class="button button-quiet" href="#vision">了解愿景与定位 <span aria-hidden="true">→</span></a>
-            </div>
-            <p class="hero-note"><span class="note-line"></span> 一个地址开始 · 保留项目规则 · 安全升级</p>
+            <p class="hero-lead">擎天建设在 Codex、Claude Code 等编码 Agent 之上。把反复交代的要求、项目背景和交付检查留在项目里，让下一次工作有据可接。</p>
+            <div class="hero-actions"><button class="button button-primary" type="button" data-copy-prompt>复制接入指令 <span aria-hidden="true">↗</span></button><a class="button button-quiet" href="/docs/">阅读文档 <span aria-hidden="true">→</span></a></div>
+            <p class="hero-note"><span class="note-line"></span> 可安装 · 可检查 · 可升级</p>
           </div>
-
-          <div class="hero-visual" aria-label="AI 开发体系接入流程示意">
-            <div class="visual-glow" aria-hidden="true"></div>
-            <div class="visual-grid" aria-hidden="true"></div>
+          <div class="hero-visual" aria-label="擎天在现成编码 Agent 之上提供工作流、方法与项目资料">
+            <div class="visual-glow" aria-hidden="true"></div><div class="visual-grid" aria-hidden="true"></div>
             <div class="visual-content">
-              <div class="visual-topline"><span>INTEGRATION FLOW</span><span class="visual-online"><span></span> READY</span></div>
-              <div class="visual-input"><span class="visual-avatar">YOU</span><span>把这套开发体系接入我的项目</span></div>
+              <div class="visual-topline"><span>YOUR PROJECT, WITH STRUCTURE</span><span class="visual-online"><span></span> QINGTIAN</span></div>
+              <div class="visual-input"><span class="visual-avatar">YOU</span><span>这是我想完成的目标</span></div>
               <div class="visual-connector" aria-hidden="true"><span></span></div>
-              <div class="visual-source"><span class="source-icon">◇</span><div><small>REMOTE ENTRY</small><strong>ai-dev.nextclaw.io/SKILL.md</strong></div><span class="source-arrow">↗</span></div>
+              <div class="visual-source"><span class="source-icon">◇</span><div><small>ABOVE YOUR CODING AGENT</small><strong>擎天 · 组织完整交付的方法</strong></div></div>
               <div class="visual-connector visual-connector-short" aria-hidden="true"><span></span></div>
-              <div class="visual-output">
-                <div class="output-heading"><span>YOUR REPOSITORY</span><span class="output-check">✓ VERIFIED</span></div>
-                <div class="file-row"><span class="file-icon">◫</span><span>AGENTS.md</span><small>流程约束入口</small></div>
-                <div class="file-row"><span class="file-icon">⌘</span><span>.agents/skills/</span><small>阶段 Skill</small></div>
-                <div class="file-row"><span class="file-icon">▣</span><span>.agents/wiki/</span><small>专项方法与知识</small></div>
-                <div class="file-row"><span class="file-icon">◇</span><span>ai-development-system.lock.json</span><small>可校验版本</small></div>
-              </div>
-              <div class="visual-footer"><span>DRY RUN</span><span>INSTALL</span><span>CHECK</span><span>UPGRADE</span></div>
+              <div class="visual-output"><div class="output-heading"><span>WORKFLOW · SKILLS · KNOWLEDGE</span></div><div class="file-row"><span class="file-icon">◫</span><span>工作流</span><small>组织任务与交付</small></div><div class="file-row"><span class="file-icon">⌘</span><span>可复用方法</span><small>按需使用 Skills</small></div><div class="file-row"><span class="file-icon">▣</span><span>项目知识与记录</span><small>保留依据与状态</small></div></div>
+              <div class="visual-footer"><span>理解</span><span>实现</span><span>验证</span><span>交付</span></div>
             </div>
           </div>
         </section>
-
-        <div class="marquee" aria-label="开发流程阶段"><div class="marquee-inner"><span>理解任务</span><b>✳</b><span>设计方案</span><b>✳</b><span>开发实现</span><b>✳</b><span>验证测试</span><b>✳</b><span>审查复核</span><b>✳</b><span>交付沉淀</span><b>✳</b></div></div>
-
-        <section class="section wrap section-problems" id="problems" aria-labelledby="problems-title" data-content-sha256="{{QINGTIAN_PROBLEMS_DIGEST}}">
-          <div class="section-heading"><div><p class="section-kicker">YOUR CHALLENGES / 从使用者出发</p><h2 id="problems-title">用 AI 做项目，<br />你卡在哪一步？</h2></div><p>从反复提醒、上下文丢失，到不懂技术也想交出完整工作。选择你遇到的问题，看看擎天已有的支撑和仍需突破的地方。</p></div>
-          {{QINGTIAN_PROBLEMS}}
-          <div class="problem-legend"><span><i class="legend-available"></i>有直接支撑</span><span><i class="legend-partial"></i>部分支撑</span><span><i class="legend-research"></i>待突破</span><p>已有方法和工具，不等于效果已得到充分验证。</p></div>
+        <section class="section wrap home-value" id="value" aria-labelledby="value-title">
+          <div class="section-heading"><div><p class="section-kicker">WHY QINGTIAN</p><h2 id="value-title">把组织 AI 工作的方法，<br />带进每个项目。</h2></div></div>
+          <div class="home-value-grid">
+            <a href="/docs/workflows/"><span>01 / 工作有章可循</span><h3>复用交付方法</h3><p>用工作流和 Skills 组织理解、实现、验证与交付，保存需要反复交代的要求。</p><small>了解工作流 →</small></a>
+            <a href="/docs/architecture/"><span>02 / 项目有据可接</span><h3>保留项目上下文</h3><p>把知识、任务状态与验证记录留在项目中，为中断后或换会话继续工作提供依据。</p><small>了解知识与任务资料 →</small></a>
+            <a href="/docs/dashboard/"><span>03 / 结果有处可查</span><h3>一处查看推进与产物</h3><p>用项目大盘集中查看当前推进、下一步、项目知识和交付物，沿原文核对依据。</p><small>了解项目大盘 →</small></a>
+          </div>
+          <p class="home-context">长期方向：能放心委托的工作越来越大，使用门槛和维护负担越来越低。<a href="/docs/vision/">阅读愿景与定位 ↗</a></p>
         </section>
-
-        <section class="section wrap section-vision" id="vision" aria-labelledby="vision-title" data-content-sha256="{{QINGTIAN_CONTENT_DIGEST}}">
-          <div class="section-heading"><div><p class="section-kicker">OUR VISION / 愿景与定位</p><h2 id="vision-title">更大的托付，<br />更低的使用门槛。</h2></div><p>这五点描述体系持续发展的方向。当前实现与验证边界，另有明确记录。</p></div>
-          {{QINGTIAN_VISION}}
+        <section class="section wrap home-showcase" id="showcase" aria-labelledby="showcase-title">
+          <div class="section-heading"><div><p class="section-kicker">EXPLORE THE SYSTEM</p><h2 id="showcase-title">看见体系如何协作。</h2></div><p>展开架构图，或切换工作流，了解一次任务怎样被组织起来。</p></div>
+          <div class="showcase-switch" role="tablist" aria-label="选择交互演示"><button id="showcase-architecture-tab" type="button" role="tab" aria-selected="true" aria-controls="showcase-architecture" data-showcase="architecture">三层架构图</button><button id="showcase-workflows-tab" type="button" role="tab" aria-selected="false" aria-controls="showcase-workflows" tabindex="-1" data-showcase="workflows">五条工作流</button></div>
+          <div class="home-demo" id="showcase-architecture" role="tabpanel" aria-labelledby="showcase-architecture-tab">{{QINGTIAN_ARCHITECTURE}}</div>
+          <div class="home-demo" id="showcase-workflows" role="tabpanel" aria-labelledby="showcase-workflows-tab" hidden>{{QINGTIAN_WORKFLOWS}}</div>
+          <a class="source-link home-demo-link" href="/docs/architecture/">在文档站深入了解架构与工作流 →</a>
         </section>
-
-        <section class="section section-challenges" id="challenges" aria-labelledby="challenges-title">
-          <div class="wrap">
-            <div class="section-heading"><div><p class="section-kicker">OPEN QUESTIONS / 当前核心挑战</p><h2 id="challenges-title">沿着真实瓶颈，<br />一步步往前走。</h2></div><p>从实际体验发现问题，用具体案例尝试、验证和修正。解法需要接受效果检验。</p></div>
-            <div class="challenge-list" aria-label="五类当前核心挑战">{{QINGTIAN_CHALLENGES}}</div>
-            <div class="challenge-footer"><p>具体失败案例 → 机制尝试 → 效果核验 → 更新下一处瓶颈</p><a class="source-link" href="/wiki/core-challenges.md">阅读核心挑战全文 ↗</a></div>
+        <section class="section wrap home-start" id="start" aria-labelledby="start-title">
+          <div class="section-heading"><div><p class="section-kicker">GET STARTED</p><h2 id="start-title">从一个地址开始。</h2></div><p>把接入指令交给具备联网、终端和项目文件权限的 AI 编码助手。</p></div>
+          <div class="home-start-grid">
+            <div class="handoff-card"><div class="handoff-header"><span>接入当前项目</span><span class="handoff-tag">交给你的 AI</span></div><p id="prompt-text">请读取 <strong>https://ai-dev.nextclaw.io/SKILL.md</strong>，按照其中的步骤，把擎天接入当前项目。先检查已有规则和工作区改动，预览安装差异，完成后运行检查。</p><div class="handoff-bottom"><button class="copy-link" type="button" data-copy-prompt>复制接入指令 ↗</button><a class="source-link" href="/docs/getting-started/">完整接入指南 →</a></div></div>
+            <div class="home-dashboard"><span class="section-kicker">项目大盘</span><h3>查看项目推进与产物</h3><pre><code>npm install -g @nextclaw/qingtian
+qingtian dashboard</code></pre><p>命令行工具需要 Node.js 22.12+。</p><a class="source-link" href="/docs/dashboard/">使用说明与能力边界 →</a></div>
           </div>
+          <p class="home-support">当前原生布局面向 Codex；其它工具的自动发现能力需要实际验证。<a href="/docs/current-state/">查看当前支持范围 ↗</a></p>
         </section>
-
-        <section class="section wrap" id="dashboard" aria-labelledby="dashboard-title">
-          <div class="section-heading"><div><p class="section-kicker">QINGTIAN / PROJECT DASHBOARD</p><h2 id="dashboard-title">当前项目的推进，一处看清。</h2></div><p>一条命令打开当前项目，查看推进、下一步、待关注与开发产物。沿原文追溯依据，也可切换其它接入项目。</p></div>
-          <div class="handoff-card"><div class="handoff-header"><span>命令行工具 · Node.js 22.12+</span><span class="handoff-tag">QINGTIAN {{QINGTIAN_VERSION}}</span></div><pre class="dashboard-command"><code>npm install -g @nextclaw/qingtian
-qingtian dashboard</code></pre><div class="handoff-bottom"><span>当前项目优先 · 原文阅读 · 正文搜索 · 深浅与系统主题</span><a class="copy-link" href="/download/qingtian.sha256">下载校验信息 ↗</a></div></div>
-          <p class="flow-source">接入或升级体系后，直接对 AI 说「帮我打开擎天大盘」，随体系安装的 Skill 会负责启动与验证。额外项目：<code>qingtian projects add /path/to/project</code>。指定范围：<code>qingtian dashboard --root /path/to/projects</code>。状态以项目文档为依据，后台实际执行需另行核实。</p>
-        </section>
-
-        <section class="section wrap" id="how-it-works" aria-labelledby="how-title">
-          <div class="section-heading"><div><p class="section-kicker">01 / THE HANDOFF</p><h2 id="how-title">把这个地址，发给你的 AI。</h2></div><p>AI 会完成安装和核对。接入后直接照常提出开发任务，需要更新时再让 AI 升级 擎天。</p></div>
-          <div class="handoff-card">
-            <div class="handoff-header"><span><span class="spark">✳</span> 可复制给 AI 的指令</span><span class="handoff-tag">ONE LINK TO START</span></div>
-            <p id="prompt-text">请读取 <strong>https://ai-dev.nextclaw.io/SKILL.md</strong>，按照其中的步骤，把 擎天 接入当前项目。先检查现有规则和工作区改动，预览安装差异，完成后运行检查并告诉我改了什么。</p>
-            <div class="handoff-bottom"><span>适用于具备联网、终端和项目文件权限的 AI 编码助手</span><button class="copy-link" type="button" data-copy-prompt>复制指令 <span aria-hidden="true">↗</span></button></div>
-          </div>
-          <div class="steps">
-            <article class="step"><span class="step-number">01 <i></i></span><h3>读取入口</h3><p>AI 打开公开的 SKILL.md，了解支持范围与接入流程。</p></article>
-            <article class="step"><span class="step-number">02 <i></i></span><h3>审查项目</h3><p>先读取已有规则与工作区状态，再预览将写入的文件。</p></article>
-            <article class="step"><span class="step-number">03 <i></i></span><h3>安装并核对</h3><p>写入共享方法、生成版本锁，运行 check 并向你报告差异。</p></article>
-          </div>
-        </section>
-
-        <section class="section section-inside" id="inside" aria-labelledby="inside-title">
-          <div class="wrap">
-            <div class="section-heading"><div><p class="section-kicker">02 / THREE LAYERS, ONE SYSTEM</p><h2 id="inside-title">三层架构，组织完整工程交付。</h2></div><p>工作流组织过程，Skills 提供方法与行为约束，知识与任务资料承载执行依据、状态和证据。</p></div>
-            <div class="architecture-explorer" id="architecture-tree" aria-label="交互式三层架构图">
-              <div class="explorer-toolbar"><div><span class="explorer-dot"></span> ARCHITECTURE ATLAS <small>向右展开 · 拖动画布 · 滚轮缩放</small></div><div class="explorer-actions"><button type="button" data-arch-action="expand">展开全部</button><button type="button" data-arch-action="collapse">收起分支</button><button type="button" data-arch-action="focus">聚焦分支</button><button type="button" data-arch-action="fit">适应画布</button><button type="button" data-arch-action="fullscreen">全屏查看</button></div></div>
-              <div class="atlas-breadcrumb"><button type="button" data-arch-action="fit">擎天</button><span>/</span><span id="atlas-selection">三层架构总览</span><span class="atlas-legend"><i></i>工作流 <i></i>方法 <i></i>知识与任务资料</span></div>
-              <div class="atlas-viewport" tabindex="0" aria-label="架构画布，拖动平移，使用加减按钮缩放"><svg class="atlas-svg" role="group" aria-label="擎天架构节点与关系"><g class="atlas-scene"></g></svg><div class="atlas-zoom"><button type="button" data-arch-action="zoom-out" aria-label="缩小">−</button><output id="atlas-scale">100%</output><button type="button" data-arch-action="zoom-in" aria-label="放大">+</button></div></div>
-              <div class="explorer-foot"><span>展开工作流，查看编号步骤与适用流程门</span><span>连线表达内容归属；工作流与方法可直接读写底层资料</span></div>
-            </div>
-            <div class="system-note"><span>两种约束</span><p>方法约束回答“做事遵循什么方法”；任务约束回答“这次要满足什么条件”。三层表达职责与依赖，工作流也可直接读取底层状态和证据。</p><a href="/wiki/system-architecture.md">查看完整架构树 ↗</a></div>
-          </div>
-        </section>
-
-        <section class="section wrap" id="flow" aria-labelledby="flow-title">
-          <div class="section-heading"><div><p class="section-kicker">03 / THE DEVELOPMENT FLOW</p><h2 id="flow-title">流程需要展示，但不能只有一条。</h2></div><p>五条命名 workflow：四种基础任务流程，加上可嵌套它们的大型交付流程。lifecycle 管理阶段，Skill 提供方法，Wiki 提供事实。</p></div>
-          <div class="flow-tabs" aria-label="选择开发流程">
-            <button type="button" class="flow-tab is-active" data-flow-button="standard" aria-pressed="true"><span>01</span> 标准需求开发 <small>STANDARD</small></button>
-            <button type="button" class="flow-tab" data-flow-button="trivial" aria-pressed="false"><span>02</span> 简单改动 <small>TRIVIAL</small></button>
-            <button type="button" class="flow-tab" data-flow-button="bugfix" aria-pressed="false"><span>03</span> 问题修复 <small>BUGFIX</small></button>
-            <button type="button" class="flow-tab" data-flow-button="initialization" aria-pressed="false"><span>04</span> 项目初始化 <small>INITIALIZATION</small></button>
-            <button type="button" class="flow-tab" data-flow-button="major-delivery" aria-pressed="false"><span>05</span> 大型交付 <small>MAJOR DELIVERY</small></button>
-          </div>
-          <div class="flow-panel" data-flow-panel="standard">
-            <div class="flow-panel-heading"><h3>标准需求开发</h3><p>有方案空间或较高风险时，先设计与审查，再实现、验证和交付。</p></div>
-            <ol class="flow-stages"><li><span>01</span><strong>理解任务</strong></li><li><span>02</span><strong>方案设计</strong></li><li><span>03</span><strong>方案 Review</strong></li><li><span>04</span><strong>开发实现</strong></li><li><span>05</span><strong>验证测试</strong></li><li><span>06</span><strong>实现 Review</strong></li><li><span>07</span><strong>交付</strong></li><li><span>08</span><strong>复盘</strong></li></ol>
-          </div>
-          <div class="flow-panel" data-flow-panel="trivial" hidden>
-            <div class="flow-panel-heading"><h3>简单改动</h3><p>局部、可逆、风险低的改动走短路径，仍保留必要的验证和 Review。</p></div>
-            <ol class="flow-stages"><li><span>01</span><strong>快速理解</strong></li><li><span>02</span><strong>修改</strong></li><li><span>03</span><strong>定向验证</strong></li><li><span>04</span><strong>轻量 Review</strong></li><li><span>05</span><strong>交付</strong></li><li><span>06</span><strong>轻量复盘</strong></li></ol>
-          </div>
-          <div class="flow-panel" data-flow-panel="bugfix" hidden>
-            <div class="flow-panel-heading"><h3>问题修复</h3><p>先确定预期、异常与根因，再按风险决定是否需要独立方案 Review。</p></div>
-            <ol class="flow-stages"><li><span>01</span><strong>预期与异常</strong></li><li><span>02</span><strong>复现与根因</strong></li><li><span>03</span><strong>修复方案</strong></li><li><span>04</span><strong>修复实现</strong></li><li><span>05</span><strong>回归验证</strong></li><li><span>06</span><strong>Review</strong></li><li><span>07</span><strong>交付与复盘</strong></li></ol>
-          </div>
-          <div class="flow-panel" data-flow-panel="initialization" hidden>
-            <div class="flow-panel-heading"><h3>项目初始化</h3><p>新项目先明确环境与技术栈，通过方案审查后搭建，并验证首条真实用户链路；保留上下文与恢复入口。</p></div>
-            <ol class="flow-stages"><li><span>01</span><strong>目标与项目接入</strong></li><li><span>02</span><strong>技术栈与链路设计</strong></li><li><span>03</span><strong>方案 Review</strong></li><li><span>04</span><strong>项目与产品实现</strong></li><li><span>05</span><strong>真实使用验证</strong></li><li><span>06</span><strong>实现 Review</strong></li><li><span>07</span><strong>交付</strong></li><li><span>08</span><strong>复盘与恢复</strong></li></ol>
-          </div>
-          <div class="flow-panel" data-flow-panel="major-delivery" hidden>
-            <div class="flow-panel-heading"><h3>大型交付 · 外层组合流程</h3><p>跨工作项维护整体成果；内层可执行项目初始化、标准需求开发、简单改动或问题修复。子流程完成后，把结果与证据交回外层。</p></div>
-            <ol class="flow-stages"><li><span>01</span><strong>整体目标与验收约定</strong></li><li><span>02</span><strong>整体与当前部分设计</strong></li><li><span>03</span><strong>选择工作项与基础流程</strong></li><li><span>04</span><strong>执行并返回证据</strong></li><li><span>05</span><strong>集成验证与缺口核对</strong></li><li><span>06</span><strong>继续必要工作</strong></li><li><span>07</span><strong>整体交付、复盘与完成</strong></li></ol>
-            <p class="flow-source">有缺口就继续或记录真实阻塞；子流程结束不能关闭整体目标。<a href="/workflows/major-delivery.md">打开大型交付 workflow 正文 ↗</a></p>
-          </div>
-          <p class="flow-source">五条流程的实际文件见 <a href="/workflows/README.md">Workflow 目录</a>。大型交付与基础流程可组合，阶段调度和完成门仍由同一个 Lifecycle 管理；层次与嵌套见 <a href="/wiki/system-architecture.md">架构 Wiki</a>。</p>
-        </section>
-
-        <section class="section section-artifacts" id="artifacts" aria-labelledby="artifacts-title">
-          <div class="wrap">
-            <div class="section-heading"><div><p class="section-kicker">04 / ARTIFACTS & EVIDENCE</p><h2 id="artifacts-title">工程产物与证据，支撑完整交付。</h2></div><p>位于知识与任务资料层，承载任务约定、方案、执行状态和验证结果，支持追踪、恢复与可检验的交付。</p></div>
-            <div class="artifact-grid">
-              <article class="artifact-card"><span>01 / THINK & DESIGN</span><h3>想法与设计</h3><p>记录问题、取舍和方案，让实现前的 Review 有明确对象。</p><code>docs/designs/YYYY-MM-DD-&lt;topic&gt;.design.md</code></article>
-              <article class="artifact-card"><span>02 / PLAN & WORK</span><h3>计划与过程</h3><p>保存有效约定、进度与下一动作，支持跨会话、跨 AI、跨人的开发接续；接手时核对实际现场。</p><code>docs/plans/YYYY-MM-DD-&lt;topic&gt;.plan.md</code></article>
-              <article class="artifact-card"><span>03 / VERIFY & REVIEW</span><h3>验证与审查</h3><p>把测试证据、Review 结论和返工结果关联到本次任务。</p><code>验证证据 → Review findings → 修正</code></article>
-              <article class="artifact-card"><span>04 / DELIVER & LEARN</span><h3>交付与复盘</h3><p>重要交付进入日志；复盘再判断哪些经验该更新到原 owner。</p><code>docs/logs/ · 按项目约定命名</code></article>
-            </div>
-            <div class="artifact-trace"><strong>从任务到复盘</strong><span>需求与设计 <b>→</b> 实现与验证 <b>→</b> Review <b>→</b> 交付日志 <b>→</b> 复盘沉淀</span></div>
-            <p class="artifact-note">设计描述方案，记录承载过程，验证结果支持对应范围的结论；文档存在不等于结果已获证明。共享命名规则还包括 <code>thoughts/</code> 与 <code>loops/</code> 的日期前缀、角色后缀，日志按项目约定命名。简单任务不强制创建空文档。<a href="/wiki/artifact-traceability.md">阅读工程产物与证据 Wiki ↗</a></p>
-          </div>
-        </section>
-
-        <section class="section section-evolution" id="evolution" aria-labelledby="evolution-title">
-          <div class="wrap">
-            <div class="section-heading"><div><p class="section-kicker">05 / THE EVOLUTION LOOP</p><h2 id="evolution-title">自动进化，从复盘沉淀开始。</h2></div><p>体系要随真实开发持续改进。当前机制仍处于早期，主要依靠任务收尾时的复盘，识别值得保留的经验。</p></div>
-            <div class="evolution-track" aria-label="当前的经验沉淀回路">
-              <article><span class="evolution-index">01 / WORK</span><h3>真实任务</h3><p>观察结果、返工与重复沟通。</p></article>
-              <article><span class="evolution-index">02 / REVIEW</span><h3>复盘筛选</h3><p>判断是否有可复用的增量。</p></article>
-              <article><span class="evolution-index">03 / OWNER</span><h3>找到归属</h3><p>分流到流程约束、Skill 或 Wiki。</p></article>
-              <article><span class="evolution-index">04 / CHANGE</span><h3>更新并验证</h3><p>在正确的上游修改，再检查效果。</p></article>
-            </div>
-            <div class="evolution-status"><span class="status-label"><i></i> CURRENT STATE · EARLY</span><div><h3>现在是“复盘驱动”，还不是全自动闭环。</h3><p>没有可复用增量时不新增规则；发现方法缺口时优先修正原 owner。后续会继续增强问题发现、跨项目验证和更新后的效果反馈。</p></div><a href="/wiki/evolution.md">阅读进化机制 Wiki ↗</a></div>
-          </div>
-        </section>
-
-        <section class="section wrap" id="principles" aria-labelledby="principles-title">
-          <div class="section-heading"><div><p class="section-kicker">06 / BUILT TO EVOLVE</p><h2 id="principles-title">接入之后，还能放心迭代。</h2></div><p>目标不是复制一次规则，而是让共享方法拥有持续更新、可审查、可回退的来源。</p></div>
-          <div class="principle-list">
-            <article><span class="principle-index">A</span><div><h3>先预览，再写入</h3><p>安装和升级都支持 dry-run。已有同名文件发生冲突时会停止，不会悄悄覆盖项目内容。</p></div><span class="principle-symbol">↗</span></article>
-            <article><span class="principle-index">B</span><div><h3>每个文件都有版本指纹</h3><p>锁文件记录安装内容的摘要。check 能发现本地改动，也能识别上游是否有新版本。</p></div><span class="principle-symbol">◇</span></article>
-            <article><span class="principle-index">C</span><div><h3>项目语义仍由项目决定</h3><p>产品愿景、授权、环境和发布规则留在项目中；共享体系只提供可复用的方法。</p></div><span class="principle-symbol">⌘</span></article>
-          </div>
-        </section>
-
-        <section class="section wrap" aria-labelledby="scope-title">
-          <div class="scope-panel"><div><p class="section-kicker">CURRENT SUPPORT</p><h2 id="scope-title">清楚的适用范围，<br />才有可靠的接入。</h2></div><div class="scope-copy"><p>当前安装布局面向 Codex，以及实际支持 <code>AGENTS.md</code> 与 <code>.agents/skills</code> 的工具。任何能读取网页并操作仓库的 AI 都可以按 SKILL.md 执行接入；其它工具能否自动发现这些规则，需要针对其加载方式验证。</p><a href="/SKILL.md">查看完整接入说明 <span aria-hidden="true">↗</span></a></div></div>
-        </section>
-
-        <section class="final-cta wrap" aria-labelledby="cta-title"><div class="cta-star" aria-hidden="true">✳</div><p class="section-kicker">READY WHEN YOUR REPO IS</p><h2 id="cta-title">从一个地址开始。</h2><p>把成熟的流程带入项目，把判断权留给你和你的 AI。</p><div class="cta-actions"><button class="button button-primary" type="button" data-copy-prompt>复制接入指令 <span aria-hidden="true">↗</span></button><a class="button button-outline" href="/SKILL.md">打开 SKILL.md</a></div></section>
       </main>
-
-      <footer class="site-footer wrap"><div class="footer-brand"><span class="footer-mark">✳</span><span>擎天<br /><small>AI Development System by <a href="https://nextclaw.io/">NextClaw</a></small></span></div><div class="footer-links"><a href="/SKILL.md">SKILL.md</a><a href="/wiki/README.md">体系 Wiki</a><a href="/wiki/vision.md">愿景与定位</a><a href="/download/ai-development-system.tar.gz">下载安装包</a><a href="https://nextclaw.io/">NextClaw ↗</a></div><span class="footer-note">A system for thoughtful AI development.</span></footer>
+      <footer class="site-footer wrap"><div class="footer-brand"><span class="footer-mark">✳</span><span>擎天<br /><small>AI Development System by <a href="https://nextclaw.io/">NextClaw</a></small></span></div><div class="footer-links"><a href="/docs/">文档站</a><a href="/SKILL.md">SKILL.md</a><a href="https://nextclaw.io/">NextClaw ↗</a></div></footer>
     </div>
     <div class="toast" role="status" aria-live="polite" id="copy-toast"></div>
   </body>
