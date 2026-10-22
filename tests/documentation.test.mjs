@@ -72,7 +72,10 @@ test('documentation build creates primary pages and every referenced public meth
 
 test('homepage keeps architecture and workflow demos while moving dense articles into documentation', async () => {
   const html = await readFile(path.join(root, 'site/index.html'), 'utf8');
-  assert.equal((html.match(/<section /g) || []).length, 4);
+  assert.equal((html.match(/<section /g) || []).length, 5);
+  const sectionIds = [...html.matchAll(/<section[^>]* id="([^"]+)"/g)].map(match => match[1]);
+  assert.deepEqual(sectionIds, ['project-dashboard', 'showcase', 'start', 'value']);
+  assert.match(html, /src="\/assets\/project-dashboard.jpg"/);
   for (const id of ['vision', 'problems', 'challenges', 'evolution', 'artifacts']) assert.ok(!html.includes(`id="${id}"`));
   assert.match(html, /QINGTIAN_ARCHITECTURE/);
   assert.match(html, /QINGTIAN_WORKFLOWS/);

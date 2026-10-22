@@ -19,7 +19,7 @@
     <div class="page-shell">
       <header class="site-header wrap">
         <a class="brand" href="/" aria-label="擎天 首页"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="brand-type"><strong>擎天</strong><small>AI Development System · NextClaw</small></span></a>
-        <nav class="site-nav" aria-label="主导航"><a href="#value">有什么用</a><a href="#showcase">交互演示</a><a href="#start">开始使用</a></nav>
+        <nav class="site-nav" aria-label="主导航"><a href="#project-dashboard">项目大盘</a><a href="#value">有什么用</a><a href="#showcase">交互演示</a><a href="#start">开始使用</a></nav>
         <a class="nav-link" href="/docs/">文档站 <span aria-hidden="true">↗</span></a>
       </header>
       <main>
@@ -44,15 +44,17 @@
             </div>
           </div>
         </section>
-        <section class="section wrap home-value" id="value" aria-labelledby="value-title">
-          <div class="section-heading"><div><p class="section-kicker">WHY QINGTIAN</p><h2 id="value-title">把精力留给创造，<br />把更多工作交给 AI。</h2></div></div>
-          <div class="home-value-grid">
-            <a href="/docs/architecture/"><span>01 / 沟通更省心</span><h3>少做重复交代</h3><p>需求、偏好和项目背景留在项目里，AI 有依据接续。把沟通花在新的问题上，减少一遍遍解释同样的事情。</p><small>了解项目知识与方法 →</small></a>
-            <a href="/docs/workflows/"><span>02 / 推进更有方向</span><h3>大目标，分步落地</h3><p>把复杂开发拆成可以推进、检查和交付的工作项。你关注目标和关键取舍，AI 沿着明确的步骤推进。</p><small>了解完整交付流程 →</small></a>
-            <a href="/docs/architecture/"><span>03 / 工作更连贯</span><h3>换个会话，接着往前</h3><p>已有成果、当前进度和下一步都有记录。中断或更换会话后，核对现场就能找到接续的位置，减少从头摸索。</p><small>了解跨会话接续 →</small></a>
-            <a href="/docs/dashboard/"><span>04 / 验收更有把握</span><h3>交付结果，心里有数</h3><p>做到哪一步、还有什么没解决、哪些结果经过验证，都有据可查。随时查看进展，交付时对照目标检查成果。</p><small>了解项目大盘与依据 →</small></a>
+        <section class="section wrap home-dashboard-feature" id="project-dashboard" aria-labelledby="dashboard-title">
+          <figure class="dashboard-preview">
+            <a href="/assets/project-dashboard.jpg" target="_blank" rel="noopener" aria-label="查看项目大盘完整截图（新标签页）"><img src="/assets/project-dashboard.jpg" width="1440" height="1100" loading="lazy" decoding="async" alt="擎天项目大盘：左侧选择项目，右侧查看当前推进、下一步，以及项目产物、Skills 和知识。" /></a>
+            <figcaption>项目大盘 <span>点击查看大图 ↗</span></figcaption>
+          </figure>
+          <div class="dashboard-feature-copy">
+            <p class="section-kicker">QINGTIAN DASHBOARD</p><h2 id="dashboard-title">项目推进，<br />一眼看清。</h2>
+            <p class="dashboard-feature-lead">现在做到哪一步，接下来做什么，有什么需要关注？打开大盘，一处查看。</p>
+            <ul><li><strong>推进有脉络</strong><span>当前任务、下一步与待关注事项，集中呈现。</span></li><li><strong>资料找得到</strong><span>项目产物、Skills 和知识，分类浏览与搜索。</span></li><li><strong>依据随手查</strong><span>点开文档，在侧边抽屉阅读原文和相关资料。</span></li></ul>
+            <a class="button button-outline" href="/docs/dashboard/">了解大盘与打开方式 <span aria-hidden="true">→</span></a>
           </div>
-          <p class="home-context">长期方向：能放心委托的工作越来越大，使用门槛和维护负担越来越低。<a href="/docs/vision/">阅读愿景与定位 ↗</a></p>
         </section>
         <section class="section wrap home-showcase" id="showcase" aria-labelledby="showcase-title">
           <div class="section-heading"><div><p class="section-kicker">EXPLORE THE SYSTEM</p><h2 id="showcase-title">看见体系如何协作。</h2></div><p>展开架构图，或切换工作流，了解一次任务怎样被组织起来。</p></div>
@@ -69,6 +71,16 @@
 qingtian dashboard</code></pre><p>命令行工具需要 Node.js 22.12+。</p><a class="source-link" href="/docs/dashboard/">使用说明与能力边界 →</a></div>
           </div>
           <p class="home-support">当前原生布局面向 Codex；其它工具的自动发现能力需要实际验证。<a href="/docs/current-state/">查看当前支持范围 ↗</a></p>
+        </section>
+        <section class="section wrap home-value" id="value" aria-labelledby="value-title">
+          <div class="section-heading"><div><p class="section-kicker">WHY QINGTIAN</p><h2 id="value-title">把精力留给创造，<br />把更多工作交给 AI。</h2></div></div>
+          <div class="home-value-grid">
+            <a href="/docs/architecture/"><span>01 / 沟通更省心</span><h3>少做重复交代</h3><p>需求、偏好和项目背景留在项目里，AI 有依据接续。把沟通花在新的问题上，减少一遍遍解释同样的事情。</p><small>了解项目知识与方法 →</small></a>
+            <a href="/docs/workflows/"><span>02 / 推进更有方向</span><h3>大目标，分步落地</h3><p>把复杂开发拆成可以推进、检查和交付的工作项。你关注目标和关键取舍，AI 沿着明确的步骤推进。</p><small>了解完整交付流程 →</small></a>
+            <a href="/docs/architecture/"><span>03 / 工作更连贯</span><h3>换个会话，接着往前</h3><p>已有成果、当前进度和下一步都有记录。中断或更换会话后，核对现场就能找到接续的位置，减少从头摸索。</p><small>了解跨会话接续 →</small></a>
+            <a href="/docs/dashboard/"><span>04 / 验收更有把握</span><h3>交付结果，心里有数</h3><p>做到哪一步、还有什么没解决、哪些结果经过验证，都有据可查。随时查看进展，交付时对照目标检查成果。</p><small>了解项目大盘与依据 →</small></a>
+          </div>
+          <p class="home-context">长期方向：能放心委托的工作越来越大，使用门槛和维护负担越来越低。<a href="/docs/vision/">阅读愿景与定位 ↗</a></p>
         </section>
       </main>
       <footer class="site-footer wrap"><div class="footer-brand"><span class="footer-mark">✳</span><span>擎天<br /><small>AI Development System by <a href="https://nextclaw.io/">NextClaw</a></small></span></div><div class="footer-links"><a href="/docs/">文档站</a><a href="/SKILL.md">SKILL.md</a><a href="https://nextclaw.io/">NextClaw ↗</a></div></footer>

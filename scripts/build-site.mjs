@@ -40,6 +40,7 @@ for (const filename of ["index.html", "styles.css", "main.js", "favicon.svg", "r
   }
   await fs.writeFile(path.join(output, filename), rendered);
 }
+await fs.cp(path.join(site, "assets"), path.join(output, "assets"), { recursive: true });
 await fs.cp(path.join(site, "docs"), path.join(output, "docs"), { recursive: true, filter: file => !file.endsWith(".html") });
 await documentation.build(output);
 await fs.writeFile(path.join(output, "workflow-atlas.json"), JSON.stringify(await readWorkflowAtlas(root)));
