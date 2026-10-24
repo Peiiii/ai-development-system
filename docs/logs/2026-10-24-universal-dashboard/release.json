@@ -1,0 +1,92 @@
+{
+  "passed": true,
+  "version": "0.1.13",
+  "sourceCommit": "639a525",
+  "deployment": "262360bd-de30-4576-97da-654f952c5e5d",
+  "checkedAt": "2026-10-24T05:48:02.040Z",
+  "publicFiles": [
+    {
+      "file": "SKILL.md",
+      "passed": true,
+      "sha256": "de2cce3d1bf4fd92243ae86b339320795042503c6361cc5d688529d7fdb759a3"
+    },
+    {
+      "file": "download/qingtian-0.1.13.tgz",
+      "passed": true,
+      "sha256": "fb427d9371776c83eb4be3b712d792fecb76ea080d7334f2ed3759072ad92388"
+    },
+    {
+      "file": "download/qingtian.sha256",
+      "passed": true,
+      "sha256": "3da9a0631a1a8d6c4644943f76046d5527f8c1c63f2830378587d031091cd2d0"
+    },
+    {
+      "file": "download/ai-development-system.tar.gz",
+      "passed": true,
+      "sha256": "498492798e9a7fd004bb1eb32cb1d39f512726a6d55413339201e3c017a126ca"
+    },
+    {
+      "file": "download/ai-development-system.sha256",
+      "passed": true,
+      "sha256": "9effe42e5bb8cfc86041cf87b5cc5da8906b88fb8302eac0caef699203dab2b3"
+    },
+    {
+      "file": "wiki/skills/tools/qingtian-dashboard/SKILL.md",
+      "passed": true,
+      "sha256": "74834c90d792e090cf4afb6852cd18e46acb29443cb2cc53d0212fd6845578b4"
+    },
+    {
+      "file": "docs/dashboard/index.html",
+      "passed": true,
+      "sha256": "b8e468ae5b54ce33a293540ccd989daa762771fbc8959d3d7e60914e869c3166"
+    }
+  ],
+  "npm": {
+    "latest": "0.1.13",
+    "tarballMatchesTestedBytes": true,
+    "sha1": "96ecae17c8130f119f92cbb07551a7684279457c",
+    "sha256": "fb427d9371776c83eb4be3b712d792fecb76ea080d7334f2ed3759072ad92388"
+  },
+  "installedCLIs": {
+    "nvm": "0.1.13",
+    "homebrew": "0.1.13",
+    "interactiveShell": "0.1.13"
+  },
+  "packageSmoke": {
+    "passed": true,
+    "checks": [
+      "isolated npm install",
+      "dry-run no registration",
+      "install/check/upgrade",
+      "project rules retained",
+      "installed dashboard Skill and AGENTS route",
+      "packaged CLI current-project launch",
+      "browser body search",
+      "packaged document read",
+      "packaged theme switch and persistence",
+      "packaged 15 named managed Skill entrances and drawer",
+      "packaged separate project knowledge module",
+      "packaged uninstalled project launch, commands, search/read and no writes"
+    ]
+  },
+  "upgrade": {
+    "passed": true,
+    "old": "0.1.12",
+    "current": "0.1.13",
+    "checks": [
+      "verified old public package bytes",
+      "old installation",
+      "candidate upgrade dry-run no writes",
+      "actual upgrade/check",
+      "project policy retained",
+      "new dashboard Skill",
+      "repeat upgrade idempotent"
+    ],
+    "checkedAt": "2026-10-24T05:42:13.527Z"
+  },
+  "localProject": {
+    "name": "AetherOS",
+    "installedProjectRules": false,
+    "url": "http://127.0.0.1:58121/"
+  }
+}
