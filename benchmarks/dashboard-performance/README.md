@@ -2,6 +2,8 @@
 
 这是用于验证分阶段方案的隔离原型，**不是生产实现**；没有更改 CLI、大盘 API 或页面。安装包的 `files` 不包含 benchmarks，原型不能直接接入服务。
 
+该实验最初基于提交 `b2daf4a` 之前的全量启动行为；后续 0.1.13 已将正式大盘改为按需读取。这里的 baseline 仍是底层显式全量索引，不代表新版页面的默认启动路径；历史 scale/followup 数据按原提交解释。新版正式服务/页面性能由 `node tests/dashboard-universal-browser.mjs` 验证。
+
 ```sh
 node benchmarks/dashboard-performance/run.mjs
 # 可选指定输出位置

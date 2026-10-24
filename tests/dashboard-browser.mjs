@@ -6,6 +6,8 @@ import { chromium } from "playwright";
 import { startDashboard } from "../lib/dashboard.mjs";
 import { lockName } from "../lib/projects.mjs";
 
+const settled = page => page.waitForFunction(()=>document.querySelector('#resource-panel')?.getAttribute('aria-busy')==='false');
+
 const temporary = await fs.mkdtemp(path.join(os.tmpdir(), "qingtian-browser-"));
 const base = await fs.realpath(temporary);
 const evidence = path.resolve(".local/qingtian-dashboard/browser");
@@ -66,28 +68,29 @@ try {
   );
   assert.equal(await page.locator("#project-section").isVisible(), false);
   assert.equal(await page.locator("#focus-heading").innerText(), "当前推进");
+  await settled(page);
   assert.equal(await page.locator("#focus-list .focus-item").count(), 1);
-  await page.locator('[data-resource-type="knowledge"]').click();
-  await page.locator('#focus-all').click();
+  await page.locator('[data-resource-type="knowledge"]').click();await settled(page);
+  await page.locator('#focus-all').click();await settled(page);
   assert.equal(await page.locator('[data-resource-type="artifacts"]').getAttribute('aria-selected'),'true');
   assert.equal(await page.locator('.artifact-row').count(),1);
-  await page.getByRole('button',{name:'全部',exact:true}).click();
+  await page.getByRole('button',{name:'全部',exact:true}).click();await settled(page);
   const cardTitle=await page.locator('#focus-list .focus-item strong').innerText();
   assert.equal(cardTitle,'产品甲交付标题');
   assert.equal(await page.locator('#focus-list .focus-path').innerText(),'docs/work/task/current-state.md');
-  await page.locator('#focus-list .focus-item').click();
+  await page.locator('#focus-list .focus-item').click();await settled(page);
   await page.waitForFunction(title=>document.querySelector('#reader-title').textContent===title,cardTitle);
   assert.match(await page.locator('#reader-state').textContent(),/状态：阻塞/);
   assert.equal(await page.locator('#reader-state [data-variant="danger"]').count(),1);
   assert.equal(await page.locator('#reader-title').isVisible(),true);
   assert.equal(await page.locator('#reader-context-path').isVisible(),true);
-  await page.locator('#reader-body a').filter({hasText:'项目说明'}).click();
+  await page.locator('#reader-body a').filter({hasText:'项目说明'}).click();await settled(page);
   await page.waitForFunction(()=>document.querySelector('#reader-title').textContent==='README.md');
-  await page.locator('#reader-back').click();
+  await page.locator('#reader-back').click();await settled(page);
   await page.waitForFunction(()=>document.querySelector('#reader-title').textContent==='产品甲交付标题');
 
   await page.keyboard.press('Escape');await page.locator('#reader').waitFor({state:'hidden'});
-  await page.locator('.artifact-row').filter({hasText:'docs/work/task/current-state.md'}).click();
+  await page.locator('.artifact-row').filter({hasText:'docs/work/task/current-state.md'}).click();await settled(page);
   await page.waitForFunction(()=>document.querySelector('#reader-title').textContent==='docs/work/task/current-state.md');
   assert.equal(await page.locator('#reader-context-path').isVisible(),false);
   await page.keyboard.press('Escape');await page.locator('#reader').waitFor({state:'hidden'});
@@ -99,43 +102,43 @@ try {
   assert.doesNotMatch(await page.locator("#artifact-list").innerText(), /产品乙/);
   await page.reload();
   await page.waitForFunction(() => document.querySelector("#page-title").textContent.includes("产品甲"));
-  await page.locator("#attention-nav").click();
+  await page.locator("#attention-nav").click();await settled(page);
   assert.equal(await page.locator(".artifact-row").count(), 1);
   assert.match(await page.locator("#page-title").innerText(), /产品甲.*待关注/);
-  await page.locator("#overview").click();
+  await page.locator("#overview").click();await settled(page);
   assert.equal(await page.locator(".project-card").count(), 2);
   await page
     .locator("#project-nav .project-link")
     .filter({ hasText: "产品甲" })
-    .click();
+    .click();await settled(page);
   assert.match(await page.locator("#page-title").innerText(), /产品甲/);
   assert.equal(await page.locator(".artifact-row").count(), 3);
   await page.locator("#search").fill("独有正文关键词");
   await page.waitForFunction(
     () => document.querySelectorAll(".artifact-row").length === 1,
   );
-  await page.locator(".artifact-row").click();
+  await page.locator(".artifact-row").click();await settled(page);
   await page.waitForFunction(
     () => document.querySelector("#reader-title").textContent === "docs/designs/design.md",
   );
-  await page.locator("#source-tab").click();
+  await page.locator("#source-tab").click();await settled(page);
   assert.match(
     await page.locator("#reader-source").innerText(),
     /产品甲的独有正文关键词/,
   );
-  await page.locator("#reader-close").click();
+  await page.locator("#reader-close").click();await settled(page);
   await page.locator("#reader").waitFor({state:"hidden"});
   await page.locator("#search").fill("");
   await page.waitForFunction(
     () => document.querySelectorAll(".artifact-row").length === 3,
   );
-  await page.locator(".artifact-row").filter({ hasText: "README.md" }).click();
-  await page.locator("#reader-body a").filter({ hasText: "实现方案" }).click();
+  await page.locator(".artifact-row").filter({ hasText: "README.md" }).click();await settled(page);
+  await page.locator("#reader-body a").filter({ hasText: "实现方案" }).click();await settled(page);
   await page.waitForFunction(
     () => document.querySelector("#reader-title").textContent === "docs/designs/design.md",
   );
   assert.equal(await page.locator("#reader-back").isVisible(), true);
-  await page.locator("#reader-back").click();
+  await page.locator("#reader-back").click();await settled(page);
   await page.waitForFunction(
     () => document.querySelector("#reader-title").textContent === "README.md",
   );
@@ -147,15 +150,15 @@ try {
     "docs/designs/design.md",
     "# 刷新后新标题\n新正文",
   );
-  await page.locator("#refresh").click();
+  await page.locator("#refresh").click();await settled(page);
   await page
     .locator(".artifact-row")
     .filter({ hasText: "刷新后新标题" })
     .waitFor();
-  await page.locator("#overview").click();
-  await page.locator("#attention-nav").click();
+  await page.locator("#overview").click();await settled(page);
+  await page.locator("#attention-nav").click();await settled(page);
   assert.equal(await page.locator(".artifact-row").count(), 2);
-  await page.locator("#overview").click();
+  await page.locator("#overview").click();await settled(page);
   await page.reload();
   await page.waitForFunction(
     () => document.querySelector("#metric-projects").textContent === "2",
@@ -173,7 +176,7 @@ try {
     ),
     true,
   );
-  await page.locator(".artifact-row").first().click();
+  await page.locator(".artifact-row").first().click();await settled(page);
   await page.waitForFunction(
     () =>
       document.querySelector("#reader-body").textContent !== "正在读取原文…",
@@ -184,7 +187,7 @@ try {
     ),
     true,
   );
-  await page.locator("#reader-close").click();
+  await page.locator("#reader-close").click();await settled(page);
   await page.locator("#reader").waitFor({state:"hidden"});
   const empty = await browser.newPage({
     viewport: { width: 390, height: 844 },
@@ -192,7 +195,7 @@ try {
   await empty.goto(emptyDashboard.url);
   await empty
     .locator(".empty")
-    .filter({ hasText: "还没有发现接入项目" })
+    .filter({ hasText: "还没有发现项目" })
     .waitFor();
   assert.equal(await empty.locator("#metric-projects").innerText(), "0");
   assert.equal(errors.length, 0, JSON.stringify(errors));

@@ -64,7 +64,8 @@ test("project discovery deduplicates registrations, skips dependencies and links
   assert.deepEqual(await readProjects(config), []);
   await fs.writeFile(path.join(config, "projects.json"), "bad");
   await assert.rejects(readProjects(config), /无法读取/);
-  await assert.rejects(changeProject("add", base, config), /未接入/);
+  await changeProject('add',base,path.join(base,'ordinary-config'));
+  assert.deepEqual(await readProjects(path.join(base,'ordinary-config')),[base]);
 });
 
 test("current project resolves from subdirectories and remains visible after another root exhausts the budget", async (t) => {

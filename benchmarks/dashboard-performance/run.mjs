@@ -199,12 +199,13 @@ if (worker) {
     // No lockfile: universal prototype remains usable; legacy discovery must demonstrate its current gate.
     await fs.unlink(path.join(paths[0], '.agents/ai-development-system.lock.json'));
     const ordinaryDiscovery = await discoverProjects({ roots: [paths[0]] });
-    assert.equal(ordinaryDiscovery.paths.length, 0);
+    // Pre-0.1.13 discovery returned 0; current releases also admit this ordinary project.
+    assert.ok(ordinaryDiscovery.paths.length === 0 || ordinaryDiscovery.paths.includes(paths[0]));
     reports.push({ count: 1, mode: 'ordinary-correctness-and-budgets', rows: await invoke({ mode: 'staged', paths: [paths[0]], expectedSelected: 83, mutable: true }) });
     reports.push({ count: 1, mode: 'real-current-project', rows: await invoke({ mode: 'baseline', base: root, paths: [root] }) });
     const real = await indexProjects([root]);
     // Prototype adds AGENTS.md; README/docs/wiki/Skills counts otherwise preserve production parsing.
-    const extra = await Promise.all(['AGENTS.md', 'CLAUDE.md'].map(async name => { try { return (await fs.stat(path.join(root, name))).isFile() ? 1 : 0; } catch { return 0; } }));
+    const extra = await Promise.all(['AGENTS.md', 'CLAUDE.md'].map(async name => { try { return !real.documents.some(doc=>doc.path===name) && (await fs.stat(path.join(root, name))).isFile() ? 1 : 0; } catch { return 0; } }));
     reports.push({ count: 1, mode: 'real-current-project-staged', rows: await invoke({ mode: 'staged', paths: [root], expectedSelected: real.documents.length + extra.reduce((a, b) => a + b, 0) }) });
     await fs.mkdir(path.join(paths[0], 'docs/stress'));
     for (let i = 0; i < 700; i++) await fs.writeFile(path.join(paths[0], `docs/stress/doc-${i}.md`), `# Stress\n${'bounded data '.repeat(2600)}`);

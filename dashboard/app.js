@@ -51,6 +51,10 @@ let documentSequence = 0;
 let showAllProjects = false;
 let viewInitialized = false;
 let viewKey = `qingtian-view:${token || location.origin}`;
+let loadSequence=0;
+let projectRequest;
+let loadingProject=false;
+let projectDetails=null;
 
 function currentWork(docs) {
   return docs.filter((doc) => doc.resourceType === "artifacts" && doc.category === "work" &&
@@ -63,8 +67,9 @@ function el(tag, className, text) {
   if (text !== undefined) node.textContent = text;
   return node;
 }
-async function api(url) {
+async function api(url, options={}) {
   const response = await fetch(url, {
+    ...options,
     headers: token ? { Authorization: `Bearer ${token}` } : {},
   });
   const data = await response.json();
@@ -72,7 +77,7 @@ async function api(url) {
   return data;
 }
 function documentTitle(doc) {
-  const skill = snapshot.skills?.find(skill => skill.id === (doc.skillId || doc.id));
+  const skill = doc.skill || snapshot.skills?.find(skill => skill.id === (doc.skillId || doc.id));
   if (!skill) return doc.resourceType === "knowledge" ? doc.title : doc.path;
   if (doc.id === skill.id) return skill.name;
   return `${skill.name} / ${doc.path.slice(skill.path.lastIndexOf("/") + 1)}`;
@@ -121,7 +126,57 @@ function selectProject(id) {
   attentionOnly = false;
   selectedCategory = "all";
   pageSize = 30;
+  projectDetails=null;
   render();
+  loadProject();
+}
+async function loadProject(force=false, append=false) {
+  const sequence=++loadSequence;
+  projectRequest?.abort();
+  projectRequest=new AbortController();
+  const projectId=selectedProject;
+  if (!append) { loadingProject=true; snapshot={...snapshot,documents:[],skills:[],work:[],attention:[],stats:null,total:0}; render(); }
+  const query=new URLSearchParams({project:projectId,type:selectedResourceType,limit:'30',offset:String(append?((selectedResourceType==='skills'?snapshot.skills:snapshot.documents).length):0)});
+  if (force) query.set('refresh','1');
+  if (selectedCategory!=='all') query.set('category',selectedCategory);
+  if (selectedSource!=='all') query.set('source',selectedSource);
+  if (attentionOnly) query.set('attention','1');
+  if ($('#search').value.trim()) query.set('q',$('#search').value.trim());
+  try {
+    const data=await api((projectId?'/api/project?':'/api/overview?')+query,{signal:projectRequest.signal});
+    if (sequence!==loadSequence || selectedProject!==projectId) return;
+    snapshot={...data,documents:append?[...snapshot.documents,...data.documents]:data.documents,
+      skills:append?[...snapshot.skills,...data.skills]:data.skills};
+    loadingProject=false; render();
+    const project=snapshot.projects.find(p=>p.id===projectId);
+    message(data.coverage?`当前展示已读取的 ${data.coverage.indexed} / ${data.coverage.total} 个项目；选择项目后读取更多资料。`:data.stale?'本次读取未完成，当前展示上次完整快照。':project?.partial?'已显示预算范围内的资料；更多内容可用 --root 缩小项目范围后查看。':'');
+    if (projectId && (!projectDetails || projectDetails.projectId!==projectId || force)) {
+      const info=await api('/api/info?project='+projectId+(force?'&refresh=1':''));
+      if (sequence===loadSequence && selectedProject===projectId) {projectDetails={...info,projectId};renderProjectInfo();}
+    }
+  } catch(error) {
+    if (sequence!==loadSequence || error.name==='AbortError') return;
+    loadingProject=false; render(); message(`项目读取失败：${error.message}。点击重新读取可重试。`);
+  }
+}
+function renderProjectInfo() {
+  const section=$('#project-info'); section.hidden=!selectedProject;
+  if (!selectedProject) return;
+  const list=$('#project-commands'); list.replaceChildren();
+  if (projectDetails?.projectId===selectedProject) {
+    if(snapshot.stats?.work===0) {
+      $('#metric-scope-label').textContent='开发入口';
+      $('#metric-projects').textContent=projectDetails.scripts.length;
+      $('#metric-scope-note').textContent='项目已声明的命令，不自动执行';
+    }
+    for(const script of projectDetails.scripts) {
+      const row=el('div','project-command'); row.append(el('strong','',script.name),el('code','',script.command));list.append(row);
+    }
+    if(!projectDetails.scripts.length) list.append(el('p','quiet-empty','此项目没有 package.json 脚本；可从下方 README 和项目资料查看使用方式。'));
+    for(const warning of projectDetails.warnings) list.append(el('p','quiet-empty',warning));
+    $('#read-git').hidden=!projectDetails.gitAvailable;
+  } else { list.append(el('p','quiet-empty','正在读取开发入口…')); $('#read-git').hidden=true; }
+  $('#git-result').hidden=true;
 }
 function renderProjects() {
   const nav = $("#project-nav");
@@ -177,8 +232,8 @@ function renderProjects() {
     );
     const counts = el("div", "project-card-counts");
     counts.append(
-      el("span", "", `${docs.length} 份文档`),
-      el("span", "", `${work.length} 个推进入口`),
+      el("span", "", project.indexed?`${project.documentCount+project.knowledgeCount} 份文档`:'资料尚未读取'),
+      el("span", "", project.indexed?'点击查看资料':'点击后按需读取'),
     );
     card.append(counts);
     const footer = el("div", "project-card-footer");
@@ -186,7 +241,7 @@ function renderProjects() {
       el(
         "span",
         "",
-        project.updatedAt ? `更新 ${date(project.updatedAt)}` : "尚无文档产物",
+        project.updatedAt ? `更新 ${date(project.updatedAt)}` : project.indexed?'尚无文档资料':'未读取',
       ),
       el("span", "card-arrow", "↗"),
     );
@@ -202,11 +257,11 @@ function renderProjects() {
   if (!sorted.length) {
     const empty = el("div", "empty");
     empty.append(
-      el("strong", "", "还没有发现接入项目"),
+      el("strong", "", "还没有发现项目"),
       el(
         "p",
         "",
-        "在项目中执行 qingtian install --target <目录>，或用 --root 指定项目所在位置，再重新读取。",
+        "在项目目录运行 qingtian dashboard，或用 projects add 登记目录；无需安装项目规则。",
       ),
     );
     grid.append(empty);
@@ -221,7 +276,7 @@ function renderSkills() {
     (!searchIds || skill.documentIds.some(id=>searchIds.has(id))));
   const list = $("#artifact-list");
   list.replaceChildren();
-  $("#document-count").textContent = `${skills.length} 个 Skill`;
+  $("#document-count").textContent = loadingProject?'读取中…':`${snapshot.total ?? skills.length} 个 Skill`;
   for (const skill of skills.slice(0,pageSize)) {
     const item = el("button","skill-row");
     const meta = el("div","skill-meta");
@@ -234,10 +289,10 @@ function renderSkills() {
     item.addEventListener("click",()=>openDocument(skill.id));
     list.append(item);
   }
-  if (!skills.length) list.append(el("div","empty", scopedSkills().length
+  if (!skills.length) list.append(el("div","empty", !selectedProject?'选择一个项目，按需查看 Skills。':loadingProject?'正在读取项目 Skills…':scopedSkills().length
     ? "没有符合条件的 Skill。试试其它关键词或来源。"
     : "尚未发现项目 Skill。支持 .agents/skills、.agents/wiki/skills、.claude/skills 与 .codex/skills 中的 SKILL.md。"));
-  $("#load-more").hidden = skills.length <= pageSize;
+  $("#load-more").hidden = (snapshot.total ?? skills.length) <= skills.length;
 }
 function renderArtifacts() {
   $("#artifact-list").classList.toggle("skill-list",selectedResourceType === "skills");
@@ -250,7 +305,7 @@ function renderArtifacts() {
       (!attentionOnly || needsAttention(doc)) &&
       (!searchIds || searchIds.has(doc.id)),
   );
-  $("#document-count").textContent = `${docs.length} 份`;
+  $("#document-count").textContent = loadingProject?'读取中…':`${snapshot.total ?? docs.length} 份`;
   const list = $("#artifact-list");
   list.replaceChildren();
   for (const doc of docs.slice(0, pageSize)) {
@@ -288,17 +343,17 @@ function renderArtifacts() {
       el(
         "div",
         "empty",
-        snapshot.documents.length
+        !selectedProject?'选择一个项目，按需查看资料。':loadingProject?'正在读取当前项目资料…':snapshot.documents.length
           ? selectedResourceType === "knowledge" ? "没有符合条件的项目知识。知识来自 wiki、docs/knowledge 或 .agents/wiki/knowledge。" : "没有符合条件的产物。试试其它关键词或分类。"
-          : "项目接入后，设计、推进记录和交付日志会在这里汇总。",
+          : selectedResourceType==='knowledge'?'没有符合条件的项目知识。可将资料放在 wiki 或 docs/knowledge。':'没有符合条件的项目资料。可查看 README、docs 和项目规则，无需安装擎天。',
       ),
     );
-  $("#load-more").hidden = docs.length <= pageSize;
+  $("#load-more").hidden = (snapshot.total ?? docs.length) <= docs.length;
 }
 function renderAttention() {
   const list = $("#attention-list");
   list.replaceChildren();
-  const docs = snapshot.documents.filter(
+  const docs = (snapshot.attention || snapshot.documents).filter(
     (doc) =>
       (!selectedProject || doc.projectId === selectedProject) &&
       needsAttention(doc),
@@ -326,7 +381,7 @@ function renderAttention() {
     list.append(
       el("p", "quiet-empty", `另有 ${docs.length - 20} 项，可从“待关注”查看。`),
     );
-  const work = selectedProject ? currentWork(projectDocuments(selectedProject)) : docs;
+  const work = selectedProject ? (snapshot.work || currentWork(projectDocuments(selectedProject))) : docs;
   $("#attention-focus").hidden = Boolean(attentionOnly || (!selectedProject && !docs.length));
   $("#focus-heading").textContent = selectedProject ? "当前推进" : "先关注这些";
   $("#focus-all").textContent = selectedProject ? "查看全部推进 →" : "查看全部 →";
@@ -363,6 +418,7 @@ function renderAttention() {
   }
   if (selectedProject && !work.length)
     focus.append(el("div", "quiet-empty", "尚无当前推进记录，可先从下方项目产物查看原文。"));
+  if(selectedProject && !work.length) $('#attention-focus').hidden=true;
 }
 function render() {
   if (!snapshot) return;
@@ -378,8 +434,9 @@ function render() {
     el("span", "title-dot", "."),
   );
   $("#breadcrumb").textContent = title;
-  $("#scope-path").textContent = project ? project.path : "所有接入项目 · 推进与产物";
+  $("#scope-path").textContent = project ? project.path : "当前与登记项目 · 选择项目后按需读取资料";
   $(".workspace").classList.add("ready");
+  $('#resource-panel').setAttribute('aria-busy',String(Boolean(loadingProject || (selectedProject && !snapshot.stats))));
   $("#eyebrow").textContent = project
     ? "PROJECT WORKSPACE"
     : attentionOnly
@@ -399,30 +456,31 @@ function render() {
   $("#metric-scope-label").textContent = selectedProject ? "推进入口" : "已发现项目";
   $("#metric-scope-note").textContent = selectedProject ? "以当前状态记录为依据" : "可追溯的工作空间";
   $("#metric-projects").textContent = selectedProject
-    ? currentWork(scoped).length
+    ? (snapshot.stats?.work ?? '—')
     : snapshot.projects.length;
-  $("#metric-documents").textContent = scoped.length;
-  $("#metric-attention").textContent = scoped.filter(needsAttention).length;
-  $("#metric-recent").textContent = scoped.filter(
+  $("#metric-documents").textContent = snapshot.stats?.documents ?? '—';
+  $("#metric-attention").textContent = snapshot.stats?.attention ?? '—';
+  $("#metric-recent").textContent = snapshot.stats?.recent ?? (selectedProject? '—':scoped.filter(
     (doc) => Date.now() - new Date(doc.updatedAt).getTime() <= 7 * 86400000,
-  ).length;
+  ).length);
   const isSkills = selectedResourceType === "skills";
   $("#search").setAttribute("aria-label", isSkills ? "搜索 Skills 与附属文档" : selectedResourceType === "knowledge" ? "搜索项目知识" : "搜索产物");
   $("#search").placeholder = isSkills ? "搜索 Skill 名称、描述、路径或附属文档…" : "搜索标题、路径或正文…";
   resourceTabs.select(selectedResourceType);
   $("#project-total").textContent = snapshot.projects.length;
-  $("#attention-total").textContent = scoped.filter(needsAttention).length;
+  $("#attention-total").textContent = snapshot.stats?.attention ?? '—';
   $("#scan-time").textContent = `读取于 ${date(snapshot.scannedAt, true)}`;
   $("#sidebar-time").textContent = date(snapshot.scannedAt, true);
   renderProjects();
   renderArtifacts();
   renderAttention();
+  renderProjectInfo();
   const filters = $("#filters");
   filters.replaceChildren();
   filters.hidden = selectedResourceType === "knowledge";
   for (const [key, label] of Object.entries(isSkills ? sourceLabels : categories)) {
-    if (isSkills && key !== "all" && !scopedSkills().some(skill=>skill.source===key)) continue;
-    if (!isSkills && key !== "all" && !scoped.some((doc) => doc.resourceType === "artifacts" && doc.category === key)) continue;
+    if (isSkills && key !== "all" && !snapshot.sources?.includes(key)) continue;
+    if (!isSkills && key !== "all" && !snapshot.categories?.includes(key)) continue;
     const active = (isSkills ? selectedSource : selectedCategory) === key;
     const button = createButton({text:label, className:active ? "active" : ""});
     button.setAttribute("aria-pressed", String(active));
@@ -430,7 +488,7 @@ function render() {
       if (isSkills) selectedSource = key;
       else selectedCategory = key;
       pageSize = 30;
-      render();
+      loadProject();
     });
     filters.append(button);
   }
@@ -457,7 +515,7 @@ async function refresh(initial = false) {
   message("");
   try {
     snapshot = await api(
-      initial === true ? "/api/snapshot" : "/api/snapshot?refresh=1",
+      initial === true ? "/api/bootstrap" : "/api/bootstrap?refresh=1",
     );
     if (!snapshot.authRequired) {
       token = null;
@@ -473,11 +531,9 @@ async function refresh(initial = false) {
       selectedResourceType = validSaved && ["skills", "knowledge"].includes(saved.resourceType) && !attentionOnly ? saved.resourceType : "artifacts";
       viewInitialized = true;
     }
-    if ($("#search").value.trim()) await search();
-    else {
-      searchIds = null;
-      render();
-    }
+    searchIds=null;
+    render();
+    await loadProject(initial!==true);
   } catch (error) {
     message(
       `${error.message}${snapshot ? "；当前保留上次成功读取的快照。" : ""}`,
@@ -488,23 +544,9 @@ async function refresh(initial = false) {
   }
 }
 async function search() {
-  const sequence = ++searchSequence;
-  const query = $("#search").value.trim();
-  if (!query) {
-    searchIds = null;
-    pageSize = 30;
-    render();
-    return;
-  }
-  try {
-    const result = await api(`/api/search?q=${encodeURIComponent(query)}&type=${selectedResourceType}`);
-    if (sequence !== searchSequence) return;
-    searchIds = new Set(result.ids);
-    pageSize = 30;
-    render();
-  } catch (error) {
-    if (sequence === searchSequence) message(`搜索失败：${error.message}`);
-  }
+  searchIds=null;
+  pageSize=30;
+  return loadProject();
 }
 async function openDocument(id, anchor = "", isBack = false, taskHeading = null) {
   const sequence = ++documentSequence;
@@ -523,7 +565,9 @@ async function openDocument(id, anchor = "", isBack = false, taskHeading = null)
   $("#formatted-tab").classList.add("active");
   $("#source-tab").classList.remove("active");
   try {
-    const doc = await api(`/api/document?id=${encodeURIComponent(id)}`);
+    const known=[...snapshot.documents,...(snapshot.work||[]),...(snapshot.attention||[]),...(currentDocument?.related||[]),...snapshot.skills].find(doc=>doc.id===id);
+    const projectId=known?.projectId || selectedProject || currentDocument?.projectId;
+    const doc = await api(`/api/document?id=${encodeURIComponent(id)}${projectId?'&project='+encodeURIComponent(projectId):''}`);
     if (sequence !== documentSequence || !reader.isOpen) return;
     currentDocument = {...doc, taskHeading};
     const project = snapshot.projects.find((p) => p.id === doc.projectId);
@@ -533,7 +577,7 @@ async function openDocument(id, anchor = "", isBack = false, taskHeading = null)
     $("#reader-context-path").hidden = !taskHeading;
     $("#reader-context-path").textContent = doc.path;
     $("#reader-context-path").title = `${project.path}/${doc.path}`;
-    const skill = (snapshot.skills || []).find(skill=>skill.id === doc.skillId);
+    const skill = doc.skill || (snapshot.skills || []).find(skill=>skill.id === doc.skillId);
     const kind = skill ? (doc.id===skill.id ? "Skill 入口" : "Skill 附属文档") : categories[doc.category];
     const related = $("#reader-related");
     related.replaceChildren(); related.hidden = !skill || skill.documentIds.length <= 1;
@@ -543,7 +587,7 @@ async function openDocument(id, anchor = "", isBack = false, taskHeading = null)
       const select = el("select");
       select.id = "reader-related-select";
       for (const id of skill.documentIds) {
-        const file = snapshot.documents.find(item=>item.id===id);
+        const file = (doc.related || snapshot.documents).find(item=>item.id===id);
         const option = el("option","",id===skill.id ? "SKILL.md" : file.path.slice(skill.path.lastIndexOf("/")+1));
         option.value = id;
         select.append(option);
@@ -584,7 +628,7 @@ $("#overview").addEventListener("click", () => {
   selectedProject = null;
   attentionOnly = false;
   selectedCategory = "all";
-  render();
+  loadProject();
 });
 $(".brand").addEventListener("click", (event) => {
   event.preventDefault();
@@ -597,7 +641,7 @@ $("#attention-nav").addEventListener("click", () => {
   attentionOnly = true;
   selectedCategory = "all";
   pageSize = 30;
-  render();
+  loadProject();
 });
 $("#focus-all").addEventListener("click", () => {
   if (!selectedProject) return $("#attention-nav").click();
@@ -607,19 +651,19 @@ $("#focus-all").addEventListener("click", () => {
   selectedCategory = "work";
   attentionOnly = false;
   pageSize = 30;
-  render();
+  loadProject();
   $("#artifact-heading").scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth" });
 });
 const resourceTabs = createTabs($("#resource-tabs"), $("#resource-panel"), {onValueChange(value) {
   selectedResourceType = value;
   attentionOnly = false; pageSize = 30; selectedSource = "all"; selectedCategory = "all";
   clearTimeout(searchTimer); ++searchSequence; searchIds = null;
-  if ($("#search").value.trim()) search(); else render();
+  loadProject();
 }});
 $("#refresh").addEventListener("click", refresh);
 $("#load-more").addEventListener("click", () => {
   pageSize += 30;
-  renderArtifacts();
+  loadProject(false,true);
 });
 $("#all-projects").addEventListener("click", () => {
   showAllProjects = !showAllProjects;
@@ -710,12 +754,11 @@ async function startPreview() {
     selectedResourceType = ["skills", "knowledge"].includes(saved.resourceType) && !attentionOnly ? saved.resourceType : "artifacts";
     selectedSource = Object.hasOwn(sourceLabels,saved.skillSource) ? saved.skillSource : "all";
     $("#search").value = saved.search || "";
-    if (saved.search) await search();
-    else render();
-    if (saved.documentId && snapshot.documents.some(doc=>doc.id===saved.documentId)) {
+    await loadProject();
+    if (saved.documentId) {
       await openDocument(saved.documentId, "", false, saved.taskHeading || null);
       readerHistory = (saved.history || []).map(entry=>typeof entry === "string" ? {id:entry,taskHeading:null} : entry)
-        .filter(entry=>snapshot.documents.some(doc=>doc.id===entry.id));
+        .filter(entry=>typeof entry.id==='string');
       $("#reader-back").hidden = readerHistory.length === 0;
       if (saved.source) $("#source-tab").click();
       $("#reader-scroll").scrollTop = saved.readerScroll || 0;
@@ -737,4 +780,14 @@ async function startPreview() {
     },
   });
 }
+$('#read-git').addEventListener('click',async()=>{
+  const projectId=selectedProject;
+  const button=$('#read-git');button.disabled=true;
+  const result=$('#git-result'); result.hidden=false;result.textContent='正在读取 Git 活动…';
+  try {
+    const data=await api('/api/git?project='+encodeURIComponent(projectId));
+    if(selectedProject===projectId) result.textContent=[data.status,data.history,data.note].filter(Boolean).join('\n');
+  } catch(error) { if(selectedProject===projectId) result.textContent=error.message; }
+  finally {button.disabled=false;}
+});
 refresh(true).then(startPreview);

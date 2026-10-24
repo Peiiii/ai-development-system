@@ -27,9 +27,9 @@ npm install -g @nextclaw/qingtian
 qingtian dashboard
 ```
 
-官网也提供可直接安装的版本包：`npm install -g https://ai-dev.nextclaw.io/download/qingtian-0.1.12.tgz`，校验文件为 `download/qingtian.sha256`。源码开发可执行 `npm ci` 后运行 `npm run dev`，打开命令输出的完整地址即可实时预览。大盘右上角提供浅色、深色、跟随系统主题；选择会记住，并延续至本机其它启动端口。
+官网也提供可直接安装的版本包：`npm install -g https://ai-dev.nextclaw.io/download/qingtian-0.1.13.tgz`，校验文件为 `download/qingtian.sha256`。源码开发可执行 `npm ci` 后运行 `npm run dev`，打开命令输出的完整地址即可实时预览。大盘右上角提供浅色、深色、跟随系统主题；选择会记住，并延续至本机其它启动端口。
 
-命令自动打开浏览器，优先进入当前项目，首屏查看当前推进、下一步、待关注事项与分类产物；从项目子目录启动也识别所属项目。其它接入项目可在侧栏切换，选择“项目总览”才汇总跨项目信息。刷新或页面重载保留所选项目；点开原文可沿已收录的 Markdown 链接追溯。没有当前状态记录时显示明确空态，不以更新时间推断进度或后台执行。
+命令自动打开浏览器，优先进入当前项目，首屏查看当前推进、下一步、待关注事项与分类产物；从项目子目录启动也识别所属项目。无需向项目安装擎天规则；其它登记项目可在侧栏切换，总览明确显示已读取项目的资料覆盖范围。刷新或页面重载保留所选项目；点开原文可沿已收录的 Markdown 链接追溯。没有当前状态记录时显示明确空态，不以更新时间推断进度或后台执行。
 
 下方资料列表通过“项目产物 / 项目 Skills / 项目知识”下划线分页切换，默认项目产物；知识资料独立收录 wiki、docs/knowledge 和 .agents/wiki/knowledge，不再混入产物列表与搜索。项目统计与推进区保持项目范围。Skills 支持按名称、描述、路径与附属 Markdown 搜索，以 SKILL.md 入口分组，卡片与抽屉显示 Skill 名称，参考文档显示包内相对路径，并区分项目自有、体系托管和框架源码；抽屉内可切换同包文档。读取项目的 `.agents/skills`、`.agents/wiki/skills`、`.claude/skills`、`.codex/skills`，以及本体系的 `payload/` 对应目录。这里只提供查看与阅读，文件存在不代表宿主已加载。
 
@@ -37,11 +37,13 @@ qingtian dashboard
 
 开发大盘时，`npm run dev` 监听本仓库 `dashboard/`：CSS 加载完成后即时替换，JS/HTML 修改自动刷新，保留当前项目、分类、搜索、打开的文档/源码视图和阅读位置。浏览器显示“实时预览”表示已连接；后端模块修改仍须重启。`npm run dashboard` 保持普通只读模式；全局 CLI 的 `qingtian dashboard --watch` 监听该 CLI 安装目录中的前端文件，修改本仓库源码应使用 `npm run dev`。
 
-项目以既有 `.agents/ai-development-system.lock.json` 识别（本体系源仓库也可识别）。默认优先扫描当前项目，再发现 `~/Projects` 中的接入项目，汇总 README、docs、wiki 和项目知识目录中的 Markdown。登记项目始终加入，`--root` 仅覆盖自动扫描的位置；不同目录中的副本分别展示，路径可核对。扫描达到上限也保留明确指定的接入项目。当前目录未接入或不在指定范围内时进入总览选择项目。Ctrl+C 停止服务。
+大盘支持普通 Git/worktree、常见工程清单及显式目录，无需项目安装记录。默认只识别当前工程与登记列表，不扫描整个 `~/Projects`；点击项目才读取资料。已有 README、docs、wiki、AGENTS/CLAUDE 与项目 Skills 可直接搜索和阅读。开发入口展示 package.json 脚本，Git 活动按点击读取，不自动执行命令。没有任务记录就不展示空的推进卡片。
+
+资料由后端分页，每页默认 30 条、最多 40 条。正文最多缓存两个项目、合计 16 MiB；单项目 8 MiB/2,000 文件/12,000 目录项/2 秒软扫描预算，超额明确提示部分或旧快照。刷新只重读变化的正文，同时重新有限枚举以发现新增删除。总览只汇总已读取缓存；点击全局待关注最多读取两个项目。详情见[大盘使用说明](wiki/dashboard.md)。
 
 ```sh
 qingtian dashboard --root /path/to/projects  # 指定扫描范围，可重复 --root
-qingtian projects add /path/to/project      # 登记其它位置的接入项目
+qingtian projects add /path/to/project      # 登记普通项目，无需 install
 qingtian projects list
 qingtian projects remove /path/to/project   # 仅移除登记，自动发现的项目仍展示
 qingtian dashboard --no-open --port 4317    # 不自动打开浏览器，指定端口
