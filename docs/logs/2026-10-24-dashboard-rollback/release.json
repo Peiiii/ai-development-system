@@ -1,0 +1,29 @@
+{
+  "baseline": "d305744",
+  "sourceCommit": "b554acc",
+  "releaseVersion": "0.1.15",
+  "behaviorVersion": "0.1.12",
+  "productionTreesIdentical": true,
+  "checkedAt": "2026-10-24T15:40:45.279Z",
+  "deployment": "3ce8f854-288e-4600-af4a-00b5e8d80734",
+  "npmLatest": "0.1.15",
+  "npmPublishAccepted": true,
+  "npmPublicStatus": "available",
+  "identicalNpmPackage": true,
+  "packageSHA256": "b439854b3afd4ecc435da08dca786722481914d670b29d824228c20a116e5652",
+  "liveLegacyRestored": 58,
+  "liveProjects": 58,
+  "liveCurrentProject": "ai-development-system",
+  "localNvmVersion": "0.1.15",
+  "localHomebrewVersion": "0.1.15",
+  "localCoreFilesMatchBaseline": true,
+  "publicFiles": [
+    "SKILL.md",
+    "download/ai-development-system.tar.gz",
+    "download/ai-development-system.sha256",
+    "download/qingtian-0.1.15.tgz",
+    "download/qingtian.sha256",
+    "wiki/dashboard.md",
+    "wiki/skills/tools/qingtian-dashboard/SKILL.md"
+  ]
+}
