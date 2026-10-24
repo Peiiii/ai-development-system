@@ -11,20 +11,20 @@ const packageInfo = JSON.parse(
 const help = `擎天 Qingtian ${packageInfo.version} · AI 驱动开发体系
 
   qingtian dashboard [--root <目录>] [--port <端口>] [--no-open] [--watch] [--require-token]
-      打开任意项目大盘，无需向项目安装擎天规则；--root 可重复指定。
+      打开当前项目大盘，可切换其它接入项目；--root 可重复指定。
       本机默认直接访问；--require-token 按需启用会话 token 鉴权。
       --watch 监听当前 CLI 的前端文件，CSS 即时更新，JS/HTML 自动刷新。
   qingtian projects add <项目目录>
   qingtian projects remove <项目目录>
   qingtian projects list
-      登记普通项目目录，或移除登记；不会修改项目文件。
+      登记额外项目，或移除登记；自动扫描发现的项目仍会展示。
   qingtian install --target <项目目录> [--dry-run] [--agents=skip]
   qingtian check --target <项目目录> [--readiness]
   qingtian upgrade --target <项目目录> [--dry-run]
       接入、检查和升级；默认初始化阶段展示，保留明确开关；--readiness 核规则入口和展示配置，宿主加载仍需真实验证。
   qingtian --version
 
-Node.js 22.12+。默认发现当前工程、登记列表与 ~/Projects，资料按项目加载；--root 显式指定发现范围。
+Node.js 22.12+。默认扫描 ~/Projects 和当前目录；指定 --root 时覆盖默认根目录。
 Ctrl+C 停止大盘。不会执行项目任务或修改项目的文档。`;
 
 function openBrowser(url) {
@@ -66,7 +66,7 @@ async function main(argv) {
     if (operation === "list" && !target)
       return console.log(
         (await readProjects()).join("\n") ||
-          "没有登记项目；dashboard 仍可直接打开当前项目。",
+          "没有登记项目；dashboard 仍会自动扫描。",
       );
     if (!["add", "remove"].includes(operation) || !target || extra.length)
       throw new Error(
@@ -100,17 +100,16 @@ async function main(argv) {
     else throw new Error(`未知参数或缺少参数值：${args[index]}`);
   }
   const { startDashboard } = await import("../lib/dashboard.mjs");
-  console.log("擎天大盘：正在识别项目…");
+  console.log("擎天大盘：正在读取项目产物…");
   const dashboard = await startDashboard({
     roots: roots.length ? roots : await defaultRoots(),
-    deferDiscovery:true,
     port,
     currentDirectory: process.cwd(),
     livePreview,
     requireToken,
   });
   console.log(
-    `擎天大盘已启动 · ${dashboard.snapshot.projects.length} 个项目 · 资料按需读取，无需项目安装\n${dashboard.url}\nCtrl+C 停止服务。${requireToken ? "已开启 token 鉴权，请使用上方完整地址。" : "仅监听本机，直接打开上方地址即可。"}`,
+    `擎天大盘已启动 · ${dashboard.snapshot.projects.length} 个项目 · ${dashboard.snapshot.projects.reduce((sum, project) => sum + project.documentCount, 0)} 份产物 · ${dashboard.snapshot.projects.reduce((sum, project) => sum + project.knowledgeCount, 0)} 份知识 · ${dashboard.snapshot.skills.length} 个 Skill\n${dashboard.url}\nCtrl+C 停止服务。${requireToken ? "已开启 token 鉴权，请使用上方完整地址。" : "仅监听本机，直接打开上方地址即可。"}`,
   );
   if (livePreview) console.log("实时预览已开启：修改前端后自动更新；Ctrl+C 停止监听。");
   if (open) openBrowser(dashboard.url);
