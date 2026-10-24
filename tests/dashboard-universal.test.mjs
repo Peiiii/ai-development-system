@@ -14,7 +14,7 @@ async function fixture(t) {
   return {base,write};
 }
 
-test('ordinary Git, worktree and manifest projects are discovered without installation; default scope excludes siblings',async t=>{
+test('ordinary Git, worktree and manifest projects are discovered without installation; default scope retains local workspace discovery',async t=>{
   const {base,write}=await fixture(t);
   const roots=['node','python','worktree','empty'].map(name=>path.join(base,name));
   await write(roots[0],'package.json','{"scripts":{"dev":"vite"}}');
@@ -22,7 +22,7 @@ test('ordinary Git, worktree and manifest projects are discovered without instal
   await write(roots[1],'pyproject.toml','[project]\nname="sample"');
   await write(roots[2],'.git','gitdir: /not-read');
   await fs.mkdir(roots[3]);
-  assert.deepEqual(await defaultRoots(path.join(roots[0],'docs/nested')),[roots[0]]);
+  assert.deepEqual(await defaultRoots(path.join(roots[0],'docs/nested'),{workspaceRoot:base}),[roots[0],base]);
   assert.deepEqual((await discoverProjects({roots:[base]})).paths,roots.slice(0,3).sort());
   await changeProject('add',roots[3],path.join(base,'config'));
   assert.deepEqual(await readProjects(path.join(base,'config')),[roots[3]]);
@@ -106,4 +106,29 @@ test('broken registration cannot block the current project; Git runs only on req
   await fs.writeFile(path.join(fakeBin,'git'),'#!/bin/sh\nexec yes x\n');
   await assert.rejects(gitInfo(root,undefined,{command,timeout:3000}),error=>error.code==='ERR_CHILD_PROCESS_STDIO_MAXBUFFER');
   assert.equal((await fetch(server.origin+'/api/git?project='+boot.currentProjectId).then(r=>r.json())).unavailable,true);
+});
+
+
+test('README workspace containers do not hide installed descendants; deferred discovery keeps current project first without reading other documents',async t=>{
+  const {base,write}=await fixture(t);
+  const container=path.join(base,'explorations'),current=path.join(base,'ordinary');
+  await write(container,'README.md','# Workspace');
+  for(let i=0;i<8;i++) {
+    const project=path.join(container,`project-${i}`);
+    await write(project,'.agents/ai-development-system.lock.json','{}');
+    await write(project,'README.md','# Installed');
+  }
+  await write(current,'package.json','{}');await write(current,'README.md','# Current');
+  const original=fs.open,reads=[];
+  fs.open=async(...args)=>{if(String(args[0]).endsWith('.md'))reads.push(String(args[0]));return original.apply(fs,args);};
+  t.after(()=>{fs.open=original;});
+  const server=await startDashboard({roots:[base],currentDirectory:current,configDir:path.join(base,'config'),deferDiscovery:true});
+  t.after(()=>server.close());
+  const first=await fetch(server.origin+'/api/bootstrap').then(r=>r.json());
+  assert.equal(first.projects.find(p=>p.id===first.currentProjectId).path,current);
+  const full=await fetch(server.origin+'/api/discovery').then(r=>r.json());
+  assert.equal(full.discovering,false);assert.equal(full.projects.length,9);
+  assert.equal(full.projects.some(p=>p.path===container),false);assert.equal(reads.length,0);
+  await fetch(server.origin+'/api/project?project='+full.currentProjectId);
+  assert.ok(reads.length>0);assert.equal(reads.some(file=>file.startsWith(container+path.sep)),false);
 });

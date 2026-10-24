@@ -24,17 +24,18 @@ const ready=page=>page.waitForFunction(()=>document.querySelector('#resource-pan
 try {
   for(let i=0;i<20;i++) {
     const started=performance.now();
-    const server=await startDashboard({roots:[base],currentDirectory:projects[0],configDir:path.join(base,'config')});servers.push(server);
+    const server=await startDashboard({roots:[base],currentDirectory:projects[0],configDir:path.join(base,'config'),deferDiscovery:true});servers.push(server);
     assert.equal(server.snapshot.documents.length,0,'startup must not index any document body');
     const page=await browser.newPage({viewport:{width:1440,height:1000},reducedMotion:'reduce'});
     page.on('pageerror',error=>errors.push(error.message));
     const requests=[];page.on('request',request=>requests.push(new URL(request.url()).pathname));
     let maxPayload=0;page.on('response',async response=>{if(new URL(response.url()).pathname==='/api/project') maxPayload=Math.max(maxPayload,(await response.body().catch(()=>Buffer.alloc(0))).length);});
-    await page.goto(server.url);await ready(page);await page.locator('.project-command').first().waitFor();
+    await page.goto(server.url);await ready(page);
     samples.push(performance.now()-started);
-    assert.equal(await page.locator('.project-link').count(),100);
+    await page.waitForFunction(()=>document.querySelectorAll('.project-link').length===100);
+    assert.equal(await page.locator('#project-info').count(),0);
     assert.equal(requests.includes('/api/git'),false);
-    assert.equal((await page.locator('.project-command').allTextContents()).length,2);
+    assert.equal(requests.includes('/api/info'),false);
     assert.ok(maxPayload<128*1024);
     if(i===0) {
       assert.equal(await page.locator('#focus-list .focus-item').count(),0);

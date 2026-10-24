@@ -24,7 +24,7 @@ const help = `擎天 Qingtian ${packageInfo.version} · AI 驱动开发体系
       接入、检查和升级；默认初始化阶段展示，保留明确开关；--readiness 核规则入口和展示配置，宿主加载仍需真实验证。
   qingtian --version
 
-Node.js 22.12+。默认只读取当前工程与登记列表，资料按项目加载；--root 显式指定发现范围。
+Node.js 22.12+。默认发现当前工程、登记列表与 ~/Projects，资料按项目加载；--root 显式指定发现范围。
 Ctrl+C 停止大盘。不会执行项目任务或修改项目的文档。`;
 
 function openBrowser(url) {
@@ -103,6 +103,7 @@ async function main(argv) {
   console.log("擎天大盘：正在识别项目…");
   const dashboard = await startDashboard({
     roots: roots.length ? roots : await defaultRoots(),
+    deferDiscovery:true,
     port,
     currentDirectory: process.cwd(),
     livePreview,

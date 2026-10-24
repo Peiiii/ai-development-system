@@ -54,7 +54,6 @@ let viewKey = `qingtian-view:${token || location.origin}`;
 let loadSequence=0;
 let projectRequest;
 let loadingProject=false;
-let projectDetails=null;
 
 function currentWork(docs) {
   return docs.filter((doc) => doc.resourceType === "artifacts" && doc.category === "work" &&
@@ -126,7 +125,6 @@ function selectProject(id) {
   attentionOnly = false;
   selectedCategory = "all";
   pageSize = 30;
-  projectDetails=null;
   render();
   loadProject();
 }
@@ -145,38 +143,16 @@ async function loadProject(force=false, append=false) {
   try {
     const data=await api((projectId?'/api/project?':'/api/overview?')+query,{signal:projectRequest.signal});
     if (sequence!==loadSequence || selectedProject!==projectId) return;
-    snapshot={...data,documents:append?[...snapshot.documents,...data.documents]:data.documents,
+    snapshot={...data,discovering:snapshot.discovering,documents:append?[...snapshot.documents,...data.documents]:data.documents,
       skills:append?[...snapshot.skills,...data.skills]:data.skills};
     loadingProject=false; render();
     const project=snapshot.projects.find(p=>p.id===projectId);
     message(data.coverage?`当前展示已读取的 ${data.coverage.indexed} / ${data.coverage.total} 个项目；选择项目后读取更多资料。`:data.stale?'本次读取未完成，当前展示上次完整快照。':project?.partial?'已显示预算范围内的资料；更多内容可用 --root 缩小项目范围后查看。':'');
-    if (projectId && (!projectDetails || projectDetails.projectId!==projectId || force)) {
-      const info=await api('/api/info?project='+projectId+(force?'&refresh=1':''));
-      if (sequence===loadSequence && selectedProject===projectId) {projectDetails={...info,projectId};renderProjectInfo();}
-    }
+
   } catch(error) {
     if (sequence!==loadSequence || error.name==='AbortError') return;
     loadingProject=false; render(); message(`项目读取失败：${error.message}。点击重新读取可重试。`);
   }
-}
-function renderProjectInfo() {
-  const section=$('#project-info'); section.hidden=!selectedProject;
-  if (!selectedProject) return;
-  const list=$('#project-commands'); list.replaceChildren();
-  if (projectDetails?.projectId===selectedProject) {
-    if(snapshot.stats?.work===0) {
-      $('#metric-scope-label').textContent='开发入口';
-      $('#metric-projects').textContent=projectDetails.scripts.length;
-      $('#metric-scope-note').textContent='项目已声明的命令，不自动执行';
-    }
-    for(const script of projectDetails.scripts) {
-      const row=el('div','project-command'); row.append(el('strong','',script.name),el('code','',script.command));list.append(row);
-    }
-    if(!projectDetails.scripts.length) list.append(el('p','quiet-empty','此项目没有 package.json 脚本；可从下方 README 和项目资料查看使用方式。'));
-    for(const warning of projectDetails.warnings) list.append(el('p','quiet-empty',warning));
-    $('#read-git').hidden=!projectDetails.gitAvailable;
-  } else { list.append(el('p','quiet-empty','正在读取开发入口…')); $('#read-git').hidden=true; }
-  $('#git-result').hidden=true;
 }
 function renderProjects() {
   const nav = $("#project-nav");
@@ -470,11 +446,10 @@ function render() {
   $("#project-total").textContent = snapshot.projects.length;
   $("#attention-total").textContent = snapshot.stats?.attention ?? '—';
   $("#scan-time").textContent = `读取于 ${date(snapshot.scannedAt, true)}`;
-  $("#sidebar-time").textContent = date(snapshot.scannedAt, true);
+  $("#sidebar-time").textContent = snapshot.discovering ? "正在发现本地项目…" : date(snapshot.scannedAt, true);
   renderProjects();
   renderArtifacts();
   renderAttention();
-  renderProjectInfo();
   const filters = $("#filters");
   filters.replaceChildren();
   filters.hidden = selectedResourceType === "knowledge";
@@ -534,6 +509,11 @@ async function refresh(initial = false) {
     searchIds=null;
     render();
     await loadProject(initial!==true);
+    if(snapshot.discovering) {
+      const discovered=await api("/api/discovery");
+      snapshot={...snapshot,projects:discovered.projects,roots:discovered.roots,discovering:false,warnings:[...new Set([...snapshot.warnings,...discovered.warnings])]};
+      render();
+    }
   } catch (error) {
     message(
       `${error.message}${snapshot ? "；当前保留上次成功读取的快照。" : ""}`,
@@ -780,14 +760,4 @@ async function startPreview() {
     },
   });
 }
-$('#read-git').addEventListener('click',async()=>{
-  const projectId=selectedProject;
-  const button=$('#read-git');button.disabled=true;
-  const result=$('#git-result'); result.hidden=false;result.textContent='正在读取 Git 活动…';
-  try {
-    const data=await api('/api/git?project='+encodeURIComponent(projectId));
-    if(selectedProject===projectId) result.textContent=[data.status,data.history,data.note].filter(Boolean).join('\n');
-  } catch(error) { if(selectedProject===projectId) result.textContent=error.message; }
-  finally {button.disabled=false;}
-});
 refresh(true).then(startPreview);

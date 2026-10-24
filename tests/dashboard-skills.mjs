@@ -42,7 +42,7 @@ try{
  assert.deepEqual((await page.locator('.skill-row h3').allTextContents()).sort(),['project-check','source-method']);
  assert.doesNotMatch(await page.locator('.skill-row').first().innerText(),/payload\/|SKILL\.md/);
  assert.equal(await page.locator('.skill-row').count(),2);assert.equal(await page.locator('#metric-documents').innerText(),'3');
- assert.equal(await page.locator('#metric-scope-label').innerText(),'开发入口');
+ assert.equal(await page.locator('#metric-scope-label').innerText(),'推进入口');
  assert.equal(await page.locator('#attention-focus').isVisible(),false);
  assert.equal(await page.locator('.attention-panel').isVisible(),true);
  await page.getByRole('button',{name:'框架源码',exact:true}).click();await settled(page);assert.equal(await page.locator('.skill-row').count(),1);
