@@ -50,13 +50,14 @@
 
 普通任务在实际重要交付时按需记录 `docs/logs/`；大型交付在执行启动即建立并持续更新，收尾汇总已有记录。新建默认 `docs/logs/YYYY-MM-DD-<topic>/README.md`，同时支持 `v<semver>-<slug>/README.md`；同批不造两份、不每日改名，项目专属章节按既有约定保留。
 
-## 大型交付的四种职责
+## 大型交付的五种职责
 
 | 文件 | 职责 |
 | --- | --- |
 | `work/YYYY-MM-DD-<topic>/acceptance-contract.md` | 引用原始来源、当前有效约定、验收账本、待决与生效变更 |
 | `designs/YYYY-MM-DD-<topic>.design.md` | 整体/专题方案与关键取舍；按需要拆分并互链 |
-| `work/YYYY-MM-DD-<topic>/current-state.md` | 身份与入口、执行现场、当前进度、未闭合事项与下一步 |
+| `work/YYYY-MM-DD-<topic>/work-items.md` | 上方完整事项表、下方逐项详情；工作项执行状态、新增与返工入口 |
+| `work/YYYY-MM-DD-<topic>/current-state.md` | 身份与入口、执行现场、当前选中事项与整体下一步，不复制全表状态 |
 | `logs/YYYY-MM-DD-<topic>/README.md` | 原始输入与约束、关联入口、及时过程记录、交付汇总与复盘 |
 
 上述路径位于 `docs/`。plan、长详情和 `artifacts/` 附件按需，不逐工作项建文件或表格。有效约定与待决提案分开，当前状态与历史分开；普通进展只更新实际变化的内容。具体模板和触发条件以安装后的验收合同方法、`iteration-work-notes/references/major-delivery-records.md` 为准。
