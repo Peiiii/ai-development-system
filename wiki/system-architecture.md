@@ -168,7 +168,7 @@ flowchart TD
 
 ## 大型交付 Workflow（试用）
 
-当用户委托完整的大型成果，需要跨工作项或上下文持续维护结果时，lifecycle 按需加载 `.agents/workflows/major-delivery.md`；旧 `references/major-delivery.md` 只作兼容跳转。大型交付 workflow 负责整体推进，并嵌套、组合四种基础任务 workflow；默认一个交付阶段，必要拆分由验收合同给出依据，不新增第二个 Meta Skill。
+当用户委托完整的大型成果，需要跨工作项或上下文持续维护结果时，lifecycle 按需加载 `.agents/workflows/major-delivery.md`。大型交付 workflow 负责整体推进，并嵌套、组合四种基础任务 workflow；默认一个交付阶段，必要拆分由验收合同给出依据，不新增第二个 Meta Skill。
 
 外层过程是：建立整体目标与有效验收约定 → 整体及当前部分设计 → 选择并推进工作项 → 集成验证与整体缺口核对 → 继续必要工作或明确真实阻塞 → 整体交付、复盘与完成检查。具体阶段门复用原方法，不另抄一套合同。
 

@@ -2,6 +2,8 @@
 
 只用于“保留、拆分还是抽象”的明确裁决。项目架构和目录规则仍由各自 owner 负责。
 
+准备新增或保留兼容/legacy路径时，先按[真实存量与兼容证据](../../development-design/references/architecture-principles.md#真实存量与兼容证据)裁决；“放在边界”不自动证明兼容本身有必要。
+
 ## 永久原则
 
 - `visible-main-flow`：真实业务流程直接可见，不用大量小函数制造虚假分层。

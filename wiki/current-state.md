@@ -33,7 +33,7 @@
 
 ## 显式 Workflow 入口（2026-10-09）
 
-共享源与安装目标均提供 `.agents/workflows/`，包含目录和 initialization、standard、trivial、bugfix、major-delivery 五个入口。大型交付完整方法由独立 workflow 文件拥有，原 Lifecycle reference 仅兼容跳转；分类、阶段路由和整体完成仍由唯一 Lifecycle 管理。官网提供第五个可选流程，以及 `/workflows/README.md`、`/workflows/major-delivery.md` 和相互关联的阶段方法原文。
+共享源与安装目标均提供 `.agents/workflows/`，包含目录和 initialization、standard、trivial、bugfix、major-delivery 五个入口。大型交付完整方法由独立 workflow 文件拥有；分类、阶段路由和整体完成仍由唯一 Lifecycle 管理。官网提供第五个可选流程，以及 `/workflows/README.md`、`/workflows/major-delivery.md` 和相互关联的阶段方法原文。
 
 56 文件检查、15 项测试、真实旧版快照升级、新包安装与大盘 smoke、三个屏幕尺寸下五流程切换和公开文件回读均通过。共享文件与安装清单变化进入 0.1.2；详细发布状态见[入口交付记录](../docs/logs/2026-10-09-workflow-entries/README.md)。既有接入项目须升级才能获得新目录，安装器不批量改写项目。模型长期遵循效果继续待真实使用观察。
 

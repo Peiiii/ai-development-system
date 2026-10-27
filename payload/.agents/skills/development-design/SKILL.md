@@ -74,11 +74,11 @@ L0 文档修正和 lifecycle 可跳过的 L1 单路径改动无需进入；不�
 4. 恢复、权限、幂等完整；无消费者的基础设施不进入范围。
 5. 比较错误 owner/迁移债与无消费者抽象/验证面，选择净复杂度最低的结构。
 
-新增/改变抽象或公开闭集 variant 时必须读取[架构设计原则](references/architecture-principles.md)，写清保留、删除、延后项；未来成本未付清不得 `Design Ready`。
+新增/改变抽象、公开闭集 variant，或准备保留兼容/旧入口时，必须读取[架构设计原则](references/architecture-principles.md)，写清保留、删除、延后项；未来成本未付清不得 `Design Ready`。
 
 涉及用户可用能力（含 CLI、SDK、后台自动化与集成）或交互时，读取[功能设计关](references/feature-design-gate.md)，先呈现用户链路再展开协议；纯内部且用户行为不变时说明不适用。
 
-跨 runtime、journal、projection、transport 或 UI 的状态型设计补普通、运行、重试、取消、中断、刷新恢复和旧数据矩阵；局部无状态方案不填。
+跨 runtime、journal、projection、transport 或 UI 的状态型设计补普通、运行、重试、取消、中断、刷新恢复和旧数据矩阵（旧数据仅在真实存量存在时适用）；局部无状态方案不填。
 
 已有实现、验证、Review 或线上现象暴露未建模行为时，读取[设计缺失的范围判定](references/design-gap-scope.md)，区分实现偏差、局部合同、能力面和系统模型缺口，选防同类复发的最小范围；不按报错位置或 diff 定范围。
 

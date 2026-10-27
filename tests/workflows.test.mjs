@@ -21,8 +21,6 @@ test("major delivery is discoverable through the installed workflow catalog and 
   assert.match(major, /initialization/);
   assert.match(major, /parent-goal/);
   assert.match(major, /整体完成门/);
-  const legacy = await read("payload/.agents/skills/development-lifecycle/references/major-delivery.md");
-  assert.match(legacy, /\.\.\/\.\.\/\.\.\/workflows\/major-delivery\.md/);
 });
 
 test("website gives major delivery its own selectable workflow and public source entry", async () => {
