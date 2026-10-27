@@ -27,7 +27,7 @@ npm install -g @nextclaw/qingtian
 qingtian dashboard
 ```
 
-官网也提供可直接安装的版本包：`npm install -g https://ai-dev.nextclaw.io/download/qingtian-0.1.16.tgz`，校验文件为 `download/qingtian.sha256`。源码开发可执行 `npm ci` 后运行 `npm run dev`，打开命令输出的完整地址即可实时预览。大盘右上角提供浅色、深色、跟随系统主题；选择会记住，并延续至本机其它启动端口。
+官网也提供可直接安装的版本包：`npm install -g https://ai-dev.nextclaw.io/download/qingtian-0.1.17.tgz`，校验文件为 `download/qingtian.sha256`。源码开发可执行 `npm ci` 后运行 `npm run dev`，打开命令输出的完整地址即可实时预览。大盘右上角提供浅色、深色、跟随系统主题；选择会记住，并延续至本机其它启动端口。
 
 命令自动打开浏览器，优先进入当前项目，首屏查看当前推进、下一步、待关注事项与分类产物；从项目子目录启动也识别所属项目。其它接入项目可在侧栏切换，选择“项目总览”才汇总跨项目信息。刷新或页面重载保留所选项目；点开原文可沿已收录的 Markdown 链接追溯。没有当前状态记录时显示明确空态，不以更新时间推断进度或后台执行。
 
