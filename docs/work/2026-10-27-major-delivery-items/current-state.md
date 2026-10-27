@@ -1,8 +1,8 @@
 # 大型交付事项机制完善：当前状态
 
 ## 身份与入口
-- 整体状态：进行中
-- delivery-mode: major；flow: standard；当前阶段：implementation；risk: L3；retrospective_state: pending
+- 整体状态：已完成
+- delivery-mode: major；flow: standard；当前阶段：delivery；risk: L3；retrospective_state: completed；retrospective_decision: update-existing-owner
 - parent-goal：完善大型交付的目录内事项清单、逐项验收与变更/恢复约束，验证后同步ai-collab-space，并用其第一阶段建立实际交付入口。
 - [合同](acceptance-contract.md)；[事项](work-items.md)；[设计](../../designs/2026-10-27-major-delivery-items.design.md)；[来源与日志](../../logs/2026-10-27-major-delivery-items/README.md)
 
@@ -12,4 +12,4 @@
 - 目标项目：/Users/peiwang/Projects/explorations/ai-collab-space；新功能交付仍独立未完成，不能被机制改进代替。
 
 ## 下一步
-- 完成MD-01与MD-02的规则修改，然后检查/升级目标并建立第一阶段实例。
+- 本机制改进已完成，无open Required。证据见 [验证与发布](artifacts/verification.md)。Relay第一阶段继续其独立current-state：/Users/peiwang/Projects/explorations/ai-collab-space/docs/work/2026-10-27-stage-1-core/current-state.md，不将本记录已完成外推成产品完成。

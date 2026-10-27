@@ -12,4 +12,4 @@
 - 22:24：npm run check通过，57个受管文件、frontmatter与链接有效；npm test 36/36通过。目标升级dry-run显示5项写入，无本地编辑冲突，其中包含上游已有的dashboard Skill更新。
 
 ## 交付与复盘
-进行中，未宣称改进或Relay产品交付完成。长期效果待本次实例跨会话及最终场景验收复核。
+机制改进完成：[验证、治理影响与发布](../../work/2026-10-27-major-delivery-items/artifacts/verification.md)。npm0.1.16及官网实际发布/回读，目标升级与第一阶段实例45de075完成。Relay功能仍进行中；长期效果待实例跨会话及最终场景验收复核。
