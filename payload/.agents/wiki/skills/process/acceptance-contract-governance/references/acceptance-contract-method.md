@@ -119,7 +119,7 @@
 
 跨会话、交接或上下文压缩前，持久化 `active-contract`、`parent-goal`、`scope-revision`、`open-required`、最近 `acceptance_updates`、证据指针和用户确认的 scope decisions。恢复后先重载 ledger，把阶段/发布结果对账到 stable IDs；不得从最新版本号、最近总结或局部成功猜测范围和完成状态。
 
-大型交付还须对账交付目标清单：当前必需目标均已达成，证据与当前合同一致；再反查parent-goal有无漏掉的必要结果。清单不完整或场景失败时，即使所有过程任务已完成也不能关闭整体。目标载体沿工作记录协议；实现步骤不必成为收口目标，不在本合同另复制目标状态。
+大型交付还须对账delivery-goals中的规划功能/可执行任务：当前必需项均已完成，证据与当前合同一致；再反查parent-goal有无遗漏。名字不必写成上层效果，每项完成标准须可验收；清单不完整或整体场景失败时，即使所有编码项已完成也不能关闭整体。清单载体沿工作记录协议，不在本合同另复制任务状态。
 
 只有 lifecycle 可以执行 completion gate：全部 `Required: true` ID 当前均为 `Status: passed`、证据未失效，且没有未登记但属于 `parent-goal` 的必要缺口，才允许整体完成。任一 Required ID 为 not-run、failed、blocked 或 stale 时只能继续、返工或真实阻塞；版本发布、文档状态和阶段汇报不能覆盖该结论。
 

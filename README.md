@@ -27,7 +27,7 @@ npm install -g @nextclaw/qingtian
 qingtian dashboard
 ```
 
-官网也提供可直接安装的版本包：`npm install -g https://ai-dev.nextclaw.io/download/qingtian-0.1.18.tgz`，校验文件为 `download/qingtian.sha256`。源码开发可执行 `npm ci` 后运行 `npm run dev`，打开命令输出的完整地址即可实时预览。大盘右上角提供浅色、深色、跟随系统主题；选择会记住，并延续至本机其它启动端口。
+官网也提供可直接安装的版本包：`npm install -g https://ai-dev.nextclaw.io/download/qingtian-0.1.19.tgz`，校验文件为 `download/qingtian.sha256`。源码开发可执行 `npm ci` 后运行 `npm run dev`，打开命令输出的完整地址即可实时预览。大盘右上角提供浅色、深色、跟随系统主题；选择会记住，并延续至本机其它启动端口。
 
 命令自动打开浏览器，优先进入当前项目，首屏查看当前推进、下一步、待关注事项与分类产物；从项目子目录启动也识别所属项目。其它接入项目可在侧栏切换，选择“项目总览”才汇总跨项目信息。刷新或页面重载保留所选项目；点开原文可沿已收录的 Markdown 链接追溯。没有当前状态记录时显示明确空态，不以更新时间推断进度或后台执行。
 
@@ -116,7 +116,7 @@ node /path/to/ai-development-system/bin/ai-development-system.mjs upgrade --targ
 
 ### 大型交付的目标与收口
 
-大型交付在自己的稳定目录内维护 `delivery-goals.md`：上方列最终承诺达成的目标、状态和验收依据，下方逐项目标写成立条件、证据及差距。它不要求穷举编码、调查、安装或每个bug；这些步骤按需留在执行记录。未达成目标仍是目标，全部必需目标达成后还需反查整体委托与有效场景证据，不能以过程任务全打勾替代真实交付。方法由[大型交付workflow](payload/.agents/workflows/major-delivery.md)和其引用的记录协议拥有；普通小任务仍沿原轻量路径。
+大型交付在自己的稳定目录内维护 `delivery-goals.md`：上方按规划功能或可执行任务列状态和完成标准，下方逐项写任务目标、范围、验证方法、证据及剩余。名称可直接用“消息回执”“场景集成验收”，不强制改成上层效果句；零碎操作按需留在执行记录。必需任务完成后还需反查整体委托与有效场景证据，不能以代码写完替代真实交付。方法由[大型交付workflow](payload/.agents/workflows/major-delivery.md)和其引用的记录协议拥有；普通小任务仍沿原轻量路径。
 
 ### 新项目初始化
 

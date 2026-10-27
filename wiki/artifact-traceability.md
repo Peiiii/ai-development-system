@@ -56,8 +56,8 @@
 | --- | --- |
 | `work/YYYY-MM-DD-<topic>/acceptance-contract.md` | 引用原始来源、当前有效约定、验收账本、待决与生效变更 |
 | `designs/YYYY-MM-DD-<topic>.design.md` | 整体/专题方案与关键取舍；按需要拆分并互链 |
-| `work/YYYY-MM-DD-<topic>/delivery-goals.md` | 上方可验收交付目标表、下方逐目标条件/证据/差距；不穷举实现步骤 |
-| `work/YYYY-MM-DD-<topic>/current-state.md` | 身份与入口、执行现场、当前推进目标、实际动作与整体下一步，不复制目标状态 |
+| `work/YYYY-MM-DD-<topic>/delivery-goals.md` | 上方规划功能/可执行任务表，下方逐项范围、完成标准、证据与剩余；不穷举零碎操作 |
+| `work/YYYY-MM-DD-<topic>/current-state.md` | 身份与入口、执行现场、当前任务、实际动作与整体下一步，不复制全表状态 |
 | `logs/YYYY-MM-DD-<topic>/README.md` | 原始输入与约束、关联入口、及时过程记录、交付汇总与复盘 |
 
 上述路径位于 `docs/`。plan、长详情和 `artifacts/` 附件按需，不逐工作项建文件或表格。有效约定与待决提案分开，当前状态与历史分开；普通进展只更新实际变化的内容。具体模板和触发条件以安装后的验收合同方法、`iteration-work-notes/references/major-delivery-records.md` 为准。
