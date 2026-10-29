@@ -1,0 +1,24 @@
+{
+  "version": "0.1.20",
+  "sourceCommit": "8d319ed",
+  "deployment": "b05ff488-5934-4235-85de-cbeb37d1c860",
+  "checkedAt": "2026-10-29T15:25:54.682Z",
+  "npmLatest": "0.1.20",
+  "npmPublicStatus": "available",
+  "identicalNpmPackage": true,
+  "packageSHA256": "f147b57959cedca8b8fe91dc981497ceb8ea5ecc7e1126a80959f161c26f99cf",
+  "publicFiles": [
+    "index.html",
+    "styles.css",
+    "SKILL.md",
+    "download/ai-development-system.tar.gz",
+    "download/ai-development-system.sha256",
+    "download/qingtian-0.1.20.tgz",
+    "download/qingtian.sha256",
+    "wiki/current-state.md"
+  ],
+  "liveWebsiteConfirmed": true,
+  "localNvmVersion": "0.1.20",
+  "localHomebrewVersion": "0.1.20",
+  "localDashboardMatchesTestedSource": true
+}
