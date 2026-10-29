@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "checks": [
+    "site: 320px visible, linked and no overflow",
+    "dashboard: 320px visible, linked and no overflow",
+    "site: 390px visible, linked and no overflow",
+    "dashboard: 390px visible, linked and no overflow",
+    "site: 768px visible, linked and no overflow",
+    "dashboard: 768px visible, linked and no overflow",
+    "site: 1440px visible, linked and no overflow",
+    "dashboard: 1440px visible, linked and no overflow"
+  ],
+  "errors": [],
+  "noGitHubApiRequests": true
+}

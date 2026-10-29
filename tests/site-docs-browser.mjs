@@ -26,7 +26,7 @@ try {
   for (const width of [1440, 800, 390]) {
     await page.setViewportSize({ width, height: 1000 });
     await page.goto(`${origin}/?viewport=${width}`);
-    assert.equal(await page.locator('main > section').count(), 4);
+    assert.equal(await page.locator('main > section').count(), 5);
     assert.equal(await page.locator('.problem-card').count(), 0);
     await page.locator('#architecture-tree .atlas-node').first().waitFor();
     if (width === 390) {
@@ -46,7 +46,7 @@ try {
     assert.ok(await page.locator('.atlas-node').count() > 20);
     await page.locator('[data-arch-action="collapse"]').click();
     assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `home overflow ${width}`);
-    await page.getByRole('link', { name: '文档站', exact: true }).first().click();
+    await page.locator('.hero-actions').getByRole('link', { name: /阅读文档/ }).click();
     assert.equal(new URL(page.url()).pathname, '/docs/');
     if (width <= 800) await page.getByRole('button', { name: '文档目录' }).click();
     await page.getByRole('searchbox', { name: '筛选文档目录' }).fill('问题');

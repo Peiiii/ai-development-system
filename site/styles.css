@@ -39,6 +39,14 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outlin
 .site-nav a:hover, .footer-links a:hover { color: var(--accent); }
 .nav-link { margin-left: 8px; display: inline-flex; align-items: center; gap: 15px; border: 1px solid #475150; padding: 12px 16px; border-radius: 5px; font: 500 11px var(--mono); letter-spacing: -.03em; transition: border .2s, background .2s; }
 .nav-link:hover { border-color: var(--accent); background: rgba(198,242,123,.06); }
+.header-actions { display: flex; align-items: center; gap: 10px; margin-left: auto; }
+.header-actions .nav-link { margin-left: 0; }
+.github-star { display: inline-flex; align-items: center; gap: 8px; padding: 11px 12px; border: 1px solid var(--line); border-radius: 5px; color: var(--ink); font-size: 12px; font-weight: 600; white-space: nowrap; transition: border-color .2s, background .2s; }
+.github-star svg { width: 17px; height: 17px; fill: currentColor; }
+.github-star .star-label { padding-left: 9px; border-left: 1px solid var(--line); color: var(--accent); }
+.github-star:hover { border-color: var(--accent); background: rgba(198,242,123,.06); }
+.open-source-note:hover { color: var(--accent); }
+.dashboard-feature-actions { display:flex; align-items:center; flex-wrap:wrap; gap:16px; }
 .nav-link span { color: var(--accent); font-size: 16px; line-height: 0; }
 
 .hero { min-height: 705px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(470px, .98fr); align-items: center; gap: 70px; padding-top: 75px; padding-bottom: 90px; }
@@ -286,6 +294,10 @@ h1 em { color: var(--accent); font-style: normal; }
 @media (max-width: 700px) {
   .wrap { width: min(100% - 40px, 1200px); }
   .site-header { height: 76px; }
+  body[data-home] .site-header { gap: 10px; }
+  .header-actions .nav-link { display: none; }
+  .header-actions .github-star { gap: 6px; padding: 9px; font-size: 11px; }
+  .header-actions .github-star .star-label { padding-left: 6px; }
   .brand-type strong { font-size: 12px; }
   .brand-mark { width: 29px; height: 29px; }
   .nav-link { padding: 10px; font-size: 0; gap: 0; }
@@ -413,3 +425,5 @@ body[data-home] .section { padding-block: 80px; }
 .dashboard-feature-copy li span { display:block; color:#95a89b; font-size:13px; line-height:1.8; }
 .home-value { border-top:1px solid var(--line); }
 @media(max-width:900px) { .home-dashboard-feature { grid-template-columns:1fr; gap:36px; }.dashboard-feature-copy { max-width:600px; } }
+
+@media(max-width:380px) { body[data-home] .brand-type small { display:none; } }
