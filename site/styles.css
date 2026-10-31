@@ -414,7 +414,8 @@ body[data-home] .section { padding-block: 80px; }
 .home-dashboard-feature { display:grid; grid-template-columns:minmax(0,1.55fr) minmax(0,1fr); gap:52px; align-items:center; border-top:1px solid var(--line); }
 .dashboard-preview { margin:0; min-width:0; }
 .dashboard-preview > a { display:block; border:1px solid #3e5142; border-radius:10px; overflow:hidden; box-shadow:0 20px 60px #0004; }
-.dashboard-preview img { display:block; width:100%; height:auto; }
+.dashboard-preview picture { display:block; aspect-ratio:1440 / 1100; }
+.dashboard-preview img { display:block; width:100%; height:auto; aspect-ratio:1440 / 1100; object-fit:contain; }
 .dashboard-preview figcaption { display:flex; justify-content:space-between; gap:12px; margin-top:14px; color:#95a89b; font-size:11px; }
 .dashboard-feature-copy h2 { font-size:clamp(30px,3.4vw,44px); margin:20px 0; }
 .dashboard-feature-lead { color:#b7c1c2; font-size:16px; line-height:1.9; }
