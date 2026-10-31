@@ -1,0 +1,18 @@
+{
+  "checkedAt": "2026-10-31T01:15:39.119Z",
+  "sourceCommit": "9219bfe",
+  "files": [
+    "index.html",
+    "styles.css",
+    "main.js",
+    "SKILL.md",
+    "download/ai-development-system.tar.gz",
+    "download/ai-development-system.sha256",
+    "download/qingtian-0.1.20.tgz",
+    "download/qingtian.sha256"
+  ],
+  "preservedDistributionVersion": "0.1.20",
+  "distributionBytesUnchanged": true,
+  "deployment": "4e47d2c9-b21a-4f0c-8523-95d34532668e",
+  "liveFirstScreenConfirmed": true
+}
