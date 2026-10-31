@@ -44,11 +44,13 @@ try {
     await page.locator('#showcase').scrollIntoViewIfNeeded();
     await page.locator('#architecture-tree .atlas-node').first().waitFor();
     if (width === 390) {
-      const viewport = await page.locator('.atlas-viewport').boundingBox();
-      for (const node of await page.locator('.atlas-node').all()) {
-        const box = await node.boundingBox();
-        assert.ok(box.x >= viewport.x && box.x + box.width <= viewport.x + viewport.width + 1, 'mobile overview includes each initial node');
-      }
+      assert.ok(await page.locator('.atlas-node').evaluateAll(nodes => {
+        const viewport=document.querySelector('.atlas-viewport').getBoundingClientRect();
+        return nodes.length>0 && nodes.every(node=>{
+          const box=node.getBoundingClientRect();
+          return box.width>0 && box.x>=viewport.x && box.x+box.width<=viewport.x+viewport.width+1;
+        });
+      }), 'mobile overview includes each initial node');
     }
     await page.getByRole('tab', { name: '五条工作流' }).click();
     for (const id of ['standard', 'trivial', 'bugfix', 'initialization', 'major-delivery']) {
