@@ -1,5 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;600;700;800&display=swap");
-
 :root {
   color-scheme: dark;
   --bg: #0b0f14;
@@ -10,8 +8,8 @@
   --line: #263039;
   --accent: #c6f27b;
   --blue: #9fbfff;
-  --mono: "DM Mono", ui-monospace, SFMono-Regular, Consolas, monospace;
-  --sans: Manrope, "Noto Sans SC", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --mono: ui-monospace, SFMono-Regular, Consolas, monospace;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
 * { box-sizing: border-box; }

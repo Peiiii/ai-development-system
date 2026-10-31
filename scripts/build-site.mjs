@@ -36,7 +36,7 @@ for (const filename of ["index.html", "styles.css", "main.js", "favicon.svg", "r
   if (filename === 'index.html') {
     const architecture = (await documentation.interactive('architecture')).replace(/<div class="system-note">[\s\S]*?<\/div>/, '');
     const workflows = (await documentation.interactive('workflows')).replace(/<p class="flow-source">[\s\S]*?<\/p>/g, '');
-    rendered = rendered.replaceAll('{{QINGTIAN_ARCHITECTURE}}', architecture).replaceAll('{{QINGTIAN_WORKFLOWS}}', workflows);
+    rendered = rendered.replaceAll('{{QINGTIAN_ARCHITECTURE}}', architecture).replaceAll('{{QINGTIAN_WORKFLOWS}}', workflows).replaceAll('{{QINGTIAN_HOME_CSS}}', await fs.readFile(path.join(site,'styles.css'),'utf8'));
   }
   await fs.writeFile(path.join(output, filename), rendered);
 }
@@ -49,6 +49,20 @@ await fs.cp(path.join(root, "wiki"), path.join(output, "wiki"), { recursive: tru
 await fs.cp(path.join(root, "payload", ".agents", "workflows"), path.join(output, "workflows"), { recursive: true });
 await fs.cp(path.join(root, "payload", ".agents", "skills"), path.join(output, "skills"), { recursive: true });
 await fs.cp(path.join(root, "payload", ".agents", "wiki"), path.join(output, "wiki"), { recursive: true });
+
+// Fingerprinted homepage resources can be cached indefinitely without stale releases.
+let homepage = await fs.readFile(path.join(output,'index.html'),'utf8');
+const cacheHeaders=[];
+for (const file of ['main.js', ...['720.avif','1440.avif','720.webp','1440.webp'].map(size=>'assets/project-dashboard-'+size)]) {
+  const bytes=await fs.readFile(path.join(output,file));
+  const hash=createHash('sha256').update(bytes).digest('hex').slice(0,12);
+  const extension=path.extname(file), versioned=file.slice(0,-extension.length)+'.'+hash+extension;
+  await fs.writeFile(path.join(output,versioned),bytes);
+  homepage=homepage.replaceAll('/'+file,'/'+versioned);
+  cacheHeaders.push('/'+versioned+'\n  Cache-Control: public, max-age=31536000, immutable');
+}
+await fs.writeFile(path.join(output,'index.html'),homepage);
+await fs.writeFile(path.join(output,'_headers'),cacheHeaders.join('\n\n')+'\n');
 
 if (contentOnly) {
   for (const [filename, bytes] of preserved) await fs.writeFile(path.join(output, filename), bytes);

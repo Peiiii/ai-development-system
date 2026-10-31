@@ -1,0 +1,70 @@
+{
+  "origin": "http://127.0.0.1:59363/",
+  "mode": "font-outage",
+  "conditions": "fresh context, HTTP cache disabled, 150ms latency, 1.6Mbps down, 4x CPU slowdown",
+  "results": [
+    {
+      "elapsed": 1902,
+      "lcp": 680,
+      "cls": 0,
+      "longTasks": 0,
+      "fcp": 400,
+      "ttfb": 7.399999976158142,
+      "resources": [
+        {
+          "url": "http://127.0.0.1:59363/main.1334cbf966c5.js",
+          "ms": 175.39999997615814,
+          "bytes": 3799
+        },
+        {
+          "url": "http://127.0.0.1:59363/assets/project-dashboard-720.336435d16f8d.avif",
+          "ms": 277.69999998807907,
+          "bytes": 26169
+        }
+      ],
+      "failures": []
+    },
+    {
+      "elapsed": 1915,
+      "lcp": 692,
+      "cls": 0,
+      "longTasks": 0,
+      "fcp": 408,
+      "ttfb": 3.0999999940395355,
+      "resources": [
+        {
+          "url": "http://127.0.0.1:59363/main.1334cbf966c5.js",
+          "ms": 175.40000000596046,
+          "bytes": 3799
+        },
+        {
+          "url": "http://127.0.0.1:59363/assets/project-dashboard-720.336435d16f8d.avif",
+          "ms": 279.09999999403954,
+          "bytes": 26169
+        }
+      ],
+      "failures": []
+    },
+    {
+      "elapsed": 1916,
+      "lcp": 692,
+      "cls": 0,
+      "longTasks": 0,
+      "fcp": 420,
+      "ttfb": 7.600000023841858,
+      "resources": [
+        {
+          "url": "http://127.0.0.1:59363/main.1334cbf966c5.js",
+          "ms": 175.39999997615814,
+          "bytes": 3799
+        },
+        {
+          "url": "http://127.0.0.1:59363/assets/project-dashboard-720.336435d16f8d.avif",
+          "ms": 278,
+          "bytes": 26169
+        }
+      ],
+      "failures": []
+    }
+  ]
+}

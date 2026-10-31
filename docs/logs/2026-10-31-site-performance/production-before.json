@@ -1,0 +1,175 @@
+{
+  "origin": "https://ai-dev.nextclaw.io/",
+  "mode": "mobile",
+  "conditions": "fresh context, HTTP cache disabled, 150ms latency, 1.6Mbps down, 4x CPU slowdown",
+  "results": [
+    {
+      "elapsed": 9362,
+      "lcp": 3336,
+      "cls": 0.00038396489750731287,
+      "longTasks": 0,
+      "fcp": 3336,
+      "ttfb": 453.5,
+      "resources": [
+        {
+          "url": "https://ai-dev.nextclaw.io/styles.css",
+          "ms": 684.1999999880791,
+          "bytes": 10804
+        },
+        {
+          "url": "https://ai-dev.nextclaw.io/main.js",
+          "ms": 524.8000000119209,
+          "bytes": 1617
+        },
+        {
+          "url": "https://static.cloudflareinsights.com/beacon.min.js/vce701823e78c4301a35b7e07294d87301792088814092",
+          "ms": 510.90000000596046,
+          "bytes": 0
+        },
+        {
+          "url": "https://ai-dev.nextclaw.io/assets/project-dashboard.jpg",
+          "ms": 1583.4000000059605,
+          "bytes": 191480
+        },
+        {
+          "url": "https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;600;700;800&display=swap",
+          "ms": 1719.2000000178814,
+          "bytes": 156856
+        },
+        {
+          "url": "https://ai-dev.nextclaw.io/docs/architecture.js",
+          "ms": 284.40000000596046,
+          "bytes": 5959
+        },
+        {
+          "url": "https://ai-dev.nextclaw.io/docs/workflows.js",
+          "ms": 240.80000001192093,
+          "bytes": 582
+        },
+        {
+          "url": "https://ai-dev.nextclaw.io/workflow-atlas.json",
+          "ms": 414.5,
+          "bytes": 2629
+        },
+        {
+          "url": "https://ai-dev.nextclaw.io/cdn-cgi/rum?",
+          "ms": 303.2999999821186,
+          "bytes": 300
+        }
+      ],
+      "failures": []
+    },
+    {
+      "elapsed": 9021,
+      "lcp": 2880,
+      "cls": 0.0003842701297075883,
+      "longTasks": 18,
+      "fcp": 2880,
+      "ttfb": 387.19999998807907,
+      "resources": [
+        {
+          "url": "https://ai-dev.nextclaw.io/styles.css",
+          "ms": 347.2999999821186,
+          "bytes": 10804
+        },
+        {
+          "url": "https://ai-dev.nextclaw.io/main.js",
+          "ms": 875.0999999940395,
+          "bytes": 1617
+        },
+        {
+          "url": "https://ai-dev.nextclaw.io/assets/project-dashboard.jpg",
+          "ms": 1649,
+          "bytes": 191480
+        },
+        {
+          "url": "https://static.cloudflareinsights.com/beacon.min.js/vce701823e78c4301a35b7e07294d87301792088814092",
+          "ms": 439.80000001192093,
+          "bytes": 0
+        },
+        {
+          "url": "https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;600;700;800&display=swap",
+          "ms": 1673.300000011921,
+          "bytes": 155529
+        },
+        {
+          "url": "https://ai-dev.nextclaw.io/docs/architecture.js",
+          "ms": 373.30000001192093,
+          "bytes": 6001
+        },
+        {
+          "url": "https://ai-dev.nextclaw.io/docs/workflows.js",
+          "ms": 252.80000001192093,
+          "bytes": 582
+        },
+        {
+          "url": "https://ai-dev.nextclaw.io/workflow-atlas.json",
+          "ms": 355.5,
+          "bytes": 2629
+        },
+        {
+          "url": "https://ai-dev.nextclaw.io/cdn-cgi/rum?",
+          "ms": 406.5,
+          "bytes": 300
+        }
+      ],
+      "failures": []
+    },
+    {
+      "elapsed": 10570,
+      "lcp": 4440,
+      "cls": 0.000537710474896894,
+      "longTasks": 0,
+      "fcp": 4440,
+      "ttfb": 517.5,
+      "resources": [
+        {
+          "url": "https://ai-dev.nextclaw.io/styles.css",
+          "ms": 1004.5999999940395,
+          "bytes": 10799
+        },
+        {
+          "url": "https://ai-dev.nextclaw.io/main.js",
+          "ms": 240.69999998807907,
+          "bytes": 1617
+        },
+        {
+          "url": "https://static.cloudflareinsights.com/beacon.min.js/vce701823e78c4301a35b7e07294d87301792088814092",
+          "ms": 562.1999999880791,
+          "bytes": 0
+        },
+        {
+          "url": "https://ai-dev.nextclaw.io/assets/project-dashboard.jpg",
+          "ms": 1320.8999999761581,
+          "bytes": 191480
+        },
+        {
+          "url": "https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;600;700;800&display=swap",
+          "ms": 2365.5999999940395,
+          "bytes": 155529
+        },
+        {
+          "url": "https://ai-dev.nextclaw.io/docs/architecture.js",
+          "ms": 296,
+          "bytes": 5959
+        },
+        {
+          "url": "https://ai-dev.nextclaw.io/docs/workflows.js",
+          "ms": 349,
+          "bytes": 582
+        },
+        {
+          "url": "https://ai-dev.nextclaw.io/workflow-atlas.json",
+          "ms": 238.19999998807907,
+          "bytes": 2629
+        },
+        {
+          "url": "https://ai-dev.nextclaw.io/cdn-cgi/rum?",
+          "ms": 611.2000000178814,
+          "bytes": 300
+        }
+      ],
+      "failures": []
+    }
+  ]
+}

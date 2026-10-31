@@ -47,5 +47,32 @@ if (showcase && !legacyRedirect) {
   }
   if (location.hash === '#flow') select(buttons[1]);
   if (['#inside', '#flow'].includes(location.hash)) { history.replaceState(null, '', '#showcase'); showcase.scrollIntoView(); }
-  await Promise.all([import('/docs/architecture.js'), import('/docs/workflows.js')]);
+  let loading;
+  let attempts=0;
+  const status=document.createElement('p');
+  status.setAttribute('role','status');
+  status.className='home-support';
+  status.hidden=true;
+  showcase.append(status);
+  const loadShowcase=()=> {
+    if(loading)return loading;
+    status.hidden=true;
+    const architectureUrl=attempts++ ? '/docs/architecture.js?retry='+attempts : '/docs/architecture.js';
+    loading=Promise.all([import(architectureUrl),import('/docs/workflows.js')]).catch(()=>{
+      loading=null;
+      status.textContent='交互演示暂时无法加载。';
+      const retry=document.createElement('button');
+      retry.className='copy-link';retry.textContent='重试';
+      retry.addEventListener('click',loadShowcase);status.append(retry);status.hidden=false;
+    });
+    return loading;
+  };
+  if('IntersectionObserver' in window) {
+    const observer=new IntersectionObserver(entries=>{
+      if(entries.some(entry=>entry.isIntersecting)){observer.disconnect();loadShowcase();}
+    },{rootMargin:'300px'});
+    observer.observe(showcase);
+  }else loadShowcase();
+  showcase.addEventListener('focusin',loadShowcase);
+  showcase.addEventListener('pointerdown',loadShowcase,{once:true});
 }

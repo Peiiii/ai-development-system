@@ -1,0 +1,145 @@
+{
+  "origin": "http://127.0.0.1:59362/",
+  "mode": "font-outage",
+  "conditions": "fresh context, HTTP cache disabled, 150ms latency, 1.6Mbps down, 4x CPU slowdown",
+  "results": [
+    {
+      "elapsed": 14714,
+      "lcp": 13392,
+      "cls": 0,
+      "longTasks": 0,
+      "fcp": 13392,
+      "ttfb": 10.699999988079071,
+      "resources": [
+        {
+          "url": "http://127.0.0.1:59362/styles.css",
+          "ms": 594.1999999880791,
+          "bytes": 40930
+        },
+        {
+          "url": "http://127.0.0.1:59362/main.js",
+          "ms": 227.10000002384186,
+          "bytes": 2687
+        },
+        {
+          "url": "http://127.0.0.1:59362/assets/project-dashboard.jpg",
+          "ms": 1312.9000000059605,
+          "bytes": 191480
+        },
+        {
+          "url": "https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;600;700;800&display=swap",
+          "ms": 12007.399999976158,
+          "bytes": 0
+        },
+        {
+          "url": "http://127.0.0.1:59362/docs/architecture.js",
+          "ms": 236.5,
+          "bytes": 13792
+        },
+        {
+          "url": "http://127.0.0.1:59362/docs/workflows.js",
+          "ms": 170.7000000178814,
+          "bytes": 880
+        },
+        {
+          "url": "http://127.0.0.1:59362/workflow-atlas.json",
+          "ms": 188,
+          "bytes": 7133
+        }
+      ],
+      "failures": []
+    },
+    {
+      "elapsed": 14200,
+      "lcp": 12960,
+      "cls": 0,
+      "longTasks": 0,
+      "fcp": 12960,
+      "ttfb": 2.699999988079071,
+      "resources": [
+        {
+          "url": "http://127.0.0.1:59362/styles.css",
+          "ms": 556.5,
+          "bytes": 40930
+        },
+        {
+          "url": "http://127.0.0.1:59362/main.js",
+          "ms": 192.30000001192093,
+          "bytes": 2687
+        },
+        {
+          "url": "http://127.0.0.1:59362/assets/project-dashboard.jpg",
+          "ms": 1271.4000000059605,
+          "bytes": 191480
+        },
+        {
+          "url": "https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;600;700;800&display=swap",
+          "ms": 12010,
+          "bytes": 0
+        },
+        {
+          "url": "http://127.0.0.1:59362/docs/architecture.js",
+          "ms": 242.5,
+          "bytes": 13792
+        },
+        {
+          "url": "http://127.0.0.1:59362/docs/workflows.js",
+          "ms": 178.09999999403954,
+          "bytes": 880
+        },
+        {
+          "url": "http://127.0.0.1:59362/workflow-atlas.json",
+          "ms": 189.5,
+          "bytes": 7133
+        }
+      ],
+      "failures": []
+    },
+    {
+      "elapsed": 14221,
+      "lcp": 12996,
+      "cls": 0,
+      "longTasks": 0,
+      "fcp": 12996,
+      "ttfb": 8.699999988079071,
+      "resources": [
+        {
+          "url": "http://127.0.0.1:59362/main.js",
+          "ms": 191.69999998807907,
+          "bytes": 2687
+        },
+        {
+          "url": "http://127.0.0.1:59362/styles.css",
+          "ms": 557.1999999880791,
+          "bytes": 40930
+        },
+        {
+          "url": "http://127.0.0.1:59362/assets/project-dashboard.jpg",
+          "ms": 1272,
+          "bytes": 191480
+        },
+        {
+          "url": "https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;600;700;800&display=swap",
+          "ms": 12007.40000000596,
+          "bytes": 0
+        },
+        {
+          "url": "http://127.0.0.1:59362/docs/architecture.js",
+          "ms": 236.7000000178814,
+          "bytes": 13792
+        },
+        {
+          "url": "http://127.0.0.1:59362/docs/workflows.js",
+          "ms": 171.09999999403954,
+          "bytes": 880
+        },
+        {
+          "url": "http://127.0.0.1:59362/workflow-atlas.json",
+          "ms": 190,
+          "bytes": 7133
+        }
+      ],
+      "failures": []
+    }
+  ]
+}

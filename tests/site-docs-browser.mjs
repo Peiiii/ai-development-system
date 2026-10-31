@@ -38,6 +38,9 @@ try {
     await page.waitForFunction(() => document.querySelector('#copy-toast').textContent === '接入指令已复制');
     assert.match(await page.evaluate(() => navigator.clipboard.readText()), /https:\/\/ai-dev.nextclaw.io\/SKILL.md/);
     assert.equal(await page.locator('.problem-card').count(), 0);
+    assert.equal(await page.evaluate(() => performance.getEntriesByType('resource').some(entry => /fonts\.(googleapis|gstatic)\.com|\/docs\/(architecture|workflows)\.js|workflow-atlas\.json/.test(entry.name))), false, 'first viewport must not fetch external fonts or below-fold demos');
+    assert.equal(await page.locator('head link[rel="stylesheet"]').count(), 0, 'first paint uses inline CSS');
+    await page.locator('#showcase').scrollIntoViewIfNeeded();
     await page.locator('#architecture-tree .atlas-node').first().waitFor();
     if (width === 390) {
       const viewport = await page.locator('.atlas-viewport').boundingBox();
@@ -95,5 +98,14 @@ try {
   await reducedPage.getByRole('tab', { name: '五条工作流' }).click();
   assert.ok(await reducedPage.locator('#showcase-workflows').isVisible());
   assert.deepEqual(errors, []);
+  const retryPage=await browser.newPage({viewport:{width:390,height:844}});
+  let atlasRequests=0;
+  await retryPage.route('**/workflow-atlas.json',route=>++atlasRequests===1?route.fulfill({status:503,body:'unavailable'}):route.continue());
+  await retryPage.goto(origin);
+  await retryPage.locator('#showcase').scrollIntoViewIfNeeded();
+  await retryPage.getByRole('button',{name:'重试',exact:true}).click();
+  await retryPage.locator('#architecture-tree .atlas-node').first().waitFor();
+  assert.equal(atlasRequests,2,'failed demo can actually retry');
+  await retryPage.close();
   console.log('PASS: focused homepage, both interactive demos, five flows, docs navigation/filter/TOC, all 23 problems, exact vision, legacy links, no-script and reduced motion at 1440/800/390px');
 } finally { await browser.close(); await new Promise(resolve => server.close(resolve)); }
