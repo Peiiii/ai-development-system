@@ -40,6 +40,7 @@ try {
     assert.equal(await page.locator('.problem-card').count(), 0);
     assert.equal(await page.evaluate(() => performance.getEntriesByType('resource').some(entry => /fonts\.(googleapis|gstatic)\.com|\/docs\/(architecture|workflows)\.js|workflow-atlas\.json/.test(entry.name))), false, 'first viewport must not fetch external fonts or below-fold demos');
     assert.equal(await page.locator('head link[rel="stylesheet"]').count(), 0, 'first paint uses inline CSS');
+    assert.equal(await page.locator('script[src="/main.js"]').count(),0,'copy interaction does not wait for a script fetch');
     await page.locator('#showcase').scrollIntoViewIfNeeded();
     await page.locator('#architecture-tree .atlas-node').first().waitFor();
     if (width === 390) {

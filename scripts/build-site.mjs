@@ -36,7 +36,7 @@ for (const filename of ["index.html", "styles.css", "main.js", "favicon.svg", "r
   if (filename === 'index.html') {
     const architecture = (await documentation.interactive('architecture')).replace(/<div class="system-note">[\s\S]*?<\/div>/, '');
     const workflows = (await documentation.interactive('workflows')).replace(/<p class="flow-source">[\s\S]*?<\/p>/g, '');
-    rendered = rendered.replaceAll('{{QINGTIAN_ARCHITECTURE}}', architecture).replaceAll('{{QINGTIAN_WORKFLOWS}}', workflows).replaceAll('{{QINGTIAN_HOME_CSS}}', await fs.readFile(path.join(site,'styles.css'),'utf8'));
+    rendered = rendered.replaceAll('{{QINGTIAN_ARCHITECTURE}}', architecture).replaceAll('{{QINGTIAN_WORKFLOWS}}', workflows).replaceAll('{{QINGTIAN_HOME_CSS}}', await fs.readFile(path.join(site,'styles.css'),'utf8')).replaceAll('{{QINGTIAN_HOME_JS}}',await fs.readFile(path.join(site,'main.js'),'utf8'));
   }
   await fs.writeFile(path.join(output, filename), rendered);
 }
@@ -50,10 +50,10 @@ await fs.cp(path.join(root, "payload", ".agents", "workflows"), path.join(output
 await fs.cp(path.join(root, "payload", ".agents", "skills"), path.join(output, "skills"), { recursive: true });
 await fs.cp(path.join(root, "payload", ".agents", "wiki"), path.join(output, "wiki"), { recursive: true });
 
-// Fingerprinted homepage resources can be cached indefinitely without stale releases.
+// Fingerprinted homepage images can be cached indefinitely without stale releases.
 let homepage = await fs.readFile(path.join(output,'index.html'),'utf8');
 const cacheHeaders=[];
-for (const file of ['main.js', ...['720.avif','1440.avif','720.webp','1440.webp'].map(size=>'assets/project-dashboard-'+size)]) {
+for (const file of ['720.avif','1440.avif','720.webp','1440.webp'].map(size=>'assets/project-dashboard-'+size)) {
   const bytes=await fs.readFile(path.join(output,file));
   const hash=createHash('sha256').update(bytes).digest('hex').slice(0,12);
   const extension=path.extname(file), versioned=file.slice(0,-extension.length)+'.'+hash+extension;
