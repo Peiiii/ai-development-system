@@ -1,0 +1,29 @@
+{
+  "checkedAt": "2026-10-31T01:39:22.135Z",
+  "sourceCommit": "02452a7",
+  "deployment": "5919b38e-c7d3-4790-8bd4-a09c7af87eab",
+  "publicFiles": [
+    "index.html",
+    "styles.css",
+    "main.js",
+    "SKILL.md",
+    "download/ai-development-system.tar.gz",
+    "download/ai-development-system.sha256",
+    "download/qingtian-0.1.20.tgz",
+    "download/qingtian.sha256",
+    "main.1334cbf966c5.js",
+    "assets/project-dashboard-720.336435d16f8d.avif",
+    "assets/project-dashboard-720.2a8d6401834f.webp",
+    "assets/project-dashboard-1440.cf912f85922f.avif",
+    "assets/project-dashboard-1440.f900e369a27e.webp"
+  ],
+  "immutableCacheHeaders": [
+    "main.1334cbf966c5.js",
+    "assets/project-dashboard-720.336435d16f8d.avif",
+    "assets/project-dashboard-720.2a8d6401834f.webp",
+    "assets/project-dashboard-1440.cf912f85922f.avif",
+    "assets/project-dashboard-1440.f900e369a27e.webp"
+  ],
+  "distributionVersion": "0.1.20",
+  "distributionBytesUnchanged": true
+}

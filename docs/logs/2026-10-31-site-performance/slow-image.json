@@ -1,0 +1,118 @@
+{
+  "origin": "http://127.0.0.1:59363/",
+  "mode": "mobile",
+  "conditions": "fresh context, HTTP cache disabled, 150ms latency, 1.6Mbps down, 4x CPU slowdown",
+  "results": [
+    {
+      "elapsed": 3713,
+      "lcp": 2488,
+      "cls": 0,
+      "longTasks": 0,
+      "shifts": [],
+      "fcp": 532,
+      "ttfb": 62.69999998807907,
+      "resources": [
+        {
+          "url": "http://127.0.0.1:59363/assets/project-dashboard-720.336435d16f8d.avif",
+          "ms": 2302,
+          "bytes": 26169
+        }
+      ],
+      "failures": []
+    },
+    {
+      "elapsed": 3687,
+      "lcp": 2464,
+      "cls": 0.0015621740140348633,
+      "longTasks": 0,
+      "shifts": [
+        {
+          "time": 562.0999999940395,
+          "value": 0.0015621740140348633,
+          "nodes": [
+            {
+              "html": "<div class=\"header-actions\">\n          <a class=\"nav-link\" href=\"/docs/\">文档站 <span aria-hidden=\"true\">↗</span></a>\n          <a class=\"github-star\" href=\"https://github.com/Peiiii/ai-development-system\" target=\"_blank\" r",
+              "before": {
+                "x": 333,
+                "y": 19,
+                "width": 37,
+                "height": 37,
+                "top": 19,
+                "right": 370,
+                "bottom": 56,
+                "left": 333
+              },
+              "after": {
+                "x": 244.140625,
+                "y": 19,
+                "width": 131.59375,
+                "height": 37,
+                "top": 19,
+                "right": 375.734375,
+                "bottom": 56,
+                "left": 244.140625
+              }
+            }
+          ]
+        }
+      ],
+      "fcp": 456,
+      "ttfb": 2.399999976158142,
+      "resources": [
+        {
+          "url": "http://127.0.0.1:59363/assets/project-dashboard-720.336435d16f8d.avif",
+          "ms": 2285,
+          "bytes": 26169
+        }
+      ],
+      "failures": []
+    },
+    {
+      "elapsed": 3809,
+      "lcp": 2460,
+      "cls": 0.0015621740140348633,
+      "longTasks": 0,
+      "shifts": [
+        {
+          "time": 476.80000001192093,
+          "value": 0.0015621740140348633,
+          "nodes": [
+            {
+              "html": "<div class=\"header-actions\">\n          <a class=\"nav-link\" href=\"/docs/\">文档站 <span aria-hidden=\"true\">↗</span></a>\n          <a class=\"github-star\" href=\"https://github.com/Peiiii/ai-development-system\" target=\"_blank\" r",
+              "before": {
+                "x": 333,
+                "y": 19,
+                "width": 37,
+                "height": 37,
+                "top": 19,
+                "right": 370,
+                "bottom": 56,
+                "left": 333
+              },
+              "after": {
+                "x": 244.140625,
+                "y": 19,
+                "width": 131.59375,
+                "height": 37,
+                "top": 19,
+                "right": 375.734375,
+                "bottom": 56,
+                "left": 244.140625
+              }
+            }
+          ]
+        }
+      ],
+      "fcp": 420,
+      "ttfb": 1.800000011920929,
+      "resources": [
+        {
+          "url": "http://127.0.0.1:59363/assets/project-dashboard-720.336435d16f8d.avif",
+          "ms": 2279.100000023842,
+          "bytes": 26169
+        }
+      ],
+      "failures": []
+    }
+  ]
+}

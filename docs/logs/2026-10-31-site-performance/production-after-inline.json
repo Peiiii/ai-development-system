@@ -1,0 +1,85 @@
+{
+  "origin": "https://ai-dev.nextclaw.io/",
+  "mode": "mobile",
+  "conditions": "fresh context, HTTP cache disabled, 150ms latency, 1.6Mbps down, 4x CPU slowdown",
+  "results": [
+    {
+      "elapsed": 2416,
+      "lcp": 976,
+      "cls": 0.329739406684486,
+      "longTasks": 0,
+      "fcp": 712,
+      "ttfb": 556.9000000059605,
+      "resources": [
+        {
+          "url": "https://ai-dev.nextclaw.io/assets/project-dashboard-720.336435d16f8d.avif",
+          "ms": 365.80000001192093,
+          "bytes": 26169
+        },
+        {
+          "url": "https://static.cloudflareinsights.com/beacon.min.js/vce701823e78c4301a35b7e07294d87301792088814092",
+          "ms": 434,
+          "bytes": 0
+        },
+        {
+          "url": "https://ai-dev.nextclaw.io/cdn-cgi/rum?",
+          "ms": 442,
+          "bytes": 300
+        }
+      ],
+      "failures": []
+    },
+    {
+      "elapsed": 2664,
+      "lcp": 1268,
+      "cls": 0,
+      "longTasks": 0,
+      "fcp": 704,
+      "ttfb": 412.2999999821186,
+      "resources": [
+        {
+          "url": "https://ai-dev.nextclaw.io/assets/project-dashboard-720.336435d16f8d.avif",
+          "ms": 807.4000000059605,
+          "bytes": 26169
+        },
+        {
+          "url": "https://static.cloudflareinsights.com/beacon.min.js/vce701823e78c4301a35b7e07294d87301792088814092",
+          "ms": 875.0999999940395,
+          "bytes": 0
+        },
+        {
+          "url": "https://ai-dev.nextclaw.io/cdn-cgi/rum?",
+          "ms": 512.3000000119209,
+          "bytes": 300
+        }
+      ],
+      "failures": []
+    },
+    {
+      "elapsed": 2288,
+      "lcp": 920,
+      "cls": 0,
+      "longTasks": 0,
+      "fcp": 792,
+      "ttfb": 494.2000000178814,
+      "resources": [
+        {
+          "url": "https://ai-dev.nextclaw.io/assets/project-dashboard-720.336435d16f8d.avif",
+          "ms": 377.40000000596046,
+          "bytes": 26169
+        },
+        {
+          "url": "https://static.cloudflareinsights.com/beacon.min.js/vce701823e78c4301a35b7e07294d87301792088814092",
+          "ms": 464.40000000596046,
+          "bytes": 0
+        },
+        {
+          "url": "https://ai-dev.nextclaw.io/cdn-cgi/rum?",
+          "ms": 193.2999999821186,
+          "bytes": 300
+        }
+      ],
+      "failures": []
+    }
+  ]
+}

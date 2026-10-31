@@ -1,0 +1,88 @@
+{
+  "origin": "https://ai-dev.nextclaw.io/",
+  "mode": "mobile",
+  "conditions": "fresh context, HTTP cache disabled, 150ms latency, 1.6Mbps down, 4x CPU slowdown",
+  "results": [
+    {
+      "elapsed": 5881,
+      "lcp": 3876,
+      "cls": 0,
+      "longTasks": 0,
+      "shifts": [],
+      "fcp": 3248,
+      "ttfb": 2106.0999999940395,
+      "resources": [
+        {
+          "url": "https://ai-dev.nextclaw.io/assets/project-dashboard-720.336435d16f8d.avif",
+          "ms": 1502.300000011921,
+          "bytes": 26169
+        },
+        {
+          "url": "https://static.cloudflareinsights.com/beacon.min.js/vce701823e78c4301a35b7e07294d87301792088814092",
+          "ms": 2073.899999976158,
+          "bytes": 0
+        },
+        {
+          "url": "https://ai-dev.nextclaw.io/cdn-cgi/rum?",
+          "ms": 303.7000000178814,
+          "bytes": 300
+        }
+      ],
+      "failures": []
+    },
+    {
+      "elapsed": 3760,
+      "lcp": 1588,
+      "cls": 0,
+      "longTasks": 0,
+      "shifts": [],
+      "fcp": 1288,
+      "ttfb": 861.6999999880791,
+      "resources": [
+        {
+          "url": "https://ai-dev.nextclaw.io/assets/project-dashboard-720.336435d16f8d.avif",
+          "ms": 540.7999999821186,
+          "bytes": 26169
+        },
+        {
+          "url": "https://static.cloudflareinsights.com/beacon.min.js/vce701823e78c4301a35b7e07294d87301792088814092",
+          "ms": 1212.5999999940395,
+          "bytes": 0
+        },
+        {
+          "url": "https://ai-dev.nextclaw.io/cdn-cgi/rum?",
+          "ms": 232.69999998807907,
+          "bytes": 300
+        }
+      ],
+      "failures": []
+    },
+    {
+      "elapsed": 3230,
+      "lcp": 1868,
+      "cls": 0,
+      "longTasks": 0,
+      "shifts": [],
+      "fcp": 1564,
+      "ttfb": 904.5,
+      "resources": [
+        {
+          "url": "https://ai-dev.nextclaw.io/assets/project-dashboard-720.336435d16f8d.avif",
+          "ms": 783.7999999821186,
+          "bytes": 26169
+        },
+        {
+          "url": "https://static.cloudflareinsights.com/beacon.min.js/vce701823e78c4301a35b7e07294d87301792088814092",
+          "ms": 732.0999999940395,
+          "bytes": 0
+        },
+        {
+          "url": "https://ai-dev.nextclaw.io/cdn-cgi/rum?",
+          "ms": 205.90000000596046,
+          "bytes": 300
+        }
+      ],
+      "failures": []
+    }
+  ]
+}
