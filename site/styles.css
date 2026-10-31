@@ -59,7 +59,7 @@ h1 { font-size: clamp(62px, 6.6vw, 100px); line-height: 1.12; letter-spacing: -.
 .hero-slogan { font-size: clamp(36px, 3.8vw, 54px); line-height: 1.35; letter-spacing: -.045em; }
 .hero-slogan > span, .hero-slogan > em { display: block; }
 body[data-home] .hero-lead { text-wrap: balance; }
-h1 em { color: var(--accent); font-style: normal; }
+h1 em, .hero-slogan em { color: var(--accent); font-style: normal; }
 .hero-lead { font-size: 17px; line-height: 1.9; color: #b7c1c2; max-width: 555px; letter-spacing: -.015em; }
 .hero-actions { display: flex; align-items: center; gap: 24px; margin-top: 39px; }
 .button { display: inline-flex; justify-content: center; align-items: center; gap: 21px; min-height: 53px; padding: 0 22px; border-radius: 5px; font-size: 13px; font-weight: 700; cursor: pointer; transition: transform .2s, background .2s, border-color .2s; white-space: nowrap; }
@@ -427,3 +427,34 @@ body[data-home] .section { padding-block: 80px; }
 @media(max-width:900px) { .home-dashboard-feature { grid-template-columns:1fr; gap:36px; }.dashboard-feature-copy { max-width:600px; } }
 
 @media(max-width:380px) { body[data-home] .brand-type small { display:none; } }
+
+/* Lead with the real product and keep both actions in the first viewport. */
+body[data-home] .dashboard-first { border-top:0; min-height:calc(100svh - 100px); padding-block:56px 64px; gap:44px; }
+.dashboard-first h1 { font-size:clamp(36px,3.5vw,50px); line-height:1.25; letter-spacing:-.045em; margin:22px 0; }
+.dashboard-first .dashboard-feature-lead { font-size:15px; }
+.dashboard-first .dashboard-benefits { display:flex; flex-wrap:wrap; gap:10px 18px; margin:24px 0 28px; color:var(--muted); font-size:12px; }
+.dashboard-benefits li::before { content:'✓'; margin-right:6px; color:var(--accent); }
+.dashboard-first .dashboard-feature-actions { gap:12px; }
+.dashboard-first .button { padding-inline:18px; font-size:12px; }
+.button-star { border:1px solid var(--accent); background:rgba(198,242,123,.08); color:var(--accent); }
+.button-star > span { font-size:20px; }
+.button-star:hover { background:rgba(198,242,123,.17); }
+.dashboard-first-note { color:var(--muted); font-size:11px; line-height:1.9; margin:18px 0 0; }
+.dashboard-first-note a { display:inline-block; margin-left:8px; color:var(--ink); text-decoration:underline; text-underline-offset:4px; }
+.home-vision { border-top:1px solid var(--line); }
+.home-vision .hero-slogan { line-height:1.25; letter-spacing:-.05em; font-weight:800; margin:31px 0 30px; }
+@media(max-width:900px) {
+  body[data-home] .dashboard-first { min-height:0; padding-block:36px 48px; gap:30px; }
+  .dashboard-first .dashboard-feature-copy { order:-1; max-width:600px; }
+  .dashboard-first h1 { font-size:38px; margin:16px 0; }
+  .dashboard-first h1 br { display:none; }
+}
+@media(max-width:700px) {
+  .dashboard-first .section-kicker { font-size:10px; }
+  .dashboard-first h1 { font-size:34px; }
+  .dashboard-first .dashboard-feature-lead { font-size:14px; line-height:1.8; }
+  .dashboard-first .dashboard-benefits { gap:8px 12px; font-size:11px; margin:18px 0 22px; }
+  .dashboard-first .dashboard-feature-actions { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .dashboard-first .button { padding-inline:10px; justify-content:center; gap:8px; font-size:11px; }
+  .dashboard-first-note { font-size:10px; margin-top:14px; }
+}

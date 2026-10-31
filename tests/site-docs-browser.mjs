@@ -21,12 +21,22 @@ const problems = await readFile(new URL('../wiki/developer-pain-points.md', impo
 const quotes = vision.split('## 一句话愿景\n')[1].split('\n## ')[0].split('\n').filter(line => line.startsWith('> **')).map(line => line.slice(4, -2));
 try {
   const page = await browser.newPage();
+  await page.context().grantPermissions(['clipboard-read', 'clipboard-write'], {origin});
   const errors = [];
   page.on('pageerror', error => errors.push(error.message));
   for (const width of [1440, 800, 390]) {
     await page.setViewportSize({ width, height: 1000 });
     await page.goto(`${origin}/?viewport=${width}`);
     assert.equal(await page.locator('main > section').count(), 5);
+    assert.equal(await page.locator('main > section').first().getAttribute('id'), 'project-dashboard');
+    assert.equal(await page.locator('h1').count(), 1);
+    const star = page.locator('#project-dashboard .button-star');
+    assert.equal(await star.getAttribute('href'), 'https://github.com/Peiiii/ai-development-system');
+    const box = await star.boundingBox();
+    assert.ok(box.y >= 0 && box.y + box.height <= 1000, 'Star action visible in first viewport');
+    await page.locator('#project-dashboard [data-copy-prompt]').click();
+    await page.waitForFunction(() => document.querySelector('#copy-toast').textContent === '接入指令已复制');
+    assert.match(await page.evaluate(() => navigator.clipboard.readText()), /https:\/\/ai-dev.nextclaw.io\/SKILL.md/);
     assert.equal(await page.locator('.problem-card').count(), 0);
     await page.locator('#architecture-tree .atlas-node').first().waitFor();
     if (width === 390) {

@@ -16,7 +16,7 @@ for (const button of document.querySelectorAll("[data-copy-prompt]")) {
       await navigator.clipboard.writeText(prompt);
       toast.textContent = "接入指令已复制";
     } catch {
-      toast.textContent = "复制失败，请手动复制上方指令";
+      toast.textContent = "复制失败，请到“开始使用”区域手动复制接入指令";
     }
     toast.classList.add("visible");
     clearTimeout(toastTimer);
