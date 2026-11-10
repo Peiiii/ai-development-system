@@ -4,6 +4,7 @@ import path from "node:path";
 import { spawn } from "node:child_process";
 import { main as installMain } from "./ai-development-system.mjs";
 import { changeProject, readProjects, defaultRoots } from "../lib/projects.mjs";
+import { canonicalReadRoots, readProjectFile, readerUrl } from "../lib/reader.mjs";
 
 const packageInfo = JSON.parse(
   await fs.readFile(new URL("../package.json", import.meta.url), "utf8"),
@@ -14,6 +15,9 @@ const help = `擎天 Qingtian ${packageInfo.version} · AI 驱动开发体系
       打开当前项目大盘，可切换其它接入项目；--root 可重复指定。
       本机默认直接访问；--require-token 按需启用会话 token 鉴权。
       --watch 监听当前 CLI 的前端文件，CSS 即时更新，JS/HTML 自动刷新。
+  qingtian read <文件.md> [--root <目录>] [--port <端口>] [--no-open]
+      直接阅读项目文件，不扫描索引；支持链接跳转和代码高亮。
+      默认端口 4318；已有阅读服务时复用并输出新文档链接。
   qingtian projects add <项目目录>
   qingtian projects remove <项目目录>
   qingtian projects list
@@ -77,10 +81,13 @@ async function main(argv) {
       `${operation === "add" ? "已登记" : "已移除登记"}：${path.resolve(target)}`,
     );
   }
-  if (action !== "dashboard")
+  const reading = action === "read";
+  const file = reading && args[0] && !args[0].startsWith("--") ? path.resolve(args.shift()) : null;
+  if (reading && !file) throw new Error("用法：qingtian read <文件.md> [--port <端口>] [--no-open]");
+  if (action !== "dashboard" && !reading)
     throw new Error(`未知命令：${action}。运行 qingtian --help 查看用法。`);
   const roots = [];
-  let port = 0;
+  let port = reading ? 4318 : 0;
   let open = true;
   let livePreview = false;
   let requireToken = false;
@@ -99,20 +106,46 @@ async function main(argv) {
     else if (args[index] === "--require-token") requireToken = true;
     else throw new Error(`未知参数或缺少参数值：${args[index]}`);
   }
+  if (reading && livePreview) throw new Error("read 模式不使用 --watch；点击刷新读取文件最新内容");
+  const scanRoots = roots.length ? roots : await defaultRoots(reading ? path.dirname(file) : process.cwd());
+  if (reading && port && !requireToken) {
+    let running = false;
+    const origin = `http://127.0.0.1:${port}`;
+    try {
+      const response = await fetch(`${origin}/api/reader-info`, {signal: AbortSignal.timeout(700)});
+      running = response.ok && (await response.json()).service === "qingtian";
+    } catch {}
+    if (running) {
+      const response = await fetch(`${origin}/api/read?path=${encodeURIComponent(file)}`);
+      if (!response.ok) throw new Error((await response.json()).error);
+      const url = origin + readerUrl(file);
+      console.log(`文档阅读 · 复用本机服务\n${url}`);
+      if (open) openBrowser(url);
+      return;
+    }
+  }
+  if (reading) await readProjectFile(file, await canonicalReadRoots([...scanRoots, ...await readProjects()]));
   const { startDashboard } = await import("../lib/dashboard.mjs");
-  console.log("擎天大盘：正在读取项目产物…");
+  console.log(reading ? "正在启动文档阅读服务…" : "擎天大盘：正在读取项目产物…");
   const dashboard = await startDashboard({
-    roots: roots.length ? roots : await defaultRoots(),
+    roots: scanRoots,
     port,
     currentDirectory: process.cwd(),
     livePreview,
     requireToken,
+    readerOnly: reading,
   });
-  console.log(
-    `擎天大盘已启动 · ${dashboard.snapshot.projects.length} 个项目 · ${dashboard.snapshot.projects.reduce((sum, project) => sum + project.documentCount, 0)} 份产物 · ${dashboard.snapshot.projects.reduce((sum, project) => sum + project.knowledgeCount, 0)} 份知识 · ${dashboard.snapshot.skills.length} 个 Skill\n${dashboard.url}\nCtrl+C 停止服务。${requireToken ? "已开启 token 鉴权，请使用上方完整地址。" : "仅监听本机，直接打开上方地址即可。"}`,
-  );
-  if (livePreview) console.log("实时预览已开启：修改前端后自动更新；Ctrl+C 停止监听。");
-  if (open) openBrowser(dashboard.url);
+  if (reading) {
+    const url = dashboard.origin + readerUrl(file) + (dashboard.token ? `#token=${dashboard.token}` : "");
+    console.log(`文档阅读已启动\n${url}\n仅监听本机；Ctrl+C 停止服务。`);
+    if (open) openBrowser(url);
+  } else {
+    console.log(
+      `擎天大盘已启动 · ${dashboard.snapshot.projects.length} 个项目 · ${dashboard.snapshot.projects.reduce((sum, project) => sum + project.documentCount, 0)} 份产物 · ${dashboard.snapshot.projects.reduce((sum, project) => sum + project.knowledgeCount, 0)} 份知识 · ${dashboard.snapshot.skills.length} 个 Skill\n${dashboard.url}\nCtrl+C 停止服务。${requireToken ? "已开启 token 鉴权，请使用上方完整地址。" : "仅监听本机，直接打开上方地址即可。"}`,
+    );
+    if (livePreview) console.log("实时预览已开启：修改前端后自动更新；Ctrl+C 停止监听。");
+    if (open) openBrowser(dashboard.url);
+  }
   const stop = async () => {
     await dashboard.close();
     process.exit(0);

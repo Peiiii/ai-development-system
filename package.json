@@ -16,7 +16,7 @@
   "devDependencies": {
     "playwright": "1.63.0"
   },
-  "version": "0.1.20",
+  "version": "0.1.21",
   "description": "擎天：可安装的 AI 驱动开发体系与跨项目产物大盘",
   "bin": {
     "qingtian": "bin/qingtian.mjs"
@@ -43,6 +43,7 @@
     "registry": "https://registry.npmjs.org"
   },
   "dependencies": {
+    "highlight.js": "11.11.1",
     "marked": "18.1.0",
     "sanitize-html": "2.18.0"
   }

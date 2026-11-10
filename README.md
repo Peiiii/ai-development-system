@@ -27,7 +27,7 @@ npm install -g @nextclaw/qingtian
 qingtian dashboard
 ```
 
-官网也提供可直接安装的版本包：`npm install -g https://ai-dev.nextclaw.io/download/qingtian-0.1.19.tgz`，校验文件为 `download/qingtian.sha256`。源码开发可执行 `npm ci` 后运行 `npm run dev`，打开命令输出的完整地址即可实时预览。大盘右上角提供浅色、深色、跟随系统主题；选择会记住，并延续至本机其它启动端口。
+官网也提供可直接安装的版本包：`npm install -g https://ai-dev.nextclaw.io/download/qingtian-0.1.21.tgz`，校验文件为 `download/qingtian.sha256`。源码开发可执行 `npm ci` 后运行 `npm run dev`，打开命令输出的完整地址即可实时预览。大盘右上角提供浅色、深色、跟随系统主题；选择会记住，并延续至本机其它启动端口。
 
 命令自动打开浏览器，优先进入当前项目，首屏查看当前推进、下一步、待关注事项与分类产物；从项目子目录启动也识别所属项目。其它接入项目可在侧栏切换，选择“项目总览”才汇总跨项目信息。刷新或页面重载保留所选项目；点开原文可沿已收录的 Markdown 链接追溯。没有当前状态记录时显示明确空态，不以更新时间推断进度或后台执行。
 
@@ -56,6 +56,19 @@ qingtian upgrade --target /path/to/project --dry-run
 接入或升级共享体系后，可以直接对 AI 说“帮我打开擎天大盘”或“打开 AI 开发体系的跨项目大盘”。共享 AGENTS 入口会加载随体系安装的 `qingtian-dashboard` Skill，由 AI 检查/必要时安装 CLI、启动并验证数据可读，返回实际地址。旧版接入项目需要先升级体系，单独安装 CLI 不会修改项目规则。
 
 旧独立安装器与官网下载地址、锁文件和 `AGENTS.md` 受管标记保持可用，旧独立安装器仍支持 Node.js 20+；已有项目无需迁移或重新安装。
+
+## 直接阅读项目文档
+
+```sh
+qingtian read /path/to/project/docs/design.md
+qingtian read /path/to/another/README.md --no-open
+```
+
+专注阅读模式直接读取文件，不建立或依赖文档索引，也不要求项目先接入擎天。默认使用本机 4318 端口，已有阅读服务时复用并输出新文档链接；首次启动的进程保持运行，Ctrl+C 停止。`--root` 可重复指定可读目录，`--port` 可选择其它端口。默认范围沿用当前项目、`~/Projects` 与已登记项目。
+
+每份文档有 `/read?path=<编码后的绝对路径>` 地址，可直接作为聊天或其它文档中的链接。正文占主要区域，右上角浮动图标菜单提供目录、主题、复制链接和刷新。支持代码高亮、代码复制、相对/绝对 Markdown 链接、章节锚点与浏览器返回；链接到常见 TS、JS、JSON、YAML、Python 等源码时可查看高亮原文。原文件更新后点击刷新即可重新读取，内容不复制到阅读器仓库。
+
+宿主支持内置浏览器时可把同一地址放到侧栏；普通浏览器也可打开。只读范围、软链接检查、1 MiB 限制、HTML 净化与同源限制沿现有服务约束。
 
 ## 体系的三层架构
 

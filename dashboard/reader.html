@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#141716">
+  <title>文档阅读</title>
+  <link rel="icon" href="/favicon.svg">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/reader.css">
+  <script src="/theme.js"></script>
+</head>
+<body class="document-reader">
+  <div class="document-tools" id="document-tools">
+    <button type="button" id="tools-toggle" class="reader-icon" aria-label="文档工具" aria-expanded="false" aria-controls="tools-menu" title="文档工具">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg>
+    </button>
+    <div class="tools-menu" id="tools-menu" hidden>
+      <button type="button" id="outline-toggle" class="reader-icon" aria-label="章节目录" title="章节目录"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg></button>
+      <button type="button" id="theme-toggle" class="reader-icon" data-theme-option="light" aria-label="切换为浅色主题" title="切换主题"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg></button>
+      <button type="button" id="copy-link" class="reader-icon" aria-label="复制链接" title="复制链接"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m10 13 4-4m-6 7-1 1a4 4 0 0 1-6-6l5-5a4 4 0 0 1 6 0m0 12a4 4 0 0 0 6 0l5-5a4 4 0 0 0-6-6l-1 1" transform="translate(1 0) scale(.9)"/></svg></button>
+      <button type="button" id="reload" class="reader-icon" aria-label="刷新文档" title="刷新文档"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 7v5h-5M4 17v-5h5M6 7a7 7 0 0 1 12-1l2 6M4 12l2 6a7 7 0 0 0 12-1"/></svg></button>
+    </div>
+    <nav id="document-outline" aria-label="章节目录" hidden><div class="outline-title">章节目录</div><div id="outline-links"></div></nav>
+  </div>
+  <main class="document-content">
+    <form id="file-form" hidden>
+      <label for="file-path">项目文档路径</label>
+      <div><input id="file-path" placeholder="/path/to/project/README.md" required><button type="submit">打开</button></div>
+    </form>
+    <div id="document-status" role="status">正在读取文档…</div>
+    <article id="document-body" class="prose"></article>
+  </main>
+  <script type="module" src="/reader.js"></script>
+</body>
+</html>
