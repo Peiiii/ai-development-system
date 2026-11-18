@@ -5,6 +5,7 @@
 - 每条实际发给用户的普通文字消息发送前核恰好一个真实阶段标记，同阶段进度和最终答复不省略。项目已定义格式优先；开发开启 tracing 时沿原插件，未开启或无专属格式时用内联代码 `[step: understanding/designing/working/reviewing/verifying/fixing/retrospective/finishing]` 中一个值兜底。简单回答可用 understanding，不启动多步流程。工具调用、对外产物及严格机器协议不插入，静默协议保持静默；不为标记额外通信，标记不替代验收或结束门。
 - 用户要求打开、启动或查看擎天 / AI 开发体系大盘时，读取 `.agents/wiki/skills/tools/qingtian-dashboard/SKILL.md` 并执行到当前项目可用的入口；单纯讨论设计不启动。
 - 修改项目 AI 规则、Skill 拓扑或开发体系时，按需读取 `.agents/wiki/skills/process/agent-instructions-governance/SKILL.md`；先找现有 owner，再做最小、可验证的改动。
+- 记录想法、沉淀讨论或新增项目知识文档前，确认已知目标项目的文档分类、目录与文件命名规范（跨仓库同样适用）。已知则直接按规范处理，有疑问时按需查阅[项目知识治理](.agents/wiki/skills/process/project-knowledge-governance/SKILL.md)。
 - 只读取当前阶段和当前判断需要的 reference；不把整个 Skill 库、历史记录或项目知识一次性载入。
 - 保护用户和其它任务的工作区改动。未经用户明确授权或当前项目已有可核对的明确授权，不提交、推送、建 PR、发布或部署。
 - 先找事实、状态和行为的权威 owner；复用或修正已有路径，避免复制规则、平行状态与无收益的适配层。
