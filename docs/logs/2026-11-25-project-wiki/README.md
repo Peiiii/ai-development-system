@@ -8,7 +8,7 @@
 
 ## 状态与方案 Review
 
-2026-11-25 01:23（Asia/Shanghai）开始，实施与发布进行中。已有 `docs/work/2026-10-09-qingtian-visual-upgrade/current-state.md` 改动保留且排除出本次提交。
+2026-11-25 01:23（Asia/Shanghai）开始。首版规则、官网分发与本机 CLI 已交付；npm registry 发布待认证恢复。已有 `docs/work/2026-10-09-qingtian-visual-upgrade/current-state.md` 改动保留且排除出本次提交。
 
 实现前由当前 Agent 复核：原事实合同承接 Wiki 窄入口，Lifecycle 集中协作；资料分类不转移正文维护权。核对长期设计、未实施方案、来源冲突、无变化与发布失败等边界，无阻断方案 finding。不新增顶层 Skill、阶段规则、配置或数据库。此为直接 Review，不声称独立代理审查或实际模型效果验证。
 
@@ -26,4 +26,22 @@
 
 ## 发布
 
-版本更新为 0.1.22。npm 当前认证 `whoami` 返回 E401；官网构建与发布继续推进，registry 是否完成单独核对，不把官网包称为 npm 已发布。
+- 源码提交 `585fba7` 已推送 `origin/main`，从该提交的独立快照构建 0.1.22，避免纳入并发工作区内容。
+- Cloudflare 官网版本 `96c0eb52-6476-4576-91e4-de057f23f721` 已部署。11 个公开页面、规则、归档与摘要逐字节匹配受测构建；实际公开下载后执行 install dry-run、install、readiness、upgrade 通过，安装后的合同与源一致，不创建项目 Wiki 空内容。
+- npm 格式安装包 smoke 首次因安装子进程超过 120 秒被终止；移除本机登录配置，仅用公开 registry 读取并限制网络重试后，隔离 npm 安装、接入/升级、CLI 与既有浏览器 smoke 全部通过，无页面错误。没有放宽产品或摘要验证。
+- NVM 与 Homebrew 两套本机 CLI 均从受测包更新至 0.1.22，三个变更规则逐字节一致；既有项目没有被批量改写，未声称其宿主已重新加载。
+- [分发核验](release.json)分别记录官网、安装包、本机与 registry 状态。npm `whoami` 返回 E401，latest 仍为 0.1.21，因此没有声称 npm 发布完成。已实际启动 `npm login` 并走到浏览器安全密钥二次验证，仍需本机用户确认；认证恢复后继续发布同一受测 tgz 并核验 registry 回读，不重复官网部署。
+
+## 复盘与后续边界
+
+本轮将职责集中到原事实合同和单一协作位置，无进一步通用规则增量（`retrospective_decision=no-increment`）。子代理方式已按用户要求停止，后续由当前 Agent 验证，不新增工作流或长期提醒。结构、分发和隔离升级已验证，模型长期遵守、其它项目升级与宿主重新加载仍不能由这些证据推断。
+
+唯一未完成项为 npm registry 发布，依赖有效登录；登录恢复后预计 3–5 分钟完成已受测包发布及回读，外部 registry 传播以实际观察为准。
+
+记录更新：2026-11-25 01:36（Asia/Shanghai）。
+
+## 认证恢复接续
+
+用户授权由 AI 使用浏览器创建同 scope、三个月有效期的替代 Token，并更新 NextClaw 既有长期 Token。已定位真实仓库 `/Users/peiwang/Projects/nextbot`，既有本地认证为 gitignored、0600 的 `.npmrc`，正式发布使用 GitHub `npm-production` environment 的 `NPM_TOKEN`。已有主配置与全局配置均返回 E401；当前没有创建新 Token、改动私有认证文件或更新 GitHub secret。
+
+浏览器保存的账号信息已完成第一步登录；网页 Token 流程和 `npm login` 均要求账号 `peiiii` 的 WebAuthn 安全密钥验证。已保留 Chrome 验证页；用户确认完成二次验证后，继续核对原 scope、创建同权限 90 天 Token、更新原私有配置及既有生产 secret、验证认证并发布同一受测包。未重置或关闭二次验证，未扩大 scope，也未读取或记录任何 Token 值。

@@ -1,0 +1,109 @@
+{
+  "passed": true,
+  "version": "0.1.22",
+  "sourceCommit": "585fba75eeb8f419c01cfbb8b21a4777d6ae1f30",
+  "cloudflareVersion": "96c0eb52-6476-4576-91e4-de057f23f721",
+  "publicFiles": [
+    {
+      "path": "index.html",
+      "sha256": "0b4701d275c4a4a96b56932298497a7b01490e9817b74d79912cf2125cc42121",
+      "bytes": 63146
+    },
+    {
+      "path": "SKILL.md",
+      "sha256": "8fa6d9dd679a0eae45c7207969e012585428beffee1cd6ad57edc29ceb8de28c",
+      "bytes": 6316
+    },
+    {
+      "path": "download/ai-development-system.tar.gz",
+      "sha256": "f9126aee611577d20f153de0a24c2b2df9b2d694e677f00011e735629ee79f1a",
+      "bytes": 157563
+    },
+    {
+      "path": "download/ai-development-system.sha256",
+      "sha256": "d20fc1b90844a1476e7c531479023eecde49ed244922af34c21be0d26e307ee0",
+      "bytes": 95
+    },
+    {
+      "path": "download/qingtian-0.1.22.tgz",
+      "sha256": "deb1006587d295a25bfac050e531a77f8579227d3d2963f9e66467365a255070",
+      "bytes": 149733
+    },
+    {
+      "path": "download/qingtian.sha256",
+      "sha256": "725522d9cbfb2a88f7cd71b4fc2eccb06c9e4260d34e938e47732cff4d042198",
+      "bytes": 86
+    },
+    {
+      "path": "skills/development-lifecycle/SKILL.md",
+      "sha256": "fb2a636a9cb6316d7e3ec2776870fc658173a3f7331c631655c52df9c4c4e663",
+      "bytes": 10210
+    },
+    {
+      "path": "wiki/skills/process/project-knowledge-governance/SKILL.md",
+      "sha256": "39978f26fa19eede186c420be60964458dd5874863ad4dbd3bbf0d8fc7746c3e",
+      "bytes": 7550
+    },
+    {
+      "path": "wiki/skills/process/project-knowledge-governance/references/fact-knowledge.md",
+      "sha256": "781842b2c0176949b7dd5ef02b3a0662d4050b3acce60214564f70e556bab8cd",
+      "bytes": 4688
+    },
+    {
+      "path": "wiki/system-architecture.md",
+      "sha256": "213fb59571a5e59db7d3f3be2d40d97faf2a6768097368975cf9854ec0e3a5c6",
+      "bytes": 16733
+    },
+    {
+      "path": "docs/architecture/index.html",
+      "sha256": "4da0c1557405b9ada3b7f8de13cf0d8fd2a7cff6df0c6bf37e4713a9f4329348",
+      "bytes": 27975
+    }
+  ],
+  "checks": [
+    "11 public files byte-equal to tested source",
+    "source and npm-compatible package SHA256",
+    "public SKILL checksum",
+    "public source archive fresh dry-run/install/readiness/upgrade",
+    "installed Wiki contract byte-equal",
+    "no project Wiki scaffolding"
+  ],
+  "scope": "website and downloadable package verification; registry publication tracked separately",
+  "packageSmoke": {
+    "passed": true,
+    "version": "0.1.22",
+    "packageSource": "/var/folders/gp/ls0ngf8d1qn97_g1t48670zc0000gn/T/qingtian-wiki-release-pades6y5/source/dist/download/qingtian-0.1.22.tgz",
+    "checkedAt": "2026-11-24T17:34:41.991Z",
+    "checks": [
+      "isolated npm install",
+      "dry-run no registration",
+      "install/check/upgrade",
+      "project rules retained",
+      "installed dashboard Skill and AGENTS route",
+      "packaged CLI current-project launch",
+      "browser body search",
+      "packaged document read",
+      "packaged theme switch and persistence",
+      "packaged 15 named managed Skill entrances and drawer",
+      "packaged separate project knowledge module"
+    ],
+    "errors": []
+  },
+  "localCLI": {
+    "nvm": "0.1.22",
+    "homebrew": "0.1.22",
+    "changedRulesByteEqual": true
+  },
+  "registry": {
+    "status": "pending-security-key-verification",
+    "reason": "Existing project/global credentials E401; browser and npm login require WebAuthn verification",
+    "publishedLatestObserved": "0.1.21"
+  },
+  "tokenRotation": {
+    "status": "not-created",
+    "privateConfigUpdated": false,
+    "productionSecretUpdated": false,
+    "requestedScope": "same as existing token",
+    "requestedLifetimeDays": 90
+  }
+}
