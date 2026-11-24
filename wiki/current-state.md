@@ -1,11 +1,11 @@
 # 当前实现事实
 
-更新日期：2026-10-21。事实来源为本仓库的 `manifest.json`、`payload/`、`bin/ai-development-system.mjs`、`scripts/build-site.mjs`、`wrangler.jsonc` 与自动化测试。
+更新日期：2026-11-25。事实来源为本仓库的 `manifest.json`、`payload/`、`bin/ai-development-system.mjs`、`scripts/build-site.mjs`、`wrangler.jsonc` 与自动化测试。
 
 ## 已具备
 
 - 擎天 是对外名称；AI Development System 是类别描述。`ai-dev.nextclaw.io`、Git 仓库名、安装器路径和锁文件名暂作为稳定技术标识保留。
-- `manifest.json` 当前列出 57 个受管文件，包括 lifecycle、七个阶段 Skill、按需专项 Skill、references 与显式 workflow 目录。实际数量以 manifest 为准。
+- `manifest.json` 当前列出 56 个受管文件，包括 lifecycle、七个阶段 Skill、按需专项 Skill、references 与显式 workflow 目录。实际数量以 manifest 为准。
 - 安装器支持 `install`、`check`、`upgrade` 与 dry-run；目标项目的受管文件摘要和共享根规则段落记录在 `.agents/ai-development-system.lock.json`。
 - 默认安装在目标项目 `AGENTS.md` 添加受管共享入口。现有完整入口的项目可以选择 `--agents=skip`，但要自行保持 lifecycle 路由。
 - 官网位于 `https://ai-dev.nextclaw.io/`，原始入口为 `/SKILL.md`。Cloudflare 同域提供安装归档；构建时把归档 SHA-256 写入入口。源 Git 仓库已公开于 [GitHub](https://github.com/Peiiii/ai-development-system)（2026-10-29 核验为 public）。
@@ -22,6 +22,12 @@
 - 安装器不会自动提交、推送目标项目，也不会覆盖冲突文件或本地编辑的受管文件。
 
 结构判断见[三层架构与文件归属](system-architecture.md)；进化机制现状见[自动进化机制](evolution.md)。
+
+## 项目 Wiki 维护（2026-11-25，首版试用）
+
+原事实合同已明确 Wiki 页面与索引的维护范围、来源核对和两个操作：提供 Wiki 上下文与来源索引、核对并同步 Wiki。Lifecycle 在唯一协作位置调用，阶段方法不新增 Wiki 专属条款。设计、计划、状态、日志和 Skill 仍由原 owner 维护；无变化不写记录，资料被读取或引用不转移正文维护权。
+
+分发、升级、Review 和公开发布结果见[本轮记录](../docs/logs/2026-11-25-project-wiki/README.md)。文件及隔离场景核验不等于所有宿主已重新加载，跨项目长期执行效果仍待实际任务观察。
 
 ## 擎天命令行与项目大盘（2026-10-07）
 

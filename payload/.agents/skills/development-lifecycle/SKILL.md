@@ -60,9 +60,19 @@ Task Understanding 给出目标、授权、验收、证据/未知、owner、风�
 - 可用入口、用户验收、授权内交付：`development-delivery`。
 - 轻量反思与条件沉淀：`development-retrospective`。
 
-跨会话或恢复读取[执行状态与恢复](../../wiki/skills/process/iteration-work-notes/SKILL.md)；需要自主发现并成批修复质量差距、质量迭代宏、反复评审至满意或同类质量纠偏读取[质量迭代收敛](../../wiki/skills/process/iterative-quality-convergence/SKILL.md)；建立或复查长期关注事项、创建/维护/执行周期事项、事实维护或资料冲突读取[项目知识治理](../../wiki/skills/process/project-knowledge-governance/SKILL.md)。只加载命中项。
+跨会话或恢复读取[执行状态与恢复](../../wiki/skills/process/iteration-work-notes/SKILL.md)；需要自主发现并成批修复质量差距、质量迭代宏、反复评审至满意或同类质量纠偏读取[质量迭代收敛](../../wiki/skills/process/iterative-quality-convergence/SKILL.md)；资料分流、建立或复查长期关注事项、创建/维护/执行周期事项读取[项目知识治理](../../wiki/skills/process/project-knowledge-governance/SKILL.md)。只加载命中项。
 
 AI 验收结合 Validation 合同证据与 Review 结论，不新增平行 Skill。方案 Review 不要求多代理。用户验收不适用于纯内部产物时说明依据，不强加产品运行环境。
+
+## Wiki 协作
+
+本节是开发流程与 [Wiki 维护](../../wiki/skills/process/project-knowledge-governance/references/fact-knowledge.md)的唯一编排边界；各阶段保持原产物职责，可以直接读取设计、源码与证据。
+
+- 当前问题需要项目概况或资料导航时，以问题、范围和目标版本/环境请求“提供 Wiki 上下文与来源索引”。已知来源足够时直接继续，不默认全量读取。
+- 本次结果稳定后，以已有结果、变化范围、产物与证据、未验证项请求“核对并同步 Wiki”；先轻量判断是否影响 Wiki，无影响不加载合同或写记录。结果包括发布或复盘后的实际变化时，只核对受影响增量。
+- Wiki 与来源冲突经同一入口核对；原设计、实现、记录或方法的问题交还对应 owner，非 Wiki 问题继续原返工路径。不要求各阶段再填知识表或维护 Wiki。
+
+维护方返回已处理、无变化或证据/来源缺口及对应 owner。本流程只消费结果：与本任务有关的必要 Wiki 缺口未闭合不得判整体完成；无关知识债务不阻塞，未知不冒充已同步。核对后有相关变化则旧结论不再覆盖该变化；无变化只保留内部判断，不生成额外文档。仅调查/设计任务仍止于其范围。
 
 ## 状态与返工
 

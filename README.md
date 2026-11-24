@@ -27,7 +27,7 @@ npm install -g @nextclaw/qingtian
 qingtian dashboard
 ```
 
-官网也提供可直接安装的版本包：`npm install -g https://ai-dev.nextclaw.io/download/qingtian-0.1.21.tgz`，校验文件为 `download/qingtian.sha256`。源码开发可执行 `npm ci` 后运行 `npm run dev`，打开命令输出的完整地址即可实时预览。大盘右上角提供浅色、深色、跟随系统主题；选择会记住，并延续至本机其它启动端口。
+官网也提供可直接安装的版本包：`npm install -g https://ai-dev.nextclaw.io/download/qingtian-0.1.22.tgz`，校验文件为 `download/qingtian.sha256`。源码开发可执行 `npm ci` 后运行 `npm run dev`，打开命令输出的完整地址即可实时预览。大盘右上角提供浅色、深色、跟随系统主题；选择会记住，并延续至本机其它启动端口。
 
 命令自动打开浏览器，优先进入当前项目，首屏查看当前推进、下一步、待关注事项与分类产物；从项目子目录启动也识别所属项目。其它接入项目可在侧栏切换，选择“项目总览”才汇总跨项目信息。刷新或页面重载保留所选项目；点开原文可沿已收录的 Markdown 链接追溯。没有当前状态记录时显示明确空态，不以更新时间推断进度或后台执行。
 
@@ -190,6 +190,10 @@ npm run bench:remote
 ### 质量优化
 
 可以直接说“对照参考自己挑刺，整体诊断后成批返工，直到达到标准”。现有质量 Skill 会按共同根因和验证范围组织完整修复，避免默认逐点调参、固定优化轮数与重复全量检查；根因不明时仍先做小实验，最终质量与 Review 门槛保留。方法不承诺固定提速倍数，也不扩大发布授权。
+
+### 项目 Wiki 与资料职责
+
+Wiki 维护项目当前概况、必要事实说明与权威资料导航；设计、计划、工作状态、日志和 Skill 的正文仍归各自 owner。长期有效设计保留原处，Wiki 通过必要概述和链接关联，不复制详细规范或代改来源。Lifecycle 集中请求相关 Wiki 上下文，并在结果稳定后核对受影响增量；无变化不写文件，各阶段不增加 Wiki 专属规则。已有知识入口沿用，新项目按真实内容建立最小入口。边界见[架构说明](wiki/system-architecture.md#项目-wiki-与工程文档的边界)，操作由[事实与 Wiki 维护合同](payload/.agents/wiki/skills/process/project-knowledge-governance/references/fact-knowledge.md)拥有。
 
 ### 长期关注事项（试用）
 

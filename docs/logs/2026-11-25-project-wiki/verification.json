@@ -1,0 +1,62 @@
+{
+  "structuralCheck": "56 managed files valid",
+  "existingTests": {
+    "passed": 38,
+    "failed": 0
+  },
+  "upgrade": {
+    "passed": true,
+    "baselineCommit": "5b244e0",
+    "checks": [
+      "old-snapshot install",
+      "upgrade dry-run zero writes",
+      "upgrade/readiness",
+      "three contracts byte-equal",
+      "six project-owned Wiki/design/log/source documents preserved including local concurrent edit",
+      "project AGENTS retained",
+      "repeat upgrade zero changes",
+      "managed conflict rejected without writes",
+      "fresh install no Wiki/docs scaffolding"
+    ],
+    "preview": "upgrade: 4 file changes\n  write .agents/skills/development-lifecycle/SKILL.md\n  write .agents/wiki/skills/process/project-knowledge-governance/SKILL.md\n  write .agents/wiki/skills/process/project-knowledge-governance/references/fact-knowledge.md\n  write .agents/ai-development-system.lock.json",
+    "applied": "upgrade: 4 file changes\n  write .agents/skills/development-lifecycle/SKILL.md\n  write .agents/wiki/skills/process/project-knowledge-governance/SKILL.md\n  write .agents/wiki/skills/process/project-knowledge-governance/references/fact-knowledge.md\n  write .agents/ai-development-system.lock.json",
+    "protectedHashes": {
+      "wiki/README.md": "1353380c536b78d3d9bc0ad94d8debcf52c4c61edbf71e6b0d610b732171dc36",
+      "wiki/architecture.md": "445af03b98c174c09dbab719173696fff5b59cce42fc3635f966065e62d9dbd5",
+      "docs/knowledge/domain.md": "58b1edfde42b7cab841383830a83e07c8057c3e1e9d88fd094166dcd0aa0ef35",
+      "docs/designs/storage.design.md": "cee9887e3e9ed3a3fb4834a39500f08a885b932d21184e04e0a48e0251a839e1",
+      "docs/logs/release.md": "2a02c3d7f1fef4fc1fb2d4e912efacdea15600bd256f78a2c47a27f2948f3616",
+      ".agents/wiki/knowledge/project.md": "050d057c518b52bfa12188dc057bea076a54fe924674db9d202e2eacd0ede57c"
+    }
+  },
+  "metrics": {
+    "payload/AGENTS.shared.md": {
+      "beforeChars": 1318,
+      "afterChars": 1318,
+      "delta": 0
+    },
+    "payload/.agents/skills/development-lifecycle/SKILL.md": {
+      "beforeChars": 4657,
+      "afterChars": 5206,
+      "delta": 549
+    },
+    "payload/.agents/wiki/skills/process/project-knowledge-governance/SKILL.md": {
+      "beforeChars": 3178,
+      "afterChars": 3410,
+      "delta": 232
+    },
+    "payload/.agents/wiki/skills/process/project-knowledge-governance/references/fact-knowledge.md": {
+      "beforeChars": 854,
+      "afterChars": 1882,
+      "delta": 1028
+    },
+    "summary": {
+      "managedFiles": 56,
+      "skillEntrances": 15,
+      "newEntrances": 0,
+      "newReferences": 0,
+      "AGENTSDelta": 0
+    }
+  },
+  "review": "direct scenario and contract review by current agent; no independent model behavior test"
+}
