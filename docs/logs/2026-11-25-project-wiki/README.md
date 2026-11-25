@@ -1,5 +1,7 @@
 # 项目 Wiki 维护机制交付记录
 
+当前结果：规则、官网、本机 CLI 和 npm 0.1.22 均已交付。npm 采用 GitHub OIDC，公开包摘要与 registry 隔离安装通过；下文保留分阶段执行记录。
+
 ## 输入与约束
 
 用户确认 Wiki 仅维护自己的正文和索引，设计、计划、状态、日志及 Skill 保留原 owner；否定多个阶段分散补提醒。执行中要求不用子代理以控制 Token，已停止先前测试代理，后续由当前 Agent 直接核验，没有采用子代理测试结论。
@@ -8,7 +10,7 @@
 
 ## 状态与方案 Review
 
-2026-11-25 01:23（Asia/Shanghai）开始。首版规则、官网分发与本机 CLI 已交付；npm registry 发布待认证恢复。已有 `docs/work/2026-10-09-qingtian-visual-upgrade/current-state.md` 改动保留且排除出本次提交。
+2026-11-25 01:23（Asia/Shanghai）开始。首版规则、官网分发与本机 CLI 已交付；npm registry 随后经 OIDC 发布完成，见文末验收。已有 `docs/work/2026-10-09-qingtian-visual-upgrade/current-state.md` 改动保留且排除出本次提交。
 
 实现前由当前 Agent 复核：原事实合同承接 Wiki 窄入口，Lifecycle 集中协作；资料分类不转移正文维护权。核对长期设计、未实施方案、来源冲突、无变化与发布失败等边界，无阻断方案 finding。不新增顶层 Skill、阶段规则、配置或数据库。此为直接 Review，不声称独立代理审查或实际模型效果验证。
 
@@ -36,7 +38,7 @@
 
 本轮将职责集中到原事实合同和单一协作位置，无进一步通用规则增量（`retrospective_decision=no-increment`）。子代理方式已按用户要求停止，后续由当前 Agent 验证，不新增工作流或长期提醒。结构、分发和隔离升级已验证，模型长期遵守、其它项目升级与宿主重新加载仍不能由这些证据推断。
 
-唯一未完成项为 npm registry 发布，依赖有效登录；登录恢复后预计 3–5 分钟完成已受测包发布及回读，外部 registry 传播以实际观察为准。
+该时点唯一未完成项为 npm registry 发布，依赖有效登录；登录恢复后预计 3–5 分钟完成已受测包发布及回读，外部 registry 传播以实际观察为准。
 
 记录更新：2026-11-25 01:36（Asia/Shanghai）。
 
@@ -46,7 +48,7 @@
 
 浏览器保存的账号信息已完成第一步登录；网页 Token 流程和 `npm login` 均要求账号 `peiiii` 的 WebAuthn 安全密钥验证。已保留 Chrome 验证页；用户确认完成二次验证后，继续核对原 scope、创建同权限 90 天 Token、更新原私有配置及既有生产 secret、验证认证并发布同一受测包。未重置或关闭二次验证，未扩大 scope，也未读取或记录任何 Token 值。
 
-## 认证恢复最新状态
+## 交互认证尝试（历史，10:38）
 
 用户完成新的 `npm login` 验证后，CLI 实际返回登录成功，`npm whoami` 为预期账号。随后尝试发布同一已核验 tgz：非交互执行上下文先返回 EOTP；改为直接交互式命令后进入 npm 独立发布授权，但该授权到期，CLI 返回 done endpoint E404，registry 的 0.1.22 仍不存在。
 
@@ -55,3 +57,9 @@
 本轮已完成框架规则、源码主线、官网和受测下载包、本机两套 CLI、38 项既有测试与公开下载后接入核验。npm registry 发布仍未完成，不能报告全渠道发布成功；此阻塞不影响已经可用的官网安装包。后续不再主动要求用户重复操作。
 
 最新核对：2026-11-25 10:38（Asia/Shanghai）。
+
+## npm 发布闭环（20:57，Asia/Shanghai）
+
+首次 trust 由用户完成一次账号验证，已建立 GitHub 仓库、workflow 和 environment 的发布信任。0.1.22 已通过 OIDC 上传，公开 registry 版本和 tarball 均已生效，下载包与原受测 tgz SHA256 完全一致。幂等 CI 重跑成功，registry 按版本隔离安装及原包 smoke 全部通过。发布者身份为 GitHub Actions；未创建长期 Token，NextClaw 的私有认证与产品发布未改动。[完整接入、传播期修正和证据](../2026-11-25-npm-trusted-publishing/README.md)。
+
+本任务 npm 发布项已完成，原 Wiki 机制交付与分发闭环。其它项目的实际升级、宿主重新加载和长期模型效果仍保持原验收边界。

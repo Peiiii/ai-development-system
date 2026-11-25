@@ -1,10 +1,11 @@
 {
   "tests": {
-    "repositoryPassed": 41,
+    "repositoryPassed": 43,
     "repositoryFailed": 0,
     "npm12ArtifactTestsPassed": 3,
     "actionlint": "passed",
-    "payloadManagedFiles": 56
+    "payloadManagedFiles": 56,
+    "registryPropagationTestsPassed": 2
   },
   "artifact": {
     "version": "0.1.22",
@@ -22,39 +23,33 @@
     ]
   },
   "npmTrustedPublisher": {
-    "registered": false,
-    "attempted": true,
-    "error": "EOTP",
+    "registered": true,
+    "id": "ebbaa998-ad3f-40d5-a878-c527ed7c98e8",
     "package": "@nextclaw/qingtian",
     "repository": "Peiiii/ai-development-system",
     "workflow": "npm-publish.yml",
     "environment": "npm-production",
-    "allowedAction": "npm publish"
-  },
-  "actualPublish": {
-    "runId": 45615211484,
-    "url": "https://github.com/Peiiii/ai-development-system/actions/runs/45615211484",
-    "controlCommit": "cfc0c756cb035e2b9c835258b5ad0a2e4d58ea6f",
-    "conclusion": "failure",
-    "allPrePublishStepsPassed": true,
-    "failedStep": "Publish exact artifact and verify registry",
-    "error": "ENEEDAUTH",
-    "registryPublished": false
+    "permissions": [
+      "publish",
+      "stage publish"
+    ],
+    "accountAuthorizationCompleted": true
   },
   "website": {
-    "cloudflareVersion": "612cf5a1-90c1-4228-920e-7488e13d7975",
+    "cloudflareVersion": "bf32ab10-84b6-4dec-ad36-d00a03a9c80a",
     "contentAndFiveArtifactsByteEqual": true,
-    "verifiedAt": "2026-11-25T20:44:23.181576+08:00",
+    "originalArtifactsUnchanged": true,
+    "verifiedAt": "2026-11-25T20:58:41.100256+08:00",
     "files": [
       {
         "path": "wiki/current-state.md",
         "url": "https://ai-dev.nextclaw.io/wiki/current-state.md",
-        "sha256": "73795ceae9313c3e5e44610c36e2834cc5b00fc147372bfb0abf5791d1629387"
+        "sha256": "77f39dbfaa133b27c15137957c9fe0f8491dafb2fba17b58e9372fa604ae6f1c"
       },
       {
         "path": "docs/current-state/index.html",
         "url": "https://ai-dev.nextclaw.io/docs/current-state/",
-        "sha256": "a063191b0337805fafe2ec15bf0660d3720e36c4130c8a453caba9355bc1f194"
+        "sha256": "76ac3dbfbea9566780e2a2bb599cc1114e10a802cd0b7e23e7d4d5b0e0559d90"
       },
       {
         "path": "SKILL.md",
@@ -82,5 +77,72 @@
         "sha256": "725522d9cbfb2a88f7cd71b4fc2eccb06c9e4260d34e938e47732cff4d042198"
       }
     ]
+  },
+  "previousPublishAttempts": [
+    {
+      "runId": 45615211484,
+      "url": "https://github.com/Peiiii/ai-development-system/actions/runs/45615211484",
+      "controlCommit": "cfc0c756cb035e2b9c835258b5ad0a2e4d58ea6f",
+      "conclusion": "failure",
+      "allPrePublishStepsPassed": true,
+      "failedStep": "Publish exact artifact and verify registry",
+      "error": "ENEEDAUTH",
+      "registryPublished": false
+    },
+    {
+      "runId": 45617350796,
+      "url": "https://github.com/Peiiii/ai-development-system/actions/runs/45617350796",
+      "controlCommit": "1467fb886022a83aa4c6a9f25ab409a834077980",
+      "uploadAccepted": true,
+      "conclusion": "failure",
+      "reason": "npm accepted OIDC upload; initial 35-second registry verification window expired before propagation"
+    }
+  ],
+  "actualPublish": {
+    "runId": 45618413622,
+    "url": "https://github.com/Peiiii/ai-development-system/actions/runs/45618413622",
+    "controlCommit": "d432d51105969b9f4a96a1462f50ca71c4c78149",
+    "status": "completed",
+    "registryMetadataVisible": true,
+    "registryArchiveVerified": true,
+    "conclusion": "success",
+    "registryPublished": true,
+    "idempotentRerun": "already-published"
+  },
+  "registry": {
+    "verifiedAt": "2026-11-25T20:56:40.373428+08:00",
+    "name": "@nextclaw/qingtian",
+    "version": "0.1.22",
+    "tarball": "https://registry.npmjs.org/@nextclaw/qingtian/-/qingtian-0.1.22.tgz",
+    "integrity": "sha512-AvgrUM6Z5cdU7dVEPJrgBt1hDfbqxRjunYGIRyIydih9YYGxHeAwxrDnpNDGx6mVywHyQoSfVKwwsu+kE6rsNQ==",
+    "sha256": "deb1006587d295a25bfac050e531a77f8579227d3d2963f9e66467365a255070",
+    "byteEqual": true,
+    "publisherIdentity": {
+      "name": "GitHub Actions",
+      "trustedPublisherId": "ebbaa998-ad3f-40d5-a878-c527ed7c98e8"
+    },
+    "distTags": {
+      "latest": "0.1.22"
+    }
+  },
+  "registryInstall": {
+    "passed": true,
+    "version": "0.1.22",
+    "packageSource": "@nextclaw/qingtian@0.1.22",
+    "checkedAt": "2026-11-25T12:57:04.990Z",
+    "checks": [
+      "isolated npm install",
+      "dry-run no registration",
+      "install/check/upgrade",
+      "project rules retained",
+      "installed dashboard Skill and AGENTS route",
+      "packaged CLI current-project launch",
+      "browser body search",
+      "packaged document read",
+      "packaged theme switch and persistence",
+      "packaged 15 named managed Skill entrances and drawer",
+      "packaged separate project knowledge module"
+    ],
+    "errors": []
   }
 }

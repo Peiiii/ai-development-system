@@ -33,7 +33,7 @@
 
 仓库已提供 `npm-publish.yml` 和单一发布脚本：按已测试源码与 tgz SHA256 校验原包，使用 GitHub-hosted runner 的 OIDC，版本已存在时核对实际字节而不重复上传。GitHub `npm-production` 环境已配置为只允许 main、无人工 reviewer。设计及完整边界见[无人值守发布设计](../docs/designs/2026-11-25-npm-trusted-publishing.design.md)。
 
-当前 **npm 首次 trusted publisher 登记尚未完成**：账号端返回 EOTP，真实 [CI 试跑](https://github.com/Peiiii/ai-development-system/actions/runs/45615211484)通过全部发布前检查后，在发布阶段返回 ENEEDAUTH。因此不能宣称无人值守发布已启用或 0.1.22 已进入 registry；已上线的官网版本包仍可用。实际证据与接续边界见[本轮记录](../docs/logs/2026-11-25-npm-trusted-publishing/README.md)。
+首次 trusted publisher 已完成账号授权，**OIDC 无人值守发布已通过真实验收，0.1.22 已进入 npm registry**。公开版本的发布者为 GitHub Actions，实际 tgz 与原受测包 SHA256 完全一致；[CI 回读及幂等重跑](https://github.com/Peiiii/ai-development-system/actions/runs/45618413622)成功，从 registry 按版本隔离安装、接入/升级及既有浏览器 smoke 全部通过。后续沿该 workflow 发布无需长期 Token、逐次安全密钥或人工环境审批。npm 异步处理期间先出现版本元数据、后出现 tgz，发布 owner 有界等待并保留摘要校验，未把上传接受冒充发布完成。历史阻塞与完整证据见[本轮记录](../docs/logs/2026-11-25-npm-trusted-publishing/README.md)。
 
 ## 擎天命令行与项目大盘（2026-10-07）
 

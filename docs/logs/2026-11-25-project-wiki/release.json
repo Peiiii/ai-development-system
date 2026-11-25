@@ -95,12 +95,44 @@
     "changedRulesByteEqual": true
   },
   "registry": {
-    "status": "blocked-publish-verification",
-    "loginSucceeded": true,
-    "publishedLatestObserved": "0.1.21",
+    "status": "published-and-verified",
     "targetVersion": "0.1.22",
-    "reason": "npm login succeeded; publish required separate WebAuthn/OTP; the authorization expired with E404 and registry version remains absent",
-    "userRequestedNoFurtherPrompts": true
+    "publishedLatestObserved": "0.1.22",
+    "method": "GitHub Actions OIDC trusted publishing",
+    "runUrl": "https://github.com/Peiiii/ai-development-system/actions/runs/45618413622",
+    "artifact": {
+      "verifiedAt": "2026-11-25T20:56:40.373428+08:00",
+      "name": "@nextclaw/qingtian",
+      "version": "0.1.22",
+      "tarball": "https://registry.npmjs.org/@nextclaw/qingtian/-/qingtian-0.1.22.tgz",
+      "integrity": "sha512-AvgrUM6Z5cdU7dVEPJrgBt1hDfbqxRjunYGIRyIydih9YYGxHeAwxrDnpNDGx6mVywHyQoSfVKwwsu+kE6rsNQ==",
+      "sha256": "deb1006587d295a25bfac050e531a77f8579227d3d2963f9e66467365a255070",
+      "byteEqual": true,
+      "publisherIdentity": {
+        "name": "GitHub Actions",
+        "trustedPublisherId": "ebbaa998-ad3f-40d5-a878-c527ed7c98e8"
+      }
+    },
+    "isolatedRegistryInstall": {
+      "passed": true,
+      "version": "0.1.22",
+      "packageSource": "@nextclaw/qingtian@0.1.22",
+      "checkedAt": "2026-11-25T12:57:04.990Z",
+      "checks": [
+        "isolated npm install",
+        "dry-run no registration",
+        "install/check/upgrade",
+        "project rules retained",
+        "installed dashboard Skill and AGENTS route",
+        "packaged CLI current-project launch",
+        "browser body search",
+        "packaged document read",
+        "packaged theme switch and persistence",
+        "packaged 15 named managed Skill entrances and drawer",
+        "packaged separate project knowledge module"
+      ],
+      "errors": []
+    }
   },
   "tokenRotation": {
     "status": "not-performed",
