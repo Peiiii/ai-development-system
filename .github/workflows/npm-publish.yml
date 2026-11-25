@@ -50,10 +50,6 @@ jobs:
         with:
           node-version: '22.23.2'
           package-manager-cache: false
-      - name: Set up OIDC-capable npm
-        run: npm install --global npm@12.2.3 --ignore-scripts --no-audit --no-fund
-      - name: Test publishing contract
-        run: node --test publisher/tests/npm-release.test.mjs
       - name: Install source dependencies
         working-directory: source
         run: npm ci --ignore-scripts --no-audit --no-fund
@@ -62,6 +58,10 @@ jobs:
         run: |
           npm run check
           npm test
+      - name: Set up OIDC-capable npm
+        run: npm install --global npm@12.2.3 --ignore-scripts --no-audit --no-fund
+      - name: Test publishing contract
+        run: node --test publisher/tests/npm-release.test.mjs
       - name: Publish exact artifact and verify registry
         env:
           EXPECTED_SHA256: ${{ inputs.sha256 }}
