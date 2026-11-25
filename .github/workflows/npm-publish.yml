@@ -1,0 +1,68 @@
+name: Publish npm package with OIDC
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_ref:
+        description: Tested source commit on main
+        required: true
+        default: main
+        type: string
+      sha256:
+        description: SHA256 of the tested versioned website tgz
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: npm-publish
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment: npm-production
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Check out publishing control
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          ref: ${{ github.sha }}
+          path: publisher
+          persist-credentials: false
+      - name: Check out tested source
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          ref: ${{ inputs.source_ref }}
+          path: source
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Require source from main history
+        run: git -C source merge-base --is-ancestor HEAD origin/main
+      - name: Set up Node.js
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: '22.23.2'
+          package-manager-cache: false
+      - name: Set up OIDC-capable npm
+        run: npm install --global npm@12.2.3 --ignore-scripts --no-audit --no-fund
+      - name: Test publishing contract
+        run: node --test publisher/tests/npm-release.test.mjs
+      - name: Install source dependencies
+        working-directory: source
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Verify tested source
+        working-directory: source
+        run: |
+          npm run check
+          npm test
+      - name: Publish exact artifact and verify registry
+        env:
+          EXPECTED_SHA256: ${{ inputs.sha256 }}
+        run: node publisher/scripts/publish-npm.mjs --source source --sha256 "$EXPECTED_SHA256"

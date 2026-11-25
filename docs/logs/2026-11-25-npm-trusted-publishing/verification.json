@@ -1,0 +1,26 @@
+{
+  "tests": {
+    "repositoryPassed": 41,
+    "repositoryFailed": 0,
+    "npm12ArtifactTestsPassed": 3,
+    "actionlint": "passed",
+    "payloadManagedFiles": 56
+  },
+  "artifact": {
+    "version": "0.1.22",
+    "sourceCommit": "585fba75eeb8f419c01cfbb8b21a4777d6ae1f30",
+    "sha256": "deb1006587d295a25bfac050e531a77f8579227d3d2963f9e66467365a255070",
+    "files": 85,
+    "sourceByteMatch": true
+  },
+  "environment": {
+    "name": "npm-production",
+    "reviewers": [],
+    "waitTimer": 0,
+    "allowedBranches": [
+      "main"
+    ]
+  },
+  "npmTrustedPublisher": "not-yet-configured",
+  "actualPublish": "pending"
+}

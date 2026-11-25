@@ -205,6 +205,18 @@ Wiki 维护项目当前概况、必要事实说明与权威资料导航；设计
 
 ### 仓库维护
 
+#### npm 无人值守发布
+
+[npm-publish.yml](.github/workflows/npm-publish.yml) 使用 GitHub-hosted runner 和 npm Trusted Publishing（OIDC）。信任范围为本仓库、该 workflow 和仅允许 main 使用的 `npm-production` environment；不保存长期 npm Token，不设人工 reviewer。npm 端首次信任授权必须实际建立，不能仅凭提交 workflow 声称已经启用。
+
+发布输入是已测试源码提交与官网版本 tgz 的 SHA256。`scripts/publish-npm.mjs` 下载原受测包，核对完整文件清单和源码字节，发布后回读 registry；版本已存在且字节一致时跳过上传。发布控制代码与产品源码分别冻结，不重新生成已发布官网包，也不把后续控制代码误当成旧包来源。跨提交发布旧产物时不生成错误的 provenance；同提交发布保留 npm 默认 provenance。
+
+```sh
+gh workflow run npm-publish.yml --ref main -f source_ref=<tested-main-commit> -f sha256=<tested-tgz-sha256>
+```
+
+当前接入与真实运行结果见[OIDC 记录](docs/logs/2026-11-25-npm-trusted-publishing/README.md)。本仓库的信任配置不自动迁移 NextClaw 或其它项目的发布链路。
+
 - `npm run check`：核对 manifest、Skill frontmatter、相对链接和项目身份泄漏。
 - `npm test`：验证安装、升级、冲突保护和项目规则保留。
 - `npm run build:site`：生成官网、原始 `SKILL.md` 与经过 SHA-256 标识的安装包到 `dist/`。
