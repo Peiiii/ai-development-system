@@ -45,3 +45,13 @@
 用户授权由 AI 使用浏览器创建同 scope、三个月有效期的替代 Token，并更新 NextClaw 既有长期 Token。已定位真实仓库 `/Users/peiwang/Projects/nextbot`，既有本地认证为 gitignored、0600 的 `.npmrc`，正式发布使用 GitHub `npm-production` environment 的 `NPM_TOKEN`。已有主配置与全局配置均返回 E401；当前没有创建新 Token、改动私有认证文件或更新 GitHub secret。
 
 浏览器保存的账号信息已完成第一步登录；网页 Token 流程和 `npm login` 均要求账号 `peiiii` 的 WebAuthn 安全密钥验证。已保留 Chrome 验证页；用户确认完成二次验证后，继续核对原 scope、创建同权限 90 天 Token、更新原私有配置及既有生产 secret、验证认证并发布同一受测包。未重置或关闭二次验证，未扩大 scope，也未读取或记录任何 Token 值。
+
+## 认证恢复最新状态
+
+用户完成新的 `npm login` 验证后，CLI 实际返回登录成功，`npm whoami` 为预期账号。随后尝试发布同一已核验 tgz：非交互执行上下文先返回 EOTP；改为直接交互式命令后进入 npm 独立发布授权，但该授权到期，CLI 返回 done endpoint E404，registry 的 0.1.22 仍不存在。
+
+用户偏好无需长期 Token，并明确不要再要求其重复验证。已停止发起新的短效挑战。现有浏览器账号仍登录；npm 的密码确认备选入口需要再次填充，已保存凭据未能自动填入，未修改密码或认证保护。没有创建新长期 Token，也没有修改 NextClaw 私有 `.npmrc` 或生产 secret。
+
+本轮已完成框架规则、源码主线、官网和受测下载包、本机两套 CLI、38 项既有测试与公开下载后接入核验。npm registry 发布仍未完成，不能报告全渠道发布成功；此阻塞不影响已经可用的官网安装包。后续不再主动要求用户重复操作。
+
+最新核对：2026-11-25 10:38（Asia/Shanghai）。

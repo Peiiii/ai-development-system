@@ -95,15 +95,17 @@
     "changedRulesByteEqual": true
   },
   "registry": {
-    "status": "pending-security-key-verification",
-    "reason": "Existing project/global credentials E401; browser and npm login require WebAuthn verification",
-    "publishedLatestObserved": "0.1.21"
+    "status": "blocked-publish-verification",
+    "loginSucceeded": true,
+    "publishedLatestObserved": "0.1.21",
+    "targetVersion": "0.1.22",
+    "reason": "npm login succeeded; publish required separate WebAuthn/OTP; the authorization expired with E404 and registry version remains absent",
+    "userRequestedNoFurtherPrompts": true
   },
   "tokenRotation": {
-    "status": "not-created",
+    "status": "not-performed",
     "privateConfigUpdated": false,
     "productionSecretUpdated": false,
-    "requestedScope": "same as existing token",
-    "requestedLifetimeDays": 90
+    "reason": "user prefers avoiding long-lived tokens; no replacement created"
   }
 }
