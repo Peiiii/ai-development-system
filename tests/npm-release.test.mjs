@@ -6,7 +6,7 @@ import os from 'node:os';
 import path from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
-import { inspectPackage } from '../scripts/publish-npm.mjs';
+import { inspectPackage, registryArtifact } from '../scripts/publish-npm.mjs';
 
 async function fixture(t) {
   const root = await fs.mkdtemp(path.join(os.tmpdir(), 'qingtian-npm-contract-'));
@@ -52,4 +52,24 @@ test('a valid artifact digest cannot authorize a different source file', async t
   const options = await fixture(t);
   await fs.writeFile(path.join(options.source, 'entry.mjs'), 'console.log("untested change");\n');
   await assert.rejects(inspectPackage(options), /Packed file differs from source: entry.mjs/);
+});
+
+test('registry metadata can precede the tarball without being counted as verified publication', async () => {
+  const identity = { name: '@nextclaw/qingtian', version: '1.2.3', sha256: '0'.repeat(64) };
+  const metadata = Buffer.from(JSON.stringify({ ...identity, dist: { tarball: 'https://registry.npmjs.org/package.tgz' } }));
+  let requests = 0;
+  const result = await registryArtifact(identity, async (url, allowMissing) => {
+    assert.equal(allowMissing, true);
+    return ++requests === 1 ? metadata : null;
+  });
+  assert.equal(requests, 2);
+  assert.equal(result.pending, true);
+  assert.equal(result.url, 'https://registry.npmjs.org/package.tgz');
+});
+
+test('propagation handling still rejects a published tarball with different bytes', async () => {
+  const identity = { name: '@nextclaw/qingtian', version: '1.2.3', sha256: '0'.repeat(64) };
+  const metadata = Buffer.from(JSON.stringify({ ...identity, dist: { tarball: 'https://registry.npmjs.org/package.tgz' } }));
+  let requests = 0;
+  await assert.rejects(registryArtifact(identity, async () => ++requests === 1 ? metadata : Buffer.from('different artifact')), /different artifact bytes/);
 });

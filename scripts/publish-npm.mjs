@@ -67,16 +67,17 @@ async function responseBytes(url, allowMissing = false) {
   return Buffer.from(await response.arrayBuffer());
 }
 
-async function registryArtifact(identity) {
+export async function registryArtifact(identity, readBytes = responseBytes) {
   const endpoint = `https://registry.npmjs.org/${encodeURIComponent(identity.name)}/${encodeURIComponent(identity.version)}`;
-  const bytes = await responseBytes(endpoint, true);
+  const bytes = await readBytes(endpoint, true);
   if (!bytes) return null;
   const metadata = JSON.parse(bytes);
   assert.equal(metadata.name, identity.name);
   assert.equal(metadata.version, identity.version);
   const url = new URL(metadata.dist.tarball);
   assert.equal(url.origin, 'https://registry.npmjs.org', 'Unexpected registry artifact origin');
-  const artifact = await responseBytes(url);
+  const artifact = await readBytes(url, true);
+  if (!artifact) return { url: url.href, integrity: metadata.dist.integrity, pending: true };
   assert.equal(digest(artifact), identity.sha256, 'Registry version exists with different artifact bytes');
   return { url: url.href, integrity: metadata.dist.integrity };
 }
@@ -121,12 +122,14 @@ async function main() {
         stdio: 'inherit', env, cwd: path.resolve(options.source),
       });
       assert.equal(result.status, 0, `npm publish failed (${result.signal || result.status})`);
-      for (let attempt = 0; attempt < 8 && !registry; attempt++) {
-        if (attempt) await new Promise(resolve => setTimeout(resolve, 5000));
-        registry = await registryArtifact(identity);
-      }
-      assert.ok(registry, 'Publication accepted but registry verification is still pending; rerun the same release');
     }
+    // Metadata can become public before its tarball. Do not upload it again.
+    // Allow five minutes for propagation without relaxing byte verification.
+    for (let attempt = 0; attempt < 61 && (!registry || registry.pending); attempt++) {
+      if (attempt) await new Promise(resolve => setTimeout(resolve, 5000));
+      registry = await registryArtifact(identity);
+    }
+    assert.ok(registry && !registry.pending, 'Publication accepted but registry verification is still pending; rerun the same release');
     const report = { status: alreadyPublished ? 'already-published' : 'published', ...identity, registry };
     console.log(JSON.stringify(report));
     if (process.env.GITHUB_STEP_SUMMARY) {
