@@ -21,3 +21,18 @@ npm `trust list` 在当前登录下返回 EOTP，说明首次配置仍受账号�
 41 项仓库测试、3 项 npm 12 下的 artifact 合同测试、原 85 文件包的完整只读验收、actionlint 与 56 文件规则检查均通过。GitHub `npm-production` environment 已创建，reviewers 为空、无等待时间，部署分支策略只允许 main。当前 Agent 复核工作流调用、固定 action SHA、短效 OIDC 权限、源码与已测试包的一致性及 registry 幂等，无未关闭 finding。具体见 [verification.json](verification.json)。
 
 npm 一次性信任接入和真实发布仍待执行；不能把以上检查当作发布成功。
+
+## 真实 CI 与外部阻塞
+
+- 发布控制已提交推送：`2169313`，随后 `cfc0c75` 将冻结源码验证放在发布端 npm 升级之前，保留源码原验证基线；npm 12 仅用于现代 OIDC 发布端和其合同测试。
+- 已实际执行 `npm trust github`，指定包 `@nextclaw/qingtian`、仓库 `Peiiii/ai-development-system`、文件 `npm-publish.yml`、环境 `npm-production`、直接 publish 权限。npm 返回 EOTP，首次登记未成功；未创建长期 Token、未关闭 2FA，也未改变 NextClaw 的私有认证或产品流水线。
+- 已 dispatch [run 45615211484](https://github.com/Peiiii/ai-development-system/actions/runs/45615211484)。main 历史约束、源码依赖安装与全部原测试、现代 npm 安装、发布端合同测试均成功；最后在实际 npm 发布时返回 ENEEDAUTH。没有匹配的 npm 端信任授权，OIDC 不能完成发布。
+- GitHub 环境已回读：无 reviewer、无等待，只允许 main。GitHub 配置本身没有人工审批阻塞；剩余阻塞位于 npm 账号端的首次授权。
+
+## 交付边界与复盘
+
+自动化实现、GitHub 环境与前置验证已完成；无人值守发布尚不能标记为启用，0.1.22 的 registry 发布也未完成。用户要求不再重复介入，未再发起人工接管或要求重复安全密钥；没有绕过账号的强制验证。
+
+首次授权不能由未受信任的 workflow 自己给自己授予。当前认证返回 EOTP，正常权限下无法自主完成这一外部前置条件；后续应在首次信任登记实际成功后重跑同一 workflow，无需更换包、源码、hash 或增加长期 Token。OIDC 成功必须以 registry 真实产物与受测摘要一致验收。
+
+本轮复盘已将“源码验证基线与发布端工具升级分开”落在原 workflow，npm JSON 返回形态差异收敛于发布 owner；没有向共享开发阶段或 AGENTS 追加规则。当前不新增进一步通用规则。

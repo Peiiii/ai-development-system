@@ -29,6 +29,12 @@
 
 分发、升级、Review 和公开发布结果见[本轮记录](../docs/logs/2026-11-25-project-wiki/README.md)。文件及隔离场景核验不等于所有宿主已重新加载，跨项目长期执行效果仍待实际任务观察。
 
+## npm OIDC 发布接入（2026-11-25）
+
+仓库已提供 `npm-publish.yml` 和单一发布脚本：按已测试源码与 tgz SHA256 校验原包，使用 GitHub-hosted runner 的 OIDC，版本已存在时核对实际字节而不重复上传。GitHub `npm-production` 环境已配置为只允许 main、无人工 reviewer。设计及完整边界见[无人值守发布设计](../docs/designs/2026-11-25-npm-trusted-publishing.design.md)。
+
+当前 **npm 首次 trusted publisher 登记尚未完成**：账号端返回 EOTP，真实 [CI 试跑](https://github.com/Peiiii/ai-development-system/actions/runs/45615211484)通过全部发布前检查后，在发布阶段返回 ENEEDAUTH。因此不能宣称无人值守发布已启用或 0.1.22 已进入 registry；已上线的官网版本包仍可用。实际证据与接续边界见[本轮记录](../docs/logs/2026-11-25-npm-trusted-publishing/README.md)。
+
 ## 擎天命令行与项目大盘（2026-10-07）
 
 `qingtian` 统一 install/check/upgrade、projects 与 dashboard；CLI 要求 Node.js 22.12+，旧独立安装器仍支持 Node 20+。本地只读大盘发现既有锁文件，汇总项目与 Markdown 产物，支持分类、正文搜索、原文及关联文档阅读、刷新和明确的异常提示。项目文件拥有事实，索引是可丢弃投影；不因文档存在就声称任务正在执行。新展示名不迁移已接入项目的锁文件、受管标记或公开安装归档 URL。

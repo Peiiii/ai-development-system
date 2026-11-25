@@ -21,6 +21,24 @@
       "main"
     ]
   },
-  "npmTrustedPublisher": "not-yet-configured",
-  "actualPublish": "pending"
+  "npmTrustedPublisher": {
+    "registered": false,
+    "attempted": true,
+    "error": "EOTP",
+    "package": "@nextclaw/qingtian",
+    "repository": "Peiiii/ai-development-system",
+    "workflow": "npm-publish.yml",
+    "environment": "npm-production",
+    "allowedAction": "npm publish"
+  },
+  "actualPublish": {
+    "runId": 45615211484,
+    "url": "https://github.com/Peiiii/ai-development-system/actions/runs/45615211484",
+    "controlCommit": "cfc0c756cb035e2b9c835258b5ad0a2e4d58ea6f",
+    "conclusion": "failure",
+    "allPrePublishStepsPassed": true,
+    "failedStep": "Publish exact artifact and verify registry",
+    "error": "ENEEDAUTH",
+    "registryPublished": false
+  }
 }
