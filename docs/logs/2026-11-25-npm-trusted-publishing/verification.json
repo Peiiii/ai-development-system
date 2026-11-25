@@ -40,5 +40,47 @@
     "failedStep": "Publish exact artifact and verify registry",
     "error": "ENEEDAUTH",
     "registryPublished": false
+  },
+  "website": {
+    "cloudflareVersion": "612cf5a1-90c1-4228-920e-7488e13d7975",
+    "contentAndFiveArtifactsByteEqual": true,
+    "verifiedAt": "2026-11-25T20:44:23.181576+08:00",
+    "files": [
+      {
+        "path": "wiki/current-state.md",
+        "url": "https://ai-dev.nextclaw.io/wiki/current-state.md",
+        "sha256": "73795ceae9313c3e5e44610c36e2834cc5b00fc147372bfb0abf5791d1629387"
+      },
+      {
+        "path": "docs/current-state/index.html",
+        "url": "https://ai-dev.nextclaw.io/docs/current-state/",
+        "sha256": "a063191b0337805fafe2ec15bf0660d3720e36c4130c8a453caba9355bc1f194"
+      },
+      {
+        "path": "SKILL.md",
+        "url": "https://ai-dev.nextclaw.io/SKILL.md",
+        "sha256": "8fa6d9dd679a0eae45c7207969e012585428beffee1cd6ad57edc29ceb8de28c"
+      },
+      {
+        "path": "download/ai-development-system.tar.gz",
+        "url": "https://ai-dev.nextclaw.io/download/ai-development-system.tar.gz",
+        "sha256": "f9126aee611577d20f153de0a24c2b2df9b2d694e677f00011e735629ee79f1a"
+      },
+      {
+        "path": "download/ai-development-system.sha256",
+        "url": "https://ai-dev.nextclaw.io/download/ai-development-system.sha256",
+        "sha256": "d20fc1b90844a1476e7c531479023eecde49ed244922af34c21be0d26e307ee0"
+      },
+      {
+        "path": "download/qingtian-0.1.22.tgz",
+        "url": "https://ai-dev.nextclaw.io/download/qingtian-0.1.22.tgz",
+        "sha256": "deb1006587d295a25bfac050e531a77f8579227d3d2963f9e66467365a255070"
+      },
+      {
+        "path": "download/qingtian.sha256",
+        "url": "https://ai-dev.nextclaw.io/download/qingtian.sha256",
+        "sha256": "725522d9cbfb2a88f7cd71b4fc2eccb06c9e4260d34e938e47732cff4d042198"
+      }
+    ]
   }
 }

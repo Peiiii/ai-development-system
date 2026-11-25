@@ -211,6 +211,8 @@ Wiki 维护项目当前概况、必要事实说明与权威资料导航；设计
 
 发布输入是已测试源码提交与官网版本 tgz 的 SHA256。`scripts/publish-npm.mjs` 下载原受测包，核对完整文件清单和源码字节，发布后回读 registry；版本已存在且字节一致时跳过上传。发布控制代码与产品源码分别冻结，不重新生成已发布官网包，也不把后续控制代码误当成旧包来源。跨提交发布旧产物时不生成错误的 provenance；同提交发布保留 npm 默认 provenance。
 
+首次信任登记使用支持 `npm trust` 的 npm（至少 11.15）：`npm trust github @nextclaw/qingtian --repository Peiiii/ai-development-system --file npm-publish.yml --environment npm-production --allow-publish --yes`。返回 EOTP 表示 npm 尚未接受首次授权；CI 不能给自己授信，也不应改用长期 Token 掩盖该状态。
+
 ```sh
 gh workflow run npm-publish.yml --ref main -f source_ref=<tested-main-commit> -f sha256=<tested-tgz-sha256>
 ```
